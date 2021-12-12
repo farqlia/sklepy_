@@ -11,8 +11,7 @@ import strategie.strategiapromocji.StrategiaPromocji;
 // Przykładowa klasa
 public class TestSklep extends Sklep {
 
-    // Zmienne są typu interfejsu, tak jak jest w strategii
-    private StrategiaPromocji oryginalnaStrategiaPromocji;
+    // Sklepy mogą dodawać jakieś inne promocje
     private StrategiaPromocji strategiaPromocjiZKarta;
 
     private double oryginalnyRabat = 0.1;
@@ -20,8 +19,8 @@ public class TestSklep extends Sklep {
 
     public TestSklep(String adres, String adresWWW){
         super(adres, adresWWW);
-        oryginalnaStrategiaPromocji = new RabatNaDzienTygodniaZAnaliza(this, oryginalnyRabat);
-        strategiaPromocjiZKarta = new RabatKartaKlienta(rabatKartaKlienta, oryginalnaStrategiaPromocji);
+        strategiaPromocji = new RabatNaDzienTygodniaZAnaliza(this, oryginalnyRabat);
+        strategiaPromocjiZKarta = new RabatKartaKlienta(rabatKartaKlienta, strategiaPromocji);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class TestSklep extends Sklep {
 
     @Override
     public Transakcja sprzedajProdukt(Produkt produkt, int ilosc) {
-        return zainicjujTransakcje(produkt, ilosc, oryginalnaStrategiaPromocji);
+        return zainicjujTransakcje(produkt, ilosc, strategiaPromocji);
     }
 
     public Transakcja sprzedajZKartaKlienta(Produkt produkt, int ilosc) {
@@ -61,9 +60,9 @@ public class TestSklep extends Sklep {
     }
 
     public void zmienStrategie(StrategiaPromocji strategiaPromocji){
-        oryginalnaStrategiaPromocji = strategiaPromocji;
+        this.strategiaPromocji = strategiaPromocji;
         // Nowa promocja dotyczy też rabatów na karte klienta
-        strategiaPromocjiZKarta = new RabatKartaKlienta(rabatKartaKlienta, oryginalnaStrategiaPromocji);
+        strategiaPromocjiZKarta = new RabatKartaKlienta(rabatKartaKlienta, strategiaPromocji);
     }
 
 }

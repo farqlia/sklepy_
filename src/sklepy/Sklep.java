@@ -2,6 +2,7 @@ package sklepy;
 
 import serializacja.HistoriaTransakcji;
 import serializacja.Transakcja;
+import strategie.strategiapromocji.StrategiaPromocji;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -16,6 +17,7 @@ public abstract class Sklep {
     // przyporządkowywać jego ilość w sklepie
     private Map<Produkt, Integer> magazyn;
 
+    protected StrategiaPromocji strategiaPromocji;
     protected HistoriaTransakcji historiaTransakcji;
 
     public Sklep(String adres, String adresWWW) {
@@ -54,6 +56,10 @@ public abstract class Sklep {
     public String idSklepu(){
         return adresWWW.split("\\.")[0] +
                 adres.replaceAll("[\\s,.]", "");
+    }
+
+    public void zmienStrategie(StrategiaPromocji strategiaPromocji){
+        this.strategiaPromocji = strategiaPromocji;
     }
     //------------------------------------------------------------------------
 
