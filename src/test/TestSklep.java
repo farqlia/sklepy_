@@ -4,9 +4,12 @@ import serializacja.Transakcja;
 import sklepy.DniTygodnia;
 import sklepy.Produkt;
 import sklepy.Sklep;
+import strategie.strategiaanalizy.NajczestszyDzienAnaliza;
 import strategie.strategiapromocji.RabatKartaKlienta;
 import strategie.strategiapromocji.RabatNaDzienTygodniaZAnaliza;
 import strategie.strategiapromocji.StrategiaPromocji;
+
+import java.time.DayOfWeek;
 
 // Przykładowa klasa
 public class TestSklep extends Sklep {
@@ -19,7 +22,9 @@ public class TestSklep extends Sklep {
 
     public TestSklep(String adres, String adresWWW){
         super(adres, adresWWW);
-        strategiaPromocji = new RabatNaDzienTygodniaZAnaliza(this, oryginalnyRabat);
+        strategiaPromocji = new RabatNaDzienTygodniaZAnaliza(this,
+                new NajczestszyDzienAnaliza(),
+                oryginalnyRabat);
         strategiaPromocjiZKarta = new RabatKartaKlienta(rabatKartaKlienta, strategiaPromocji);
     }
 

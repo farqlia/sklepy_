@@ -2,7 +2,9 @@ package test;
 
 
 import sklepy.Produkt;
+import strategie.strategiaanalizy.SredniaSumaAnaliza;
 import strategie.strategiapromocji.RabatNaDzienTygodnia;
+import strategie.strategiapromocji.RabatNaSumeZAnaliza;
 import strategie.strategiapromocji.StrategiaPromocji;
 
 import java.math.BigDecimal;
@@ -27,13 +29,19 @@ public class MainTest {
         // Jeszcze lepiej by było jakieś inne daty uzwględnić
         //produkty.forEach(x -> testSklep.sprzedajProdukt(x, r.nextInt(2 * magicNum)));
 
-        System.out.println(testSklep.sprzedajProdukt(produkty.get(0), 2));
+        System.out.println(testSklep.sprzedajProdukt(produkty.get(1), 2));
 
         StrategiaPromocji sP = new RabatNaDzienTygodnia(DayOfWeek.SUNDAY, 0.05);
 
         testSklep.zmienStrategie(sP);
 
-        System.out.println(testSklep.sprzedajZKartaKlienta(produkty.get(0), 2));
+        System.out.println(testSklep.sprzedajZKartaKlienta(produkty.get(1), 2));
+
+        StrategiaPromocji sp = new RabatNaSumeZAnaliza(testSklep, new SredniaSumaAnaliza(), 0.1);
+
+        testSklep.zmienStrategie(sP);
+
+        System.out.println(testSklep.sprzedajZKartaKlienta(produkty.get(2), 2));
 
         testSklep
                 .getHistoriaTransakcji()
