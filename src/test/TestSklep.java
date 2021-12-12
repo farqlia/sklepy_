@@ -59,6 +59,7 @@ public class TestSklep extends Sklep {
         return zainicjujTransakcje(produkt, ilosc, strategiaPromocjiZKarta);
     }
 
+    @Override
     public void zmienStrategie(StrategiaPromocji strategiaPromocji){
         this.strategiaPromocji = strategiaPromocji;
         // Nowa promocja dotyczy też rabatów na karte klienta
