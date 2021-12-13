@@ -36,6 +36,8 @@ public abstract class Sklep {
     // w innych metodach sprzedających, by ta sama transakcja nie była zapisana dwa razy
     // Powodem zmiany było to, że inaczej nie jesteśmy w stanie zapisać tej transakcji
     // Ale w sumie też ma sens to zwracać, bo reprezentuje taki jakby rachunek/paragon
+    // Aby stworzyć obiekt Transakcji, wywołujemy na końcu metodę 'autoryzujTransakcje', wtedy sie ona zapisze 
+    // w historii
     public abstract Transakcja sprzedajProdukt(Produkt produkt, int ilosc);
 
     public Transakcja autoryzujTransakcje(Produkt produkt, int ilosc, double cena){
