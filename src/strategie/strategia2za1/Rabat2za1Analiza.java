@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import serializacja.Transakcja;
 import sklepy.Produkt;
 import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
