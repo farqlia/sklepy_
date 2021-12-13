@@ -23,7 +23,7 @@ public class TestSklep extends Sklep {
     public TestSklep(String adres, String adresWWW){
         super(adres, adresWWW);
         strategiaPromocji = new RabatNaDzienTygodniaZAnaliza(this,
-                new NajczestszyDzienAnaliza(),
+                new NajczestszyDzienAnaliza(this),
                 oryginalnyRabat);
         strategiaPromocjiZKarta = new RabatKartaKlienta(rabatKartaKlienta, strategiaPromocji);
     }

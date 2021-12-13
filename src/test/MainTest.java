@@ -37,7 +37,7 @@ public class MainTest {
 
         System.out.println(testSklep.sprzedajZKartaKlienta(produkty.get(1), 2));
 
-        StrategiaPromocji sp = new RabatNaSumeZAnaliza(testSklep, new SredniaSumaAnaliza(), 0.1);
+        StrategiaPromocji sp = new RabatNaSumeZAnaliza(testSklep, new SredniaSumaAnaliza(testSklep), 0.1);
 
         testSklep.zmienStrategie(sP);
 

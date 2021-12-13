@@ -12,6 +12,7 @@ public class RabatNaSumeBezAnalizy implements StrategiaPromocji{
         this.rabat = rabat;
         this.minSuma = minSuma;
     }
+
     @Override
     public double naliczRabat(Produkt produkt, int ilosc) {
 

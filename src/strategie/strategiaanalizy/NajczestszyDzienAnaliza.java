@@ -1,6 +1,7 @@
 package strategie.strategiaanalizy;
 
 import serializacja.Transakcja;
+import sklepy.Sklep;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -8,8 +9,15 @@ import java.util.List;
 
 public class NajczestszyDzienAnaliza implements Analityk<DayOfWeek> {
 
+    Sklep sklep;
+    public NajczestszyDzienAnaliza(Sklep sklep){
+        this.sklep = sklep;
+    }
+
     @Override
-    public DayOfWeek analizujDane(List<Transakcja> transakcje) {
+    public DayOfWeek analizujDane() {
+
+        List<Transakcja> transakcje = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
 
         // W sytuacji, gdy nie mamy żadnych danych, to nie da się ustalić tej promocji
         // Lepiej jednak wygenerować jakieś dane wcześniej

@@ -91,6 +91,10 @@ public abstract class Sklep {
 
     // ------------------- GETTERS & SETTERS -----------------------------
 
+    public Map<Produkt, Integer> getStanMagazynu(){
+        return magazyn;
+    }
+
     public HistoriaTransakcji getHistoriaTransakcji(){
         return historiaTransakcji;
     }

@@ -14,6 +14,6 @@ public interface Analityk<E> {
     // sprzedaży, i ustaleniu tych dni jako promocyjne. W ten
     // sposób wykorzystujemy serializację obiektów w jakiś sensowny sposób
 
-    E analizujDane(List<Transakcja> dane);
+    E analizujDane();
 
 }

@@ -17,8 +17,7 @@ public class RabatNaSumeZAnaliza extends StrategiaPromocjiZAnaliza<Double>{
     }
 
     public double getSumaRabatowa(){
-        List<Transakcja> transakcje = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
-        return analiza.analizujDane(transakcje);
+        return analiza.analizujDane();
     }
 
     @Override

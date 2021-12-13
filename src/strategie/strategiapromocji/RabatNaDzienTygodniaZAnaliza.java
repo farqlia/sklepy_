@@ -20,10 +20,8 @@ public class RabatNaDzienTygodniaZAnaliza extends StrategiaPromocjiZAnaliza<DayO
     }
 
     public DayOfWeek getDzienRabatowy(){
-        // Tutaj zachodzi deserializacja wszystkich transakcji
-        List<Transakcja> transakcje = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
 
-        return analiza.analizujDane(transakcje);
+        return analiza.analizujDane();
     }
 
     @Override
