@@ -1,37 +1,41 @@
 package strategie.strategianadzial;
+
 import sklepy.Produkt;
 import sklepy.SklepBudowniczy;
 import strategie.strategiapromocji.StrategiaPromocji;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class RabatNaDzial implements StrategiaPromocji {
+public class RabatNaDzial implements StrategiaPromocji, Serializable {
 
-	   private String dzialRabatowy;
-	   private double rabat;
-	   // Tylko sklepy budownicze mają działy
-	   private SklepBudowniczy sklep;
+    private static final long serialVersionUID = 10L;
 
-	    // Tutaj dzień rabatowy narzucony jest przez sklep
-	    public RabatNaDzial(String dzialRabatowy, double rabat, SklepBudowniczy sklep){
-	        this.dzialRabatowy = dzialRabatowy;
-	        this.rabat = rabat;
-	        this.sklep = sklep;
-	    }
+    private String dzialRabatowy;
+    private double rabat;
+    // Tylko sklepy budownicze mają działy
+    private SklepBudowniczy sklep;
 
-	    @Override
-	    public double naliczRabat(Produkt produkt, int ilosc) {
-	    	
-	        double cenaBezRabatu = (produkt.getCena() * ilosc);
-	        
-	         if (Objects.equals(sklep.getDzialProduktu(produkt), dzialRabatowy))
-	        	  return (1 - rabat) * cenaBezRabatu;
-	         else
-	        	 return cenaBezRabatu;
-	    }
+    // Tutaj dzień rabatowy narzucony jest przez sklep
+    public RabatNaDzial(String dzialRabatowy, double rabat, SklepBudowniczy sklep) {
+        this.dzialRabatowy = dzialRabatowy;
+        this.rabat = rabat;
+        this.sklep = sklep;
+    }
 
-	    public void zmienDzialRabatowy(String dzial, double rabat){
-	        dzialRabatowy = dzial;
-	    }
-	
+    @Override
+    public double naliczRabat(Produkt produkt, int ilosc) {
+
+        double cenaBezRabatu = (produkt.getCena() * ilosc);
+
+        if (Objects.equals(sklep.getDzialProduktu(produkt), dzialRabatowy))
+            return (1 - rabat) * cenaBezRabatu;
+        else
+            return cenaBezRabatu;
+    }
+
+    public void zmienDzialRabatowy(String dzial, double rabat) {
+        dzialRabatowy = dzial;
+    }
+
 }

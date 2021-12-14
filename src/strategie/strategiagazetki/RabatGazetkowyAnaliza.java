@@ -1,16 +1,20 @@
 package strategie.strategiagazetki;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.List;
 
 import serializacja.Transakcja;
 import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
+
 import java.time.LocalDate;
 
-public class RabatGazetkowyAnaliza extends StrategiaGazetkiZAnaliza<DayOfWeek> {
+public class RabatGazetkowyAnaliza extends StrategiaGazetkiZAnaliza<DayOfWeek> implements Serializable {
 
-    private double rabat;
+    private static final long serialVersionUID = 7L;
+
+    private final double rabat;
     private LocalDate ostatniaAnaliza;
     private DayOfWeek ostatniDzienRabatowy;
 
@@ -20,7 +24,7 @@ public class RabatGazetkowyAnaliza extends StrategiaGazetkiZAnaliza<DayOfWeek> {
     }
 
     public DayOfWeek getDzienRabatowy() {
-        if (LocalDate.now().minusDays(7).compareTo(ostatniaAnaliza) > 0){
+        if (LocalDate.now().minusDays(7).compareTo(ostatniaAnaliza) > 0) {
             ostatniaAnaliza = LocalDate.now();
             return ostatniDzienRabatowy = analiza.analizujDane();
         }
@@ -29,7 +33,7 @@ public class RabatGazetkowyAnaliza extends StrategiaGazetkiZAnaliza<DayOfWeek> {
 
     @Override
     public double rabat() {
-        if (LocalDate.now().getDayOfWeek() == getDzienRabatowy()){
+        if (LocalDate.now().getDayOfWeek() == getDzienRabatowy()) {
             return (1 - rabat);
         }
         return 1;

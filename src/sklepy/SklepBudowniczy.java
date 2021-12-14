@@ -1,9 +1,13 @@
 package sklepy;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public abstract class SklepBudowniczy extends Sklep {
+public abstract class SklepBudowniczy extends Sklep implements Serializable {
+
+    private static final long serialVersionUID = 27L;
+
 
     // To bedzie lista dzialow sklepu budowlanego,
     // aby wszystkie przedmioty byly uporzadkowane
@@ -43,11 +47,6 @@ public abstract class SklepBudowniczy extends Sklep {
             dzialProduktu.remove(produkt);
         }
     }
-
-    // Kazdy szanujacy sie sklep budowlany ma wystawke
-    // tutaj najlepiej zrobic metode polecajaca najlepsze
-    // produkty w sklepie itp
-    public abstract void wystawka();
 
     public void wyswietlDzialProduktu(Produkt produkt) {
         System.out.println(dzialProduktu.get(produkt));

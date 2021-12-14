@@ -4,11 +4,12 @@ import sklepy.Produkt;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class Transakcja implements Serializable {
 
-    private static final long serialVersionUID = 1234L;
+    private static final long serialVersionUID = 2L;
 
     private LocalDate data = LocalDate.now();
     private Produkt produkt;
@@ -21,7 +22,7 @@ public class Transakcja implements Serializable {
         this.produkt = produkt;
         this.ilosc = ilosc;
         this.sumaAktualna = BigDecimal.valueOf(sumaPoRabacie)
-                .setScale(2, BigDecimal.ROUND_DOWN)
+                .setScale(2, RoundingMode.DOWN)
                 .doubleValue();
     }
 

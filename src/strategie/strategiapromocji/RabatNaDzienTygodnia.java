@@ -2,16 +2,19 @@ package strategie.strategiapromocji;
 
 import sklepy.Produkt;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class RabatNaDzienTygodnia implements StrategiaPromocji{
+public class RabatNaDzienTygodnia implements StrategiaPromocji, Serializable {
+
+    private static final long serialVersionUID = 12L;
 
     private DayOfWeek dzienRabatowy;
-    private double rabat;
+    private final double rabat;
 
     // Tutaj dzień rabatowy narzucony jest przez sklep
-    public RabatNaDzienTygodnia(DayOfWeek dzienRabatowy, double rabat){
+    public RabatNaDzienTygodnia(DayOfWeek dzienRabatowy, double rabat) {
         this.dzienRabatowy = dzienRabatowy;
         this.rabat = rabat;
     }
@@ -19,10 +22,10 @@ public class RabatNaDzienTygodnia implements StrategiaPromocji{
     @Override
     public double naliczRabat(Produkt produkt, int ilosc) {
         double cenaBezRabatu = (produkt.getCena() * ilosc);
-        return LocalDate.now().getDayOfWeek() == dzienRabatowy ?  (1 - rabat) * cenaBezRabatu : cenaBezRabatu;
+        return LocalDate.now().getDayOfWeek() == dzienRabatowy ? (1 - rabat) * cenaBezRabatu : cenaBezRabatu;
     }
 
-    public void zmienDzienRabatowy(DayOfWeek dzien, double rabat){
+    public void zmienDzienRabatowy(DayOfWeek dzien, double rabat) {
         dzienRabatowy = dzien;
     }
 }
