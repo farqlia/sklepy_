@@ -5,18 +5,21 @@ import sklepy.Produkt;
 import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RabatNaSumeZAnaliza extends StrategiaPromocjiZAnaliza<Double>{
+public class RabatNaSumeZAnaliza extends StrategiaPromocjiZAnaliza<Double> implements Serializable {
 
-    private double rabat;
+    private static final long serialVersionUID = 15L;
 
-    public RabatNaSumeZAnaliza(Sklep sklep, Analityk<Double> analiza, double rabat){
+    private final double rabat;
+
+    public RabatNaSumeZAnaliza(Sklep sklep, Analityk<Double> analiza, double rabat) {
         super(analiza, sklep);
         this.rabat = rabat;
     }
 
-    public double getSumaRabatowa(){
+    public double getSumaRabatowa() {
         return analiza.analizujDane();
     }
 

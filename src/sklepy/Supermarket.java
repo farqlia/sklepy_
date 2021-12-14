@@ -1,11 +1,15 @@
 package sklepy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import strategie.strategiagazetki.StrategiaGazetki;
 
-public abstract class Supermarket extends Sklep {
+public abstract class Supermarket extends Sklep implements Serializable {
+
+    private static final long serialVersionUID = 29L;
+
 
     private boolean czyMaKasySamoobslugowe;
 

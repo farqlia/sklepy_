@@ -1,21 +1,24 @@
 package sklepy;
 
+import pracownicy.Pracownik;
 import serializacja.HistoriaTransakcji;
 import serializacja.Transakcja;
 import strategie.strategiapromocji.StrategiaPromocji;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Sklep {
+public abstract class Sklep implements Serializable {
+
+    private static final long serialVersionUID = 21L;
 
     private String adres;
     private String adresWWW;
-    private List<Pracownik> pracownicy;
+    private final List<Pracownik> pracownicy;
 
     // To jest struktura która będzie każdemu produktowi
     // przyporządkowywać jego ilość w sklepie
-    private Map<Produkt, Integer> magazyn;
+    private final Map<Produkt, Integer> magazyn;
 
     protected StrategiaPromocji strategiaPromocji;
     protected HistoriaTransakcji historiaTransakcji;
@@ -26,7 +29,6 @@ public abstract class Sklep {
         historiaTransakcji = new HistoriaTransakcji(idSklepu());
         pracownicy = new ArrayList<>();
         magazyn = new HashMap<>();
-
     }
 
     public abstract boolean czyJestOtwarty(String dzienTygodnia, int godzina);
@@ -38,9 +40,25 @@ public abstract class Sklep {
     // Ale w sumie też ma sens to zwracać, bo reprezentuje taki jakby rachunek/paragon
     // Aby stworzyć obiekt Transakcji, wywołujemy na końcu metodę 'autoryzujTransakcje', wtedy sie ona zapisze 
     // w historii
-    public abstract Transakcja sprzedajProdukt(Produkt produkt, int ilosc);
+    public Transakcja sprzedajProdukt(Produkt produkt, int ilosc) {
+        int aktualnaIlosc = sprawdzDostepnoscProduktu(produkt);
 
-    public Transakcja autoryzujTransakcje(Produkt produkt, int ilosc, double cena){
+        if (ilosc > aktualnaIlosc) {
+            ilosc = aktualnaIlosc;
+        }
+
+        aktualizujIloscProduktow(produkt, -ilosc);
+        double cena;
+        if(strategiaPromocji == null) {
+            cena = produkt.getCena() * ilosc;
+        } else {
+            cena = strategiaPromocji.naliczRabat(produkt, ilosc);
+        }
+
+        return new Transakcja(produkt, ilosc, cena);
+    }
+
+    public Transakcja autoryzujTransakcje(Produkt produkt, int ilosc, double cena) {
         if (ilosc == 0) return null;     // Transakcja została rozpoczęta, ale nie mieliśmy produktów na stanie
         Transakcja t = new Transakcja(produkt, ilosc, cena);
          /*losowo generuje dni
@@ -55,12 +73,12 @@ public abstract class Sklep {
     // Można to tez wykorzystac do tworzenia nazw plików, gdy będziemy
     // stosować serializację
     // działa jeśli adresy www stron to cos w stylu 'biedronka.pl'
-    public String idSklepu(){
+    public String idSklepu() {
         return adresWWW.split("\\.")[0] +
                 adres.replaceAll("[\\s,.]", "");
     }
 
-    public void zmienStrategie(StrategiaPromocji strategiaPromocji){
+    public void zmienStrategie(StrategiaPromocji strategiaPromocji) {
         this.strategiaPromocji = strategiaPromocji;
     }
     //------------------------------------------------------------------------
@@ -68,13 +86,13 @@ public abstract class Sklep {
     // To uaktualnia stan produktu na 'magazynie'
     // Jeśli ilość jest dodatnia, to oznacza dostawę produktu
     // Jeśli ujemna oznacza sprzedaż, czyli zmniejszamy ilość produktów na 'magazynie'
-    public void aktualizujIloscProduktow(Produkt produkt, int ilosc){
+    public void aktualizujIloscProduktow(Produkt produkt, int ilosc) {
 
         int aktualnaIlosc = 0;
 
         // Jeśli ten produkt jest już na magazynie, to musimy to też uwzględnić
-        if (magazyn.containsKey(produkt)){
-            aktualnaIlosc =  magazyn.get(produkt);
+        if (magazyn.containsKey(produkt)) {
+            aktualnaIlosc = magazyn.get(produkt);
         }
         magazyn.put(produkt, aktualnaIlosc + ilosc);
     }
@@ -82,33 +100,33 @@ public abstract class Sklep {
     // Ta metoda służy sprawdzeniu, czy sklep dysponuje jakąś ilością produktów.
     // Powinna być użyta w funkcji sprzedajProdukt() do upewnienia się,
     // że można go sprzedać w tej ilości
-    public int sprawdzDostepnoscProduktu(Produkt produkt){
+    public int sprawdzDostepnoscProduktu(Produkt produkt) {
         return magazyn.getOrDefault(produkt, 0);
     }
 
-    public void zrekrutuj(Pracownik pracownik){
+    public void zrekrutuj(Pracownik pracownik) {
         pracownicy.add(pracownik);
     }
 
 
     // ------------------- GETTERS & SETTERS -----------------------------
 
-    public Map<Produkt, Integer> getStanMagazynu(){
+    public Map<Produkt, Integer> getStanMagazynu() {
         return magazyn;
     }
 
-    public HistoriaTransakcji getHistoriaTransakcji(){
+    public HistoriaTransakcji getHistoriaTransakcji() {
         return historiaTransakcji;
     }
 
-    public void wyswietlPracownikow(){
-        for (Pracownik pracownik: pracownicy){
+    public void wyswietlPracownikow() {
+        for (Pracownik pracownik : pracownicy) {
             System.out.println(pracownik);
         }
     }
 
-    public void wyswietlOferteSklepu(){
-        for (Map.Entry<Produkt, Integer> el : magazyn.entrySet()){
+    public void wyswietlOferteSklepu() {
+        for (Map.Entry<Produkt, Integer> el : magazyn.entrySet()) {
             System.out.println(el.getKey() + ", ilosc=" + el.getValue());
         }
     }

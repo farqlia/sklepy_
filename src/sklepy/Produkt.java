@@ -7,7 +7,9 @@ import java.util.Objects;
 // Prosta klasa, która reprezentuje produkt i jego cenę
 public class Produkt implements Serializable {
 
-    private String nazwa;
+    private static final long serialVersionUID = 26L;
+
+    private final String nazwa;
     private double cena;
 
     public Produkt(String nazwa, double cena) {

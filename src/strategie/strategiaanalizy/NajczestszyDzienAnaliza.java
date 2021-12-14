@@ -3,14 +3,18 @@ package strategie.strategiaanalizy;
 import serializacja.Transakcja;
 import sklepy.Sklep;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
-public class NajczestszyDzienAnaliza implements Analityk<DayOfWeek> {
+public class NajczestszyDzienAnaliza implements Analityk<DayOfWeek>, Serializable {
+
+    private static final long serialVersionUID = 5L;
 
     Sklep sklep;
-    public NajczestszyDzienAnaliza(Sklep sklep){
+
+    public NajczestszyDzienAnaliza(Sklep sklep) {
         this.sklep = sklep;
     }
 
@@ -39,7 +43,7 @@ public class NajczestszyDzienAnaliza implements Analityk<DayOfWeek> {
         return DayOfWeek.of(max + 1);
     }
 
-    public boolean testDay(LocalDate date, int days){
+    public boolean testDay(LocalDate date, int days) {
         // True gdy data mieści się w zakresie
         return LocalDate.now().minusDays(days).compareTo(date) < 0;
     }

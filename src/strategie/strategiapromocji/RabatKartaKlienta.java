@@ -2,12 +2,16 @@ package strategie.strategiapromocji;
 
 import sklepy.Produkt;
 
-public class RabatKartaKlienta implements StrategiaPromocji {
+import java.io.Serializable;
+
+public class RabatKartaKlienta implements StrategiaPromocji, Serializable {
+
+    private static final long serialVersionUID = 11L;
 
     // Próba rozwiązania problemu: nie możemy pominąć normalnej promocji,
     // której podlega każdy klient
-    private StrategiaPromocji oryginalnaStrategiaPromocji;
-    private double rabat;
+    private final StrategiaPromocji oryginalnaStrategiaPromocji;
+    private final double rabat;
 
     public RabatKartaKlienta(double rabat, StrategiaPromocji oryginalnaStrategiaPromocji){
         this.rabat = rabat;

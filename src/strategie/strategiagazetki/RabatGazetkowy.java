@@ -1,15 +1,18 @@
 package strategie.strategiagazetki;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import sklepy.Produkt;
 
-public class RabatGazetkowy implements StrategiaGazetki {
+public class RabatGazetkowy implements StrategiaGazetki, Serializable {
+
+    private static final long serialVersionUID = 8L;
 
     private double rabat;
-    private DayOfWeek dzien;
+    private final DayOfWeek dzien;
 
     public RabatGazetkowy(DayOfWeek dzien) {
         this.dzien = dzien;
@@ -39,8 +42,10 @@ public class RabatGazetkowy implements StrategiaGazetki {
 
     @Override
     public void gazetkowaPromocja(ArrayList<Produkt> gazetka) {
-        if(LocalDate.now().getDayOfWeek() == dzien) {
-            gazetka.forEach( (x) -> {x.setCena(x.getCena()*(1-rabat));} );
+        if (LocalDate.now().getDayOfWeek() == dzien) {
+            gazetka.forEach((x) -> {
+                x.setCena(x.getCena() * (1 - rabat));
+            });
         } else {
             System.out.println("Dzisiaj nie jest podany dzien");
         }
