@@ -3,7 +3,7 @@ package sklepy;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Ikea extends SklepMeblowy implements Serializable {
+public class Ikea extends SklepMeblowy {
 
     private static final long serialVersionUID = 23L;
 

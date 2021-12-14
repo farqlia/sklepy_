@@ -8,24 +8,33 @@ import strategie.strategiaanalizy.Analityk;
 import java.io.Serializable;
 import java.util.List;
 
-public class RabatNaSumeZAnaliza extends StrategiaPromocjiZAnaliza<Double> implements Serializable {
+public class RabatNaSumeZAnaliza implements StrategiaPromocji, Analityk<Double> {
 
     private static final long serialVersionUID = 15L;
 
-    private final double rabat;
+    private double rabat;
+    private Sklep sklep;
 
-    public RabatNaSumeZAnaliza(Sklep sklep, Analityk<Double> analiza, double rabat) {
-        super(analiza, sklep);
+    public RabatNaSumeZAnaliza(Sklep sklep, double rabat){
+        this.sklep = sklep;
         this.rabat = rabat;
     }
 
-    public double getSumaRabatowa() {
-        return analiza.analizujDane();
+    @Override
+    public Double analizujDane() {
+
+        List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
+        double suma = 0;
+        for (Transakcja t : dane){
+            suma += t.getSumaAktualna();
+        }
+
+        return (suma / dane.size());
     }
 
     @Override
     public double naliczRabat(Produkt produkt, int ilosc) {
         double normalnaSuma = produkt.getCena() * ilosc;
-        return (normalnaSuma > getSumaRabatowa()) ? (1 - rabat) * normalnaSuma : normalnaSuma;
+        return (normalnaSuma > analizujDane()) ? (1 - rabat) * normalnaSuma : normalnaSuma;
     }
 }

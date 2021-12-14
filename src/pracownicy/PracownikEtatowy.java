@@ -3,7 +3,7 @@ package pracownicy;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PracownikEtatowy extends Pracownik implements Serializable {
+public class PracownikEtatowy extends Pracownik {
     private double pensja;
 
     private static final long serialVersionUID = 19L;

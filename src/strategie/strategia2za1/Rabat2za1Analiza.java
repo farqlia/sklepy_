@@ -13,7 +13,7 @@ import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
 import strategie.strategiapromocji.StrategiaPromocji;
 
-public class Rabat2za1Analiza implements StrategiaPromocji, Analityk<List<Produkt>>, Serializable {
+public class Rabat2za1Analiza implements StrategiaPromocji, Analityk<List<Produkt>> {
 
     private static final long serialVersionUID = 3L;
 

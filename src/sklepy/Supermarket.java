@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import strategie.strategiagazetki.StrategiaGazetki;
 
-public abstract class Supermarket extends Sklep implements Serializable {
+public abstract class Supermarket extends Sklep{
 
     private static final long serialVersionUID = 29L;
 

@@ -3,7 +3,7 @@ package sklepy;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Lidl extends Supermarket implements Serializable {
+public class Lidl extends Supermarket {
 
     private static final long serialVersionUID = 25L;
 

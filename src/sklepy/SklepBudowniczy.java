@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public abstract class SklepBudowniczy extends Sklep implements Serializable {
+public abstract class SklepBudowniczy extends Sklep{
 
     private static final long serialVersionUID = 27L;
 

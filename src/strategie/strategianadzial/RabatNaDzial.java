@@ -7,7 +7,7 @@ import strategie.strategiapromocji.StrategiaPromocji;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class RabatNaDzial implements StrategiaPromocji, Serializable {
+public class RabatNaDzial implements StrategiaPromocji {
 
     private static final long serialVersionUID = 10L;
 

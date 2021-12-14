@@ -4,7 +4,7 @@ import sklepy.Produkt;
 
 import java.io.Serializable;
 
-public class RabatKartaKlienta implements StrategiaPromocji, Serializable {
+public class RabatKartaKlienta implements StrategiaPromocji {
 
     private static final long serialVersionUID = 11L;
 

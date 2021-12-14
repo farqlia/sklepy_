@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class RabatNaDzienTygodnia implements StrategiaPromocji, Serializable {
+public class RabatNaDzienTygodnia implements StrategiaPromocji {
 
     private static final long serialVersionUID = 12L;
 

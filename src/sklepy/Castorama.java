@@ -3,7 +3,7 @@ package sklepy;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Castorama extends SklepBudowniczy implements Serializable {
+public class Castorama extends SklepBudowniczy {
 
     private static final long serialVersionUID = 22L;
 

@@ -7,7 +7,7 @@ import sklepy.Produkt;
 import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
 
-public abstract class StrategiaGazetkiZAnaliza<E> implements StrategiaGazetki, Serializable {
+public abstract class StrategiaGazetkiZAnaliza<E> implements StrategiaGazetki {
 
     private static final long serialVersionUID = 9L;
 

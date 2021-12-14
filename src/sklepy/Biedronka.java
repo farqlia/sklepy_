@@ -3,7 +3,7 @@ package sklepy;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Biedronka extends Supermarket implements Serializable {
+public class Biedronka extends Supermarket{
 
     private static final long serialVersionUID = 21L;
 

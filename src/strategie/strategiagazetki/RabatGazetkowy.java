@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import sklepy.Produkt;
 
-public class RabatGazetkowy implements StrategiaGazetki, Serializable {
+public class RabatGazetkowy implements StrategiaGazetki {
 
     private static final long serialVersionUID = 8L;
 

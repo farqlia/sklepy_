@@ -8,11 +8,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RabatOdNadmiarowychTowarow implements StrategiaPromocji, Serializable {
+public class RabatOdNadmiarowychTowarow implements StrategiaPromocji {
 
     private static final long serialVersionUID = 17L;
 
-    RabatOdNadmiarowychTowarow(Sklep sklep) {
+    public RabatOdNadmiarowychTowarow(Sklep sklep) {
         this.sklep = sklep;
     }
 

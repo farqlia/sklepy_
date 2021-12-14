@@ -3,7 +3,7 @@ package pracownicy;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PracownikGodzinowy extends Pracownik implements Serializable {
+public class PracownikGodzinowy extends Pracownik {
     public PracownikGodzinowy(String imie, String nazwisko, LocalDate dataZatrudnienia, double wynagrodzenieZaGodzine) {
         super(imie, nazwisko, dataZatrudnienia);
         this.wynagrodzenieZaGodzine = wynagrodzenieZaGodzine;

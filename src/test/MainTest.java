@@ -5,7 +5,9 @@ import pracownicy.PracownikEtatowy;
 import pracownicy.PracownikGodzinowy;
 import serializacja.SerializatorSklepow;
 import sklepy.*;
-import strategie.strategiaanalizy.SredniaSumaAnaliza;
+import strategie.strategia2za1.Rabat2za1Analiza;
+import strategie.strategianadmiarowa.RabatOdNadmiarowychTowarow;
+import strategie.strategianadzial.RabatNaDzial;
 import strategie.strategiapromocji.RabatNaDzienTygodnia;
 import strategie.strategiapromocji.RabatNaSumeZAnaliza;
 import strategie.strategiapromocji.StrategiaPromocji;
@@ -21,6 +23,8 @@ import java.util.*;
 public class MainTest {
     static Random r = new Random();
     static int magicNum = 10;
+    static String dzial = "Kuchnia";
+    static Produkt produkt = new Produkt("Kuchenka", 1000.00);
 
     public static void main(String[] args) {
         Sklep[] sklepy;
@@ -42,7 +46,7 @@ public class MainTest {
             sklepy = wygenerujSklepy();
         }
 
-        final Lidl lidl = (Lidl) sklepy[4];
+        Lidl lidl = (Lidl) sklepy[4];
 
         List<Produkt> produkty = getListeRandomowychProduktow(magicNum);
 
@@ -56,7 +60,7 @@ public class MainTest {
 
         System.out.println(lidl.sprzedajProdukt(produkty.get(1), 2));
 
-        StrategiaPromocji strategia2 = new RabatNaSumeZAnaliza(lidl, new SredniaSumaAnaliza(lidl), 0.1);
+        StrategiaPromocji strategia2 = new RabatNaSumeZAnaliza(lidl, 0.1);
 
         lidl.zmienStrategie(strategia2);
 
@@ -66,6 +70,31 @@ public class MainTest {
                 .getHistoriaTransakcji()
                 .getWszystkieTransakcje()
                 .forEach(System.out::println);
+
+        System.out.println("\n");
+
+        StrategiaPromocji strategia3 = new Rabat2za1Analiza(lidl, 4);
+
+        lidl.zmienStrategie(strategia3);
+
+        System.out.println(lidl.sprzedajProdukt(produkty.get(3), 4));
+
+        SklepBudowniczy castorama = ((SklepBudowniczy)(sklepy[1]));
+        castorama.dodajDzial(dzial);
+        castorama.dodajProduktDoDzialu(produkt, dzial);
+        castorama.aktualizujIloscProduktow(produkt, 1002);
+
+        StrategiaPromocji strategia4 = new RabatNaDzial(dzial, 0.05, castorama);
+
+        castorama.zmienStrategie(strategia4);
+
+        System.out.println(castorama.sprzedajProdukt(produkt, 4));
+
+        StrategiaPromocji strategia5 = new RabatOdNadmiarowychTowarow(castorama);
+
+        castorama.zmienStrategie(strategia5);
+
+        System.out.println(castorama.sprzedajProdukt(produkt, 4));
 
 
         // Serializujemy sklepy, żeby zapisać zmiany do następnego uruchomienia programu

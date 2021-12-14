@@ -3,7 +3,7 @@ package sklepy;
 import java.io.Serializable;
 import java.util.Objects;
 
-abstract public class SklepMeblowy extends Sklep implements Serializable {
+abstract public class SklepMeblowy extends Sklep {
 
     private static final long serialVersionUID = 28L;
 

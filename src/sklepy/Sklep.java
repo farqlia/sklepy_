@@ -55,7 +55,7 @@ public abstract class Sklep implements Serializable {
             cena = strategiaPromocji.naliczRabat(produkt, ilosc);
         }
 
-        return new Transakcja(produkt, ilosc, cena);
+        return autoryzujTransakcje(produkt, ilosc, cena);
     }
 
     public Transakcja autoryzujTransakcje(Produkt produkt, int ilosc, double cena) {
