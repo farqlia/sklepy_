@@ -35,7 +35,7 @@ public abstract class Supermarket extends Sklep{
     // np setCena(getCena()*0.8)
     public void otworzGazetke(StrategiaGazetki strategia) {
         strategiaGazetki = strategia;
-        strategiaGazetki.gazetkowaPromocja(gazetka);
+        strategiaGazetki.gazetkowaPromocja();
     }
 
     // Po kazdym otwarciu gazetki trzeba ja zamknac
