@@ -8,5 +8,5 @@ import sklepy.Produkt;
 public interface StrategiaGazetki extends Serializable {
 
     // Metoda używana aby wprowadzic zmiany w cenach w gazetce
-    public void gazetkowaPromocja(ArrayList<Produkt> gazetka);
+    public void gazetkowaPromocja();
 }
