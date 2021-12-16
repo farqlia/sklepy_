@@ -24,7 +24,6 @@ public class FirmaDostawcza implements Serializable {
 
     private static final long serialVersionUID = 99L;
 
-    // typical konstruktor
     public FirmaDostawcza(String nazwaFirmy, int czasDostawy, DayOfWeek dzienDostaw, String adresSiedziby) {
         this.nazwaFirmy = nazwaFirmy;
         this.czasDostawy = czasDostawy;
@@ -72,7 +71,6 @@ public class FirmaDostawcza implements Serializable {
     public void setAdresSiedziby(String adresSiedziby) {
         this.adresSiedziby = adresSiedziby;
     }
-
 
     public String getNazwaFirmy() {
         return nazwaFirmy;
