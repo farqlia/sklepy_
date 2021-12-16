@@ -1,7 +1,5 @@
 package sklepy;
 
-import java.io.Serializable;
-
 public class DniTygodnia {
 
     public static final String

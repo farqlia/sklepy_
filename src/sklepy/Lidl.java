@@ -1,6 +1,5 @@
 package sklepy;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class Lidl extends Supermarket {

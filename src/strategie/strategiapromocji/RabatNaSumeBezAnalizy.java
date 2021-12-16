@@ -2,8 +2,6 @@ package strategie.strategiapromocji;
 
 import sklepy.Produkt;
 
-import java.io.Serializable;
-
 // tu bez żadnej analizy danych
 public class RabatNaSumeBezAnalizy implements StrategiaPromocji {
 

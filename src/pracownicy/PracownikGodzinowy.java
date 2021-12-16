@@ -1,6 +1,5 @@
 package pracownicy;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 public class PracownikGodzinowy extends Pracownik {

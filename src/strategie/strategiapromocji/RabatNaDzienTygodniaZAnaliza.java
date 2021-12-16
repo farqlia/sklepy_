@@ -12,10 +12,10 @@ import java.util.List;
 
 public class RabatNaDzienTygodniaZAnaliza implements StrategiaPromocji, Analityk<DayOfWeek> {
 
-    private double rabat;
-    private Sklep sklep;
+    private final double rabat;
+    private final Sklep sklep;
 
-    public RabatNaDzienTygodniaZAnaliza(Sklep sklep,  double rabat){
+    public RabatNaDzienTygodniaZAnaliza(Sklep sklep, double rabat) {
         this.rabat = rabat;
         this.sklep = sklep;
     }
@@ -45,7 +45,7 @@ public class RabatNaDzienTygodniaZAnaliza implements StrategiaPromocji, Analityk
         return DayOfWeek.of(max + 1);
     }
 
-    public boolean testDay(LocalDate date, int days){
+    public boolean testDay(LocalDate date, int days) {
         // True gdy data mieści się w zakresie
         return LocalDate.now().minusDays(days).compareTo(date) < 0;
     }
@@ -57,7 +57,7 @@ public class RabatNaDzienTygodniaZAnaliza implements StrategiaPromocji, Analityk
         // wykorzystaniem danych np. z zeszłego tygodnia, ale ten kod
         // ma tylko pokazać, że zadziała
 
-        if (LocalDate.now().getDayOfWeek() == analizujDane()){
+        if (LocalDate.now().getDayOfWeek() == analizujDane()) {
             return produkt.getCena() * ilosc * (1 - rabat);
         }
 

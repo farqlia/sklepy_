@@ -4,7 +4,6 @@ import sklepy.Produkt;
 import sklepy.SklepBudowniczy;
 import strategie.strategiapromocji.StrategiaPromocji;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class RabatNaDzial implements StrategiaPromocji {
@@ -12,9 +11,9 @@ public class RabatNaDzial implements StrategiaPromocji {
     private static final long serialVersionUID = 10L;
 
     private String dzialRabatowy;
-    private double rabat;
+    private final double rabat;
     // Tylko sklepy budownicze mają działy
-    private SklepBudowniczy sklep;
+    private final SklepBudowniczy sklep;
 
     // Tutaj dzień rabatowy narzucony jest przez sklep
     public RabatNaDzial(String dzialRabatowy, double rabat, SklepBudowniczy sklep) {

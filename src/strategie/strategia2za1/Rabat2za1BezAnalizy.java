@@ -3,8 +3,6 @@ package strategie.strategia2za1;
 import sklepy.Produkt;
 import strategie.strategiapromocji.StrategiaPromocji;
 
-import java.io.Serializable;
-
 public class Rabat2za1BezAnalizy implements StrategiaPromocji {
 
     private static final long serialVersionUID = 4L;

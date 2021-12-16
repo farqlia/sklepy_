@@ -49,7 +49,7 @@ public abstract class Sklep implements Serializable {
 
         aktualizujIloscProduktow(produkt, -ilosc);
         double cena;
-        if(strategiaPromocji == null) {
+        if (strategiaPromocji == null) {
             cena = produkt.getCena() * ilosc;
         } else {
             cena = strategiaPromocji.naliczRabat(produkt, ilosc);
