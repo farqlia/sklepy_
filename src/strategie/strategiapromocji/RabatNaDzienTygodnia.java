@@ -2,7 +2,6 @@ package strategie.strategiapromocji;
 
 import sklepy.Produkt;
 
-import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 

@@ -35,7 +35,7 @@ public abstract class Historia implements Serializable {
     }
 
     public void dodaj(Object objekt) {
-                // Gdy dodajemy na koniec pliku (append), to wymaga to innego podejścia,
+        // Gdy dodajemy na koniec pliku (append), to wymaga to innego podejścia,
         // jako że strumień wczytujący te dane nie zadziała (zablokuje się)
         FileOutputStream fOS = null;
         ObjectOutputStream oOS = null;
@@ -82,7 +82,7 @@ public abstract class Historia implements Serializable {
             oIS = new ObjectInputStream(fIS);
 
             while (fIS.available() != 0) {
-                Object t = (Object) oIS.readObject();
+                Object t = oIS.readObject();
                 transakcje.add(t);
             }
 
@@ -90,10 +90,9 @@ public abstract class Historia implements Serializable {
             // End of file czyli nie mamy co wczytywać (w razie, gdy strumień jest pusty)
         } catch (EOFException e) {
             return transakcje;
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             return new ArrayList<>();
-        }
-        catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             if (fIS != null) {

@@ -5,17 +5,16 @@ import sklepy.Produkt;
 import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class RabatNaSumeZAnaliza implements StrategiaPromocji, Analityk<Double> {
 
     private static final long serialVersionUID = 15L;
 
-    private double rabat;
-    private Sklep sklep;
+    private final double rabat;
+    private final Sklep sklep;
 
-    public RabatNaSumeZAnaliza(Sklep sklep, double rabat){
+    public RabatNaSumeZAnaliza(Sklep sklep, double rabat) {
         this.sklep = sklep;
         this.rabat = rabat;
     }
@@ -25,7 +24,7 @@ public class RabatNaSumeZAnaliza implements StrategiaPromocji, Analityk<Double> 
 
         List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
         double suma = 0;
-        for (Transakcja t : dane){
+        for (Transakcja t : dane) {
             suma += t.getSumaAktualna();
         }
 

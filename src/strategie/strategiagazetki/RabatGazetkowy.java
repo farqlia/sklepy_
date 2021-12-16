@@ -1,24 +1,24 @@
 package strategie.strategiagazetki;
 
-import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+
 import sklepy.Supermarket;
 
 public class RabatGazetkowy implements StrategiaGazetki {
 
     private static final long serialVersionUID = 8L;
 
-    private double rabat;
+    private final double rabat;
     private final DayOfWeek dzien;
 
-    private Supermarket sklep;
+    private final Supermarket sklep;
 
     public RabatGazetkowy(DayOfWeek dzien, Supermarket sklep) {
         this.dzien = dzien;
         this.sklep = sklep;
 
-        this.rabat = dzien.getValue()*0.1;
+        this.rabat = dzien.getValue() * 0.1;
     }
 
     // Metoda obliczająca rabat na produkty

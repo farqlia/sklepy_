@@ -2,10 +2,12 @@ package sklepy;
 
 import strategie.strategiadostawy.DostawaRegularna;
 import strategie.strategiadostawy.StrategiaDostawy;
+
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import serializacja.HistoriaZamowien;
 import serializacja.Zamowienie;
 
@@ -15,11 +17,10 @@ public class FirmaDostawcza implements Serializable {
     private int czasDostawy;
     private String adresSiedziby;
     private StrategiaDostawy strategiaDostawy;
-    private Zamowienie zamowienie;
-    private HistoriaZamowien historiaZamowien;
+    private final HistoriaZamowien historiaZamowien;
 
     // Klienci firmy i ich lista zamówień
-    private HashMap<Sklep, ArrayList<Zamowienie>> listaKlientow;
+    private final HashMap<Sklep, ArrayList<Zamowienie>> listaKlientow;
 
     private static final long serialVersionUID = 99L;
 
@@ -36,7 +37,7 @@ public class FirmaDostawcza implements Serializable {
     // Zapisuje zamówienia klienta i jeżeli jest spełniona określona strategia, produkty są dostarczane
     // W innym wypadku tylko spisuje listę zamówień
     public void dostarczProdukty(Sklep sklep, Produkt produkt, int ilosc) {
-        zamowienie = new Zamowienie(produkt, ilosc);
+        Zamowienie zamowienie = new Zamowienie(produkt, ilosc);
         if (!listaKlientow.containsKey(sklep)) {
             listaKlientow.put(sklep, new ArrayList<Zamowienie>());
             listaKlientow.get(sklep).add(zamowienie);

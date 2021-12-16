@@ -1,6 +1,5 @@
 package sklepy;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 abstract public class SklepMeblowy extends Sklep {
@@ -29,7 +28,6 @@ abstract public class SklepMeblowy extends Sklep {
         this.czyMoznaKupowacNaRaty = czyMoznaKupowacNaRaty;
     }
 
-
     //METODY:
 
     @Override
@@ -37,6 +35,8 @@ abstract public class SklepMeblowy extends Sklep {
         if (Objects.equals(dzienTygodnia, "Niedziela")) {
             return false;
         }
-        return godzina >= 9 && godzina <= 21;
+        if (godzina >= 9 && godzina <= 21)
+            return true;
+        else return false;
     }
 }

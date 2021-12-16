@@ -1,10 +1,9 @@
 package sklepy;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public abstract class SklepBudowniczy extends Sklep{
+public abstract class SklepBudowniczy extends Sklep {
 
     private static final long serialVersionUID = 27L;
 
@@ -54,7 +53,7 @@ public abstract class SklepBudowniczy extends Sklep{
         }
     }
 
-    public String getDzialProduktu(Produkt p){
+    public String getDzialProduktu(Produkt p) {
         return dzialProduktu.getOrDefault(p, null);
     }
 

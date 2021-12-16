@@ -3,7 +3,6 @@ package serializacja;
 import sklepy.Sklep;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class SerializatorSklepow {
     final private String nazwaPliku = "sklepy.ser";
