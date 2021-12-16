@@ -4,18 +4,22 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import sklepy.Produkt;
+import sklepy.Sklep;
 
 public class Zamowienie implements Serializable {
 
     private static final long serialVersionUID = 96L;
 
     private LocalDate data = LocalDate.now();
-    private Produkt produkt;
-    private int ilosc;
-    
-    public Zamowienie(Produkt produkt, int ilosc) {
+    private final Produkt produkt;
+    private final int ilosc;
+    // Uznałam, że może też się przydać nazwa sklepu, który dokonał zamówienia
+    private String nazwaSklepu;
+
+    public Zamowienie(Produkt produkt, int ilosc, String nazwaSklepu) {
         this.produkt = produkt;
         this.ilosc = ilosc;
+        this.nazwaSklepu = nazwaSklepu;
     }
 
     public LocalDate getData(){
@@ -37,7 +41,7 @@ public class Zamowienie implements Serializable {
 
     @Override
     public String toString() {
-        return "Transakcja{" +
+        return "Zamowienie{" +
                 "data=" + data +
                 ", produkt=" + produkt +
                 ", ilosc=" + ilosc + "}";

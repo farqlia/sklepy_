@@ -7,8 +7,6 @@ public class Biedronka extends Supermarket{
 
     private static final long serialVersionUID = 21L;
 
-    private boolean czyMaKasySamoobslugowe;
-
     public Biedronka(String adres, String adresWWW, boolean czyMaKasySamoobslugowe) {
         super(adres, adresWWW, czyMaKasySamoobslugowe);
     }
@@ -21,14 +19,6 @@ public class Biedronka extends Supermarket{
         } else {
             return godzina >= 6 && godzina <= 23;
         }
-    }
-
-    public boolean isCzyMaKasySamoobslugowe() {
-        return czyMaKasySamoobslugowe;
-    }
-
-    public void setCzyMaKasySamoobslugowe(boolean czyMaKasySamoobslugowe) {
-        this.czyMaKasySamoobslugowe = czyMaKasySamoobslugowe;
     }
 
 }

@@ -1,12 +1,12 @@
 package sklepy;
 
+import serializacja.Historia;
 import strategie.strategiadostawy.DostawaRegularna;
 import strategie.strategiadostawy.StrategiaDostawy;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
-import serializacja.HistoriaZamowien;
 import serializacja.Zamowienie;
 
 public class FirmaDostawcza implements Serializable {
@@ -15,11 +15,10 @@ public class FirmaDostawcza implements Serializable {
     private int czasDostawy;
     private String adresSiedziby;
     private StrategiaDostawy strategiaDostawy;
-    private Zamowienie zamowienie;
-    private HistoriaZamowien historiaZamowien;
+    private final Historia<Zamowienie> historiaZamowien;
 
     // Klienci firmy i ich lista zamówień
-    private HashMap<Sklep, ArrayList<Zamowienie>> listaKlientow;
+    private final HashMap<Sklep, ArrayList<Zamowienie>> listaKlientow;
 
     private static final long serialVersionUID = 99L;
 
@@ -28,7 +27,7 @@ public class FirmaDostawcza implements Serializable {
         this.nazwaFirmy = nazwaFirmy;
         this.czasDostawy = czasDostawy;
         this.adresSiedziby = adresSiedziby;
-        this.historiaZamowien = new HistoriaZamowien(nazwaFirmy);
+        this.historiaZamowien = new Historia<>("historiazamowien/", nazwaFirmy);
         this.listaKlientow = new HashMap<>();
         this.strategiaDostawy = new DostawaRegularna(dzienDostaw);
     }
@@ -36,19 +35,29 @@ public class FirmaDostawcza implements Serializable {
     // Zapisuje zamówienia klienta i jeżeli jest spełniona określona strategia, produkty są dostarczane
     // W innym wypadku tylko spisuje listę zamówień
     public void dostarczProdukty(Sklep sklep, Produkt produkt, int ilosc) {
-        zamowienie = new Zamowienie(produkt, ilosc);
+
+        Zamowienie zamowienie = new Zamowienie(produkt, ilosc, sklep.idSklepu());
+
         if (!listaKlientow.containsKey(sklep)) {
-            listaKlientow.put(sklep, new ArrayList<Zamowienie>());
-            listaKlientow.get(sklep).add(zamowienie);
-        } else {
-            listaKlientow.get(sklep).add(zamowienie);
+            listaKlientow.put(sklep, new ArrayList<>());
         }
-        strategiaDostawy.dostawa(sklep, listaKlientow.get(sklep));
+
+        listaKlientow.get(sklep).add(zamowienie);
+
+        if (strategiaDostawy.zrobDostawe(sklep, listaKlientow.get(sklep))){
+
+            // Gdy udało się dostarczyć produkty, to usuwamy zrealizowanie zamowienia
+            listaKlientow.get(sklep).clear();
+
+            // Zapisujemy w pliku zamowienie
+            historiaZamowien.dodaj(zamowienie);
+        }
+
     }
 
     // settery/gettery
 
-    public HistoriaZamowien getHistoriaZamowien() {
+    public Historia<Zamowienie> getHistoriaZamowien() {
         return historiaZamowien;
     }
 

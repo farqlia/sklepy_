@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import serializacja.Transakcja;
 import strategie.strategiagazetki.StrategiaGazetki;
 
 public abstract class Supermarket extends Sklep{
 
     private static final long serialVersionUID = 29L;
-
 
     private boolean czyMaKasySamoobslugowe;
 
@@ -42,6 +42,25 @@ public abstract class Supermarket extends Sklep{
             produkt.setCena(originalneCeny.get(produkt.getNazwa()));
         }
         gazetka.clear();
+    }
+
+    // Ze względu na specyfikę rabatu z gazetką musimy nadpisać tą metodę
+    public Transakcja sprzedajProdukt(Produkt produkt, int ilosc) {
+        int aktualnaIlosc = sprawdzDostepnoscProduktu(produkt);
+
+        if (ilosc > aktualnaIlosc) {
+            ilosc = aktualnaIlosc;
+        }
+
+        aktualizujIloscProduktow(produkt, -ilosc);
+        double cena;
+        if (gazetka.contains(produkt)){
+            cena = gazetka.get(gazetka.indexOf(produkt)).getCena() * ilosc;
+        } else {
+            cena = produkt.getCena() * ilosc;
+        }
+
+        return autoryzujTransakcje(produkt, ilosc, cena);
     }
 
     public void wyswietlGazetke() {

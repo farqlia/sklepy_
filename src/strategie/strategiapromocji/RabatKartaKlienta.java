@@ -21,6 +21,9 @@ public class RabatKartaKlienta implements StrategiaPromocji {
     @Override
     public double naliczRabat(Produkt produkt, int ilosc) {
         System.out.println("Sprzedaz z karta klienta");
+        if (oryginalnaStrategiaPromocji == null){
+            return (1 - rabat) * (produkt.getCena() * ilosc);
+        }
         return (1 - rabat) * oryginalnaStrategiaPromocji.naliczRabat(produkt, ilosc);
     }
 }
