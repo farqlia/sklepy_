@@ -1,27 +1,61 @@
 package sklepy;
 
-public class FirmaDostawcza {
+import strategie.strategiadostawy.DostawaRegularna;
+import strategie.strategiadostawy.StrategiaDostawy;
+import java.io.Serializable;
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.HashMap;
+import serializacja.HistoriaZamowien;
+import serializacja.Zamowienie;
+
+public class FirmaDostawcza implements Serializable {
 
     private String nazwaFirmy;
     private int czasDostawy;
     private String adresSiedziby;
+    private StrategiaDostawy strategiaDostawy;
+    private HistoriaZamowien historiaZamowien;
+    private Zamowienie zamowienie;
+    private HashMap<Sklep, ArrayList<Zamowienie>> listaKlientow;
+
+    private static final long serialVersionUID = 99L;
 
     // typical konstruktor
-    public FirmaDostawcza(String nazwaFirmy, int czasDostawy, String adresSiedziby) {
+    public FirmaDostawcza(String nazwaFirmy, int czasDostawy, DayOfWeek dzienDostaw, String adresSiedziby) {
         this.nazwaFirmy = nazwaFirmy;
         this.czasDostawy = czasDostawy;
         this.adresSiedziby = adresSiedziby;
+        this.historiaZamowien = new HistoriaZamowien(nazwaFirmy);
+        this.listaKlientow = new HashMap<>();
+        this.strategiaDostawy = new DostawaRegularna(dzienDostaw);
     }
 
-    public void dostarczMaterialy(SklepBudowniczy sklep){
-        System.out.format("Dostarczono produkty do klientów sklepu budowniczego przy %s", sklep.getAdres());
-    }
-
-    public void dostarczMeble(SklepMeblowy sklep){
-        System.out.format("Dostarczono produkty do klientów sklepu budowniczego przy %s", sklep.getAdres());
+    public void dostarczProdukty(Sklep sklep, Produkt produkt, int ilosc) {
+        zamowienie = new Zamowienie(produkt, ilosc);
+        if (!listaKlientow.containsKey(sklep)) {
+            listaKlientow.put(sklep, new ArrayList<Zamowienie>());
+            listaKlientow.get(sklep).add(zamowienie);
+        } else {
+            listaKlientow.get(sklep).add(zamowienie);
+        }
+        strategiaDostawy.dostawa(sklep, listaKlientow.get(sklep));
     }
 
     // settery/gettery
+
+    public HistoriaZamowien getHistoriaZamowien() {
+        return historiaZamowien;
+    }
+
+    public void setStrategiaDostawy(StrategiaDostawy strategiaDostawy) {
+        this.strategiaDostawy = strategiaDostawy;
+    }
+
+    public HashMap<Sklep, ArrayList<Zamowienie>> getListaKlientow() {
+        return listaKlientow;
+    }
+
     public void setNazwaFirmy(String nazwaFirmy) {
         this.nazwaFirmy = nazwaFirmy;
     }
