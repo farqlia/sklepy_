@@ -8,9 +8,9 @@ public class HistoriaTransakcji implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String sciezkaPliku;
-    private String rodzajSciezki = ".ser";
-    private String mainPath = "historietransakcji/";
+    private final String sciezkaPliku;
+    private final String rodzajSciezki = ".ser";
+    private final String mainPath = "historietransakcji/";
 
     public HistoriaTransakcji(String unikalnaNazwaSklepu) {
         sciezkaPliku = mainPath + unikalnaNazwaSklepu + rodzajSciezki;
@@ -84,10 +84,9 @@ public class HistoriaTransakcji implements Serializable {
             // End of file czyli nie mamy co wczytywać (w razie, gdy strumień jest pusty)
         } catch (EOFException e) {
             return transakcje;
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             return new ArrayList<>();
-        }
-        catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             if (fIS != null) {

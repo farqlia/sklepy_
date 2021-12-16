@@ -20,9 +20,11 @@ public class DostawaRegularna implements StrategiaDostawy {
     // W przeciwnym razie informujemy w który dzień zostanie wykonana dostawa
     @Override
     public void dostawa(Sklep sklep, ArrayList<Zamowienie> zamowienia) {
-        if(data.getDayOfWeek() == dzienDostaw) {
+        if (data.getDayOfWeek() == dzienDostaw) {
             zamowienia.forEach(
-                x -> {sklep.aktualizujIloscProduktow(x.getProdukt(), x.getIlosc());}
+                    x -> {
+                        sklep.aktualizujIloscProduktow(x.getProdukt(), x.getIlosc());
+                    }
             );
         } else {
             System.out.println("Produkty zostaną dostarczone wraz z najbliższą dostawą w " + dzienDostaw);

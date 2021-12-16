@@ -12,13 +12,13 @@ public class Transakcja implements Serializable {
     private static final long serialVersionUID = 2L;
 
     private LocalDate data = LocalDate.now();
-    private Produkt produkt;
-    private int ilosc;
+    private final Produkt produkt;
+    private final int ilosc;
     // Nie możemy pominąć właściwej ceny, za
     // jaką sprzedaliśmy towar
-    private double sumaAktualna;
+    private final double sumaAktualna;
 
-    public Transakcja(Produkt produkt, int ilosc, double sumaPoRabacie){
+    public Transakcja(Produkt produkt, int ilosc, double sumaPoRabacie) {
         this.produkt = produkt;
         this.ilosc = ilosc;
         this.sumaAktualna = BigDecimal.valueOf(sumaPoRabacie)
@@ -26,7 +26,7 @@ public class Transakcja implements Serializable {
                 .doubleValue();
     }
 
-    public LocalDate getData(){
+    public LocalDate getData() {
         return data;
     }
 

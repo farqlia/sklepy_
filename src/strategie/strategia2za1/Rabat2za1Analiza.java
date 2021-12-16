@@ -1,6 +1,5 @@
 package strategie.strategia2za1;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -19,7 +18,7 @@ public class Rabat2za1Analiza implements StrategiaPromocji, Analityk<List<Produk
 
     private final Sklep sklep;
     private final int jakaIloscProduktowMaBycRabatowana;
-    
+
     //Rabatowanie, w tym przypadku, 
     //polega na tym, ze co drugi produkt
     //tego samego typu jest darmowy.
@@ -30,7 +29,7 @@ public class Rabat2za1Analiza implements StrategiaPromocji, Analityk<List<Produk
 
     @Override
     public List<Produkt> analizujDane() {
-        
+
         //Pobieramy stan magazynu danego sklepu z klasy Sklep
         Map<Produkt, Integer> magazyn = sklep.getStanMagazynu();
 

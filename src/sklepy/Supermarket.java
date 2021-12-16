@@ -1,12 +1,11 @@
 package sklepy;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import strategie.strategiagazetki.StrategiaGazetki;
 
-public abstract class Supermarket extends Sklep{
+public abstract class Supermarket extends Sklep {
 
     private static final long serialVersionUID = 29L;
 
@@ -36,9 +35,9 @@ public abstract class Supermarket extends Sklep{
     }
 
     // Metoda zamykająca gazetkę
-    // TODO W przypadku otwarcia nowej gazetki (nadpisania starej), wpierw zamknąć starą
+    // W przypadku otwarcia nowej gazetki (nadpisania starej), wpierw zamknąć starą
     public void zamknijGazetke() {
-        for(Produkt produkt : gazetka) {
+        for (Produkt produkt : gazetka) {
             produkt.setCena(originalneCeny.get(produkt.getNazwa()));
         }
         gazetka.clear();
@@ -46,7 +45,7 @@ public abstract class Supermarket extends Sklep{
 
     public void wyswietlGazetke() {
         System.out.println("W gazetce:");
-        for(Produkt produkt : gazetka) {
+        for (Produkt produkt : gazetka) {
             System.out.println(produkt.toString());
         }
     }
@@ -54,7 +53,7 @@ public abstract class Supermarket extends Sklep{
     //----------- Getters & Setters
 
     public void dodajDoGazetki(Produkt produkt) {
-        if(gazetka.contains(produkt)) {
+        if (gazetka.contains(produkt)) {
             System.out.println("Produkt znajduje się już w gazetce");
         } else {
             gazetka.add(produkt);

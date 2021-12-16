@@ -3,10 +3,8 @@ package strategie.strategiapromocji;
 import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
 
-import java.io.Serializable;
-
 // To nadal może być traktowane jako typ interfejsu
-public abstract class StrategiaPromocjiZAnaliza<E> implements StrategiaPromocji, Serializable {
+public abstract class StrategiaPromocjiZAnaliza<E> implements StrategiaPromocji {
 
     private static final long serialVersionUID = 16L;
 

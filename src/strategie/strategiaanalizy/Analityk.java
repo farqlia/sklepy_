@@ -1,9 +1,6 @@
 package strategie.strategiaanalizy;
 
-import serializacja.Transakcja;
-
 import java.io.Serializable;
-import java.util.List;
 
 // To jest oddzielna strategia, więc teraz mielibyśmy dwie
 public interface Analityk<E> extends Serializable {

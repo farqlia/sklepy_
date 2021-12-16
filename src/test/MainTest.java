@@ -36,7 +36,7 @@ public class MainTest {
             System.out.println("Wykryto zserializowane sklepy, deserializowanie...");
             sklepy = serializator.deserializujSklepy();
             System.out.println("Zdeserializowane sklepy:");
-            for(Sklep sklep : sklepy) {
+            for (Sklep sklep : sklepy) {
                 System.out.println(sklep.idSklepu());
             }
             System.out.println();
@@ -79,7 +79,7 @@ public class MainTest {
 
         System.out.println(lidl.sprzedajProdukt(produkty.get(3), 4));
 
-        SklepBudowniczy castorama = ((SklepBudowniczy)(sklepy[1]));
+        SklepBudowniczy castorama = ((SklepBudowniczy) (sklepy[1]));
         castorama.dodajDzial(dzial);
         castorama.dodajProduktDoDzialu(produkt, dzial);
         castorama.aktualizujIloscProduktow(produkt, 1002);

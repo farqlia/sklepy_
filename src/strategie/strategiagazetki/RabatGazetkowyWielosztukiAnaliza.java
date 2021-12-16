@@ -1,18 +1,19 @@
 package strategie.strategiagazetki;
 
-import java.io.Serializable;
 import strategie.strategiaanalizy.Analityk;
 import sklepy.Supermarket;
+
 import java.util.List;
+
 import serializacja.Transakcja;
 
 public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Analityk<List<Transakcja>> {
-    
+
     private static final long serialVersionUID = 9L;
 
     private double rabat;
 
-    private Supermarket sklep;
+    private final Supermarket sklep;
 
     public RabatGazetkowyWielosztukiAnaliza(Supermarket sklep) {
         this.sklep = sklep;
@@ -25,16 +26,16 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
     public List<Transakcja> analizujDane() {
         List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
         float sredniaIlosc = 0;
-        
+
         for (Transakcja transakcja : dane) {
             sredniaIlosc += transakcja.getIlosc();
         }
 
-        sredniaIlosc = sredniaIlosc/dane.size();
+        sredniaIlosc = sredniaIlosc / dane.size();
 
         for (Transakcja transakcja : dane) {
-            if (transakcja.getIlosc()>=sredniaIlosc) {
-                rabat+=(transakcja.getIlosc()-sredniaIlosc)*0.01;
+            if (transakcja.getIlosc() >= sredniaIlosc) {
+                rabat += (transakcja.getIlosc() - sredniaIlosc) * 0.01;
             } else {
                 dane.remove(transakcja);
             }
@@ -51,10 +52,14 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
         sklep.zamknijGazetke();
         //
         analizujDane().stream().
-            filter(x -> sklep.getStanMagazynu().containsKey(x.getProdukt())).
-            forEach( x -> {sklep.dodajDoGazetki(x.getProdukt());});
+                filter(x -> sklep.getStanMagazynu().containsKey(x.getProdukt())).
+                forEach(x -> {
+                    sklep.dodajDoGazetki(x.getProdukt());
+                });
 
-        sklep.getGazetka().forEach(x -> {x.setCena(x.getCena()*rabat);});
+        sklep.getGazetka().forEach(x -> {
+            x.setCena(x.getCena() * rabat);
+        });
     }
 
 }

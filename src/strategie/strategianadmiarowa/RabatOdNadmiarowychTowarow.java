@@ -4,7 +4,6 @@ import sklepy.Produkt;
 import sklepy.Sklep;
 import strategie.strategiapromocji.StrategiaPromocji;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class RabatOdNadmiarowychTowarow implements StrategiaPromocji {
         this.sklep = sklep;
     }
 
-    private Sklep sklep;
+    private final Sklep sklep;
 
     public double naliczRabat(Produkt produkt, int ilosc) {
 

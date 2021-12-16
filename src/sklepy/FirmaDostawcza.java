@@ -2,10 +2,12 @@ package sklepy;
 
 import strategie.strategiadostawy.DostawaRegularna;
 import strategie.strategiadostawy.StrategiaDostawy;
+
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import serializacja.HistoriaZamowien;
 import serializacja.Zamowienie;
 

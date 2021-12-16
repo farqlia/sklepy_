@@ -15,7 +15,7 @@ public class SerializatorDostawcow extends Serializator {
     public void serializuj(final Object[] objekty) {
 
         FirmaDostawcza[] dostawcy = (FirmaDostawcza[]) objekty;
-        
+
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(nazwaPliku))) {
             objectOutputStream.writeObject(dostawcy);
         } catch (IOException e) {

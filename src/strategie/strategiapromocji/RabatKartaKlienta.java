@@ -2,8 +2,6 @@ package strategie.strategiapromocji;
 
 import sklepy.Produkt;
 
-import java.io.Serializable;
-
 public class RabatKartaKlienta implements StrategiaPromocji {
 
     private static final long serialVersionUID = 11L;
@@ -13,7 +11,7 @@ public class RabatKartaKlienta implements StrategiaPromocji {
     private final StrategiaPromocji oryginalnaStrategiaPromocji;
     private final double rabat;
 
-    public RabatKartaKlienta(double rabat, StrategiaPromocji oryginalnaStrategiaPromocji){
+    public RabatKartaKlienta(double rabat, StrategiaPromocji oryginalnaStrategiaPromocji) {
         this.rabat = rabat;
         this.oryginalnaStrategiaPromocji = oryginalnaStrategiaPromocji;
     }
