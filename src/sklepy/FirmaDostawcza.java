@@ -15,8 +15,10 @@ public class FirmaDostawcza implements Serializable {
     private int czasDostawy;
     private String adresSiedziby;
     private StrategiaDostawy strategiaDostawy;
-    private HistoriaZamowien historiaZamowien;
     private Zamowienie zamowienie;
+    private HistoriaZamowien historiaZamowien;
+
+    // Klienci firmy i ich lista zamówień
     private HashMap<Sklep, ArrayList<Zamowienie>> listaKlientow;
 
     private static final long serialVersionUID = 99L;
@@ -31,6 +33,8 @@ public class FirmaDostawcza implements Serializable {
         this.strategiaDostawy = new DostawaRegularna(dzienDostaw);
     }
 
+    // Zapisuje zamówienia klienta i jeżeli jest spełniona określona strategia, produkty są dostarczane
+    // W innym wypadku tylko spisuje listę zamówień
     public void dostarczProdukty(Sklep sklep, Produkt produkt, int ilosc) {
         zamowienie = new Zamowienie(produkt, ilosc);
         if (!listaKlientow.containsKey(sklep)) {
