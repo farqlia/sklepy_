@@ -39,4 +39,8 @@ abstract public class SklepMeblowy extends Sklep {
         }
         return godzina >= 9 && godzina <= 21;
     }
+
+    public void dostarczZamowienie() {
+        new FirmaDostawcza("Poczta Polska", 1, "Kolorowa 5").dostarczMeble(this);
+    }
 }
