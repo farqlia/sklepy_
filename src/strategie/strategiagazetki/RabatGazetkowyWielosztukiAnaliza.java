@@ -53,9 +53,8 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
         //
         analizujDane().stream().
                 filter(x -> sklep.getStanMagazynu().containsKey(x.getProdukt())).
-                forEach(x -> {
-                    sklep.dodajDoGazetki(x.getProdukt());
-                });
+                forEach(x -> sklep.dodajDoGazetki(x.getProdukt())
+                );
 
         sklep.getGazetka().forEach(x -> {
             x.setCena(x.getCena() * rabat);

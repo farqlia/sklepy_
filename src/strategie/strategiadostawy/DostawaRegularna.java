@@ -22,9 +22,7 @@ public class DostawaRegularna implements StrategiaDostawy {
     public void dostawa(Sklep sklep, ArrayList<Zamowienie> zamowienia) {
         if (data.getDayOfWeek() == dzienDostaw) {
             zamowienia.forEach(
-                    x -> {
-                        sklep.aktualizujIloscProduktow(x.getProdukt(), x.getIlosc());
-                    }
+                    x -> sklep.aktualizujIloscProduktow(x.getProdukt(), x.getIlosc())
             );
         } else {
             System.out.println("Produkty zostaną dostarczone wraz z najbliższą dostawą w " + dzienDostaw);

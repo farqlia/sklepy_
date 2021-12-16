@@ -4,7 +4,6 @@ import sklepy.Produkt;
 import sklepy.Sklep;
 import strategie.strategiapromocji.StrategiaPromocji;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class RabatOdNadmiarowychTowarow implements StrategiaPromocji {
@@ -19,7 +18,7 @@ public class RabatOdNadmiarowychTowarow implements StrategiaPromocji {
 
     public double naliczRabat(Produkt produkt, int ilosc) {
 
-        Map<Produkt, Integer> magazyn = new HashMap<>();
+        Map<Produkt, Integer> magazyn;
         magazyn = sklep.getStanMagazynu();
 
         if (magazyn.get(produkt) > 1000) {

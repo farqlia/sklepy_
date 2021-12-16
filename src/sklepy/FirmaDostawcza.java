@@ -38,7 +38,7 @@ public class FirmaDostawcza implements Serializable {
     public void dostarczProdukty(Sklep sklep, Produkt produkt, int ilosc) {
         Zamowienie zamowienie = new Zamowienie(produkt, ilosc);
         if (!listaKlientow.containsKey(sklep)) {
-            listaKlientow.put(sklep, new ArrayList<Zamowienie>());
+            listaKlientow.put(sklep, new ArrayList<>());
             listaKlientow.get(sklep).add(zamowienie);
         } else {
             listaKlientow.get(sklep).add(zamowienie);

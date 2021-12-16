@@ -18,7 +18,7 @@ public abstract class Historia implements Serializable {
 
     protected String sciezkaPliku;
     protected String rodzajSciezki = ".ser";
-    protected String mainPath;
+    protected String mainPath = "historia/";
 
     public Historia(String unikalnaNazwaSklepu) {
         this.sciezkaPliku = mainPath + unikalnaNazwaSklepu + rodzajSciezki;

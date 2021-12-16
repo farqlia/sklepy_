@@ -9,10 +9,10 @@ public class HistoriaTransakcji implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final String sciezkaPliku;
-    private final String rodzajSciezki = ".ser";
-    private final String mainPath = "historietransakcji/";
 
     public HistoriaTransakcji(String unikalnaNazwaSklepu) {
+        String rodzajSciezki = ".ser";
+        String mainPath = "historietransakcji/";
         sciezkaPliku = mainPath + unikalnaNazwaSklepu + rodzajSciezki;
         stworzPlik();
     }
@@ -34,7 +34,6 @@ public class HistoriaTransakcji implements Serializable {
         ObjectOutputStream oOS = null;
         try {
             File file = new File(sciezkaPliku);
-
             fOS = new FileOutputStream(sciezkaPliku, true);
 
             if (file.length() == 0L) {

@@ -26,9 +26,8 @@ public class RabatGazetkowy implements StrategiaGazetki {
     @Override
     public void gazetkowaPromocja() {
         if (LocalDate.now().getDayOfWeek() == dzien) {
-            sklep.getGazetka().forEach((x) -> {
-                x.setCena(x.getCena() * (1 - rabat));
-            });
+            sklep.getGazetka().forEach((x) -> x.setCena(x.getCena() * (1 - rabat))
+            );
         } else {
             System.out.println("Dziś nie jest podany dzień");
         }

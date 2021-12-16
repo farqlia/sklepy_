@@ -1,5 +1,7 @@
 package sklepy;
 
+import java.util.Objects;
+
 public class Zabka extends Sklep {
 
     private static final long serialVersionUID = 31L;
@@ -45,7 +47,7 @@ public class Zabka extends Sklep {
 
     public double sprzedajProduktZAplikacja(Produkt produkt, int ilosc) {
 
-        if ((produkt.getNazwa() == "hotdog" || produkt.getNazwa() == "panini" || produkt.getNazwa() == "kawa") && !sprzedazProduktowNaCieplo) {
+        if ((Objects.equals(produkt.getNazwa(), "hotdog") || Objects.equals(produkt.getNazwa(), "panini") || Objects.equals(produkt.getNazwa(), "kawa")) && !sprzedazProduktowNaCieplo) {
 
             System.out.print("Mozliwosc sprzedazy produktow na cieplo nie jest aktualnie mozliwa.\n");
             return 0;

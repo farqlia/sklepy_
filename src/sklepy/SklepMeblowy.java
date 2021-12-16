@@ -35,8 +35,6 @@ abstract public class SklepMeblowy extends Sklep {
         if (Objects.equals(dzienTygodnia, "Niedziela")) {
             return false;
         }
-        if (godzina >= 9 && godzina <= 21)
-            return true;
-        else return false;
+        return godzina >= 9 && godzina <= 21;
     }
 }
