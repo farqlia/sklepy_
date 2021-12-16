@@ -21,6 +21,8 @@ public class RabatGazetkowy implements StrategiaGazetki {
         this.rabat = dzien.getValue()*0.1;
     }
 
+    // Metoda obliczająca rabat na produkty
+    // Rabat jest z góry określony przez dni tygodnia
     @Override
     public void gazetkowaPromocja() {
         if (LocalDate.now().getDayOfWeek() == dzien) {

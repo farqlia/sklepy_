@@ -13,33 +13,30 @@ public abstract class Supermarket extends Sklep{
 
     private boolean czyMaKasySamoobslugowe;
 
-    // Typowa biedronkowa gazetka gdzie wszystko jest -50%
+    // Zbiór produktów poddawanych pewnym promocjom
     private final ArrayList<Produkt> gazetka;
 
-    // HashMap sluzaca do przechowania oryginalnych cen
-    // aby mozna zmienic cene podczas przebywania w gazetce a potem
-    // ja przywrocic
+    // HashMap przechowująca oryginalne ceny przedmiotów
+    // W przypadku usunięcia gazetki, ceny przedmiotów przyjmują orygnialne wartości
     protected HashMap<String, Double> originalneCeny;
 
-    // protected czyli podklas to dziedziczą
     protected StrategiaGazetki strategiaGazetki;
 
-    public Supermarket(String adres, String adresWWW) {
+    public Supermarket(String adres, String adresWWW, boolean czyMaKasySamoobslugowe) {
         super(adres, adresWWW);
+        this.czyMaKasySamoobslugowe = czyMaKasySamoobslugowe;
         gazetka = new ArrayList<>();
         originalneCeny = new HashMap<>();
     }
 
-    // W kwestii rabatow itp - w tej metodzie chcialbym ustalic
-    // wspolne rabaty dla rzeczy w gazetce
-    // np setCena(getCena()*0.8)
+    // Metoda implementująca strategię promocji w danej gazetce
     public void otworzGazetke(StrategiaGazetki strategia) {
         strategiaGazetki = strategia;
         strategiaGazetki.gazetkowaPromocja();
     }
 
-    // Po kazdym otwarciu gazetki trzeba ja zamknac
-    // aby np moc stworzyc nowa
+    // Metoda zamykająca gazetkę
+    // TODO W przypadku otwarcia nowej gazetki (nadpisania starej), wpierw zamknąć starą
     public void zamknijGazetke() {
         for(Produkt produkt : gazetka) {
             produkt.setCena(originalneCeny.get(produkt.getNazwa()));
@@ -54,7 +51,7 @@ public abstract class Supermarket extends Sklep{
         }
     }
 
-    //----------- getters & setters
+    //----------- Getters & Setters
 
     public void dodajDoGazetki(Produkt produkt) {
         if(gazetka.contains(produkt)) {

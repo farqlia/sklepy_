@@ -18,10 +18,9 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
         this.sklep = sklep;
     }
 
-    // Metoda analizuje historie transakcji i wyciaga z niej srednia ilosc
-    // sprzedawanych na raz produktow
-    // Te kupowane po wiele sztuk zostawiamy w liscie i przekazujemy ja do tworzenia gazetki
-    // Rabat jest naliczany na podstawie jakiegos odchylenia od standardu
+    // Metoda analizująca historię transakcji
+    // Wyciąga średnią ilość kupowanych produktów w jednej transakcji
+    // Wylicza rabat na podstawie średniego odchylenia dla produktów kupowanych w największych ilościach
     @Override
     public List<Transakcja> analizujDane() {
         List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
@@ -43,15 +42,18 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
         return dane;
     }
 
-    // Zautomatyzowane robienie gazetki
-    // Pomysl polega na tym ze jezeli magazyn sklepu zawiera przeanalizowany produkt
-    // to dodajemy go do gazetki a pozniej nakladamy na cala gazetke rabat
+    // Automatyzacja tworzenia gazetki
+    // Na podstawie wcześniejszej analizy dodajemy chciane przedmioty do gazetki
+    // Następnie nakładamy obliczony wcześniej rabat na każdy produkt
     @Override
     public void gazetkowaPromocja() {
-        // W razie otwarcia starej gazetki zamykamy ja
+        // W razie otwarcia starej gazetki zamykamy ją
         sklep.zamknijGazetke();
         //
-        analizujDane().stream().filter(x -> sklep.getStanMagazynu().containsKey(x.getProdukt())).forEach( x -> {sklep.dodajDoGazetki(x.getProdukt());});
+        analizujDane().stream().
+            filter(x -> sklep.getStanMagazynu().containsKey(x.getProdukt())).
+            forEach( x -> {sklep.dodajDoGazetki(x.getProdukt());});
+
         sklep.getGazetka().forEach(x -> {x.setCena(x.getCena()*rabat);});
     }
 

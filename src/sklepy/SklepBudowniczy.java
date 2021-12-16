@@ -9,8 +9,8 @@ public abstract class SklepBudowniczy extends Sklep{
     private static final long serialVersionUID = 27L;
 
 
-    // To bedzie lista dzialow sklepu budowlanego,
-    // aby wszystkie przedmioty byly uporzadkowane
+    // Lista działów sklepu budowlanego
+    // Porządkujących jego produkty
     private final ArrayList<String> dzialy;
 
     public SklepBudowniczy(String adres, String adresWWW) {
@@ -18,15 +18,11 @@ public abstract class SklepBudowniczy extends Sklep{
         dzialy = new ArrayList<>();
     }
 
-    // HashMap pozwoli nam na dodawanie przedmiotow do dzialow
-    // Kazdy przedmiot bedzie mial przyporzadkowany dzial
-
-    // Nie zrobilem getterow i setterow dla Mapy,
-    // bo uznalem ze protected zalatwi sprawe
+    // HashMap pozwola na przyporządkowanie produktu do działu
     protected HashMap<Produkt, String> dzialProduktu = new HashMap<>();
 
-    // Ta metoda wymaga wprowadzenie tylko jednego przedmiotu
-    // W sensie dodajemy 2 krzesla do sklepu ale jedno do dzialu
+    // Metoda przyporządkująca produkt do działu
+    // Wymagana dla samego produktu, nie każdej jego sztuki
     public void dodajProduktDoDzialu(Produkt produkt, String dzial) {
         if (dzialy.contains(dzial)) {
             if (dzialProduktu.containsKey(produkt)) {
@@ -39,9 +35,9 @@ public abstract class SklepBudowniczy extends Sklep{
         }
     }
 
-    // Prosilbym zaimplementowac te metode w konkrentnych klasach
-    // odnosnie abstrakcyjnej metody sprzedazy
-    // aby w razie braku produktu na stanie wykreslic go z dzialu
+    // Metoda kontrolująca przypisanie obiektów do działów
+    // W razie sprzedaży przedmiotu i jego braku na magazynie, usuwa go
+    // TODO Implementowana w podklasach w metodzie sprzedaży
     public void usunProduktZDzialu(Produkt produkt) {
         if (sprawdzDostepnoscProduktu(produkt) == 0) {
             dzialProduktu.remove(produkt);
