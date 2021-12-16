@@ -10,8 +10,7 @@ public class Biedronka extends Supermarket{
     private boolean czyMaKasySamoobslugowe;
 
     public Biedronka(String adres, String adresWWW, boolean czyMaKasySamoobslugowe) {
-        super(adres, adresWWW);
-        this.czyMaKasySamoobslugowe = czyMaKasySamoobslugowe;
+        super(adres, adresWWW, czyMaKasySamoobslugowe);
     }
 
     @Override
