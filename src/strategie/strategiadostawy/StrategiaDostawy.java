@@ -5,5 +5,6 @@ import serializacja.Zamowienie;
 import sklepy.Sklep;
 
 public interface StrategiaDostawy {
-    public void dostawa(Sklep sklep, ArrayList<Zamowienie> zamowienia);
+    // Niech zwraca true gdy dostarczono produkty i false gdy trzeba poczekać
+    boolean zrobDostawe(Sklep sklep, ArrayList<Zamowienie> zamowienia);
 }

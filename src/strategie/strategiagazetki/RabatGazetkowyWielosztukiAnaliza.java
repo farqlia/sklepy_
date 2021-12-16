@@ -1,12 +1,16 @@
 package strategie.strategiagazetki;
 
 import java.io.Serializable;
+
+import sklepy.Produkt;
 import strategie.strategiaanalizy.Analityk;
 import sklepy.Supermarket;
+
+import java.util.ArrayList;
 import java.util.List;
 import serializacja.Transakcja;
 
-public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Analityk<List<Transakcja>> {
+public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Analityk<List<Produkt>> {
     
     private static final long serialVersionUID = 9L;
 
@@ -22,8 +26,8 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
     // Wyciąga średnią ilość kupowanych produktów w jednej transakcji
     // Wylicza rabat na podstawie średniego odchylenia dla produktów kupowanych w największych ilościach
     @Override
-    public List<Transakcja> analizujDane() {
-        List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
+    public List<Produkt> analizujDane() {
+        List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystko();
         float sredniaIlosc = 0;
         
         for (Transakcja transakcja : dane) {
@@ -32,14 +36,17 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
 
         sredniaIlosc = sredniaIlosc/dane.size();
 
+        List<Produkt> produktyPodPromocje = new ArrayList<>();
+
         for (Transakcja transakcja : dane) {
             if (transakcja.getIlosc()>=sredniaIlosc) {
                 rabat+=(transakcja.getIlosc()-sredniaIlosc)*0.01;
-            } else {
-                dane.remove(transakcja);
+                // Niestety we wcześniejszym kodzie dostawaliśmy ConcurrentModificationException,
+                // ponieważ nie wolno iterować po liście i jednocześnie ją modyfikować
+                produktyPodPromocje.add(transakcja.getProdukt());
             }
         }
-        return dane;
+        return produktyPodPromocje;
     }
 
     // Automatyzacja tworzenia gazetki
@@ -49,10 +56,10 @@ public class RabatGazetkowyWielosztukiAnaliza implements StrategiaGazetki, Anali
     public void gazetkowaPromocja() {
         // W razie otwarcia starej gazetki zamykamy ją
         sklep.zamknijGazetke();
-        //
+
         analizujDane().stream().
-            filter(x -> sklep.getStanMagazynu().containsKey(x.getProdukt())).
-            forEach( x -> {sklep.dodajDoGazetki(x.getProdukt());});
+            filter(x -> sklep.getStanMagazynu().containsKey(x)).
+            forEach( x -> {sklep.dodajDoGazetki(x);});
 
         sklep.getGazetka().forEach(x -> {x.setCena(x.getCena()*rabat);});
     }

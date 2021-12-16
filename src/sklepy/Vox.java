@@ -7,11 +7,13 @@ public class Vox extends SklepMeblowy {
 
     private static final long serialVersionUID = 30L;
 
-    private boolean czyDzienRabatowy;
+    private boolean czyMaUporzadkowaneSekcje;
+    // zmienilem skladowa w polu na jakas inna bo poprzednia "czyDzienPromocyjny" razem z metoda, ktora odpowiadala
+    // za rabat chyba juz nie ma sensu odkąd jest taki sposob realizacji strategii
 
-    public Vox(String adres, String adresWWW, boolean czyMoznaKupowacNaRaty, boolean czyDzienRabatowy) {
+    public Vox(String adres, String adresWWW, boolean czyMoznaKupowacNaRaty, boolean czyMaUporzadkowaneSekcje) {
         super(czyMoznaKupowacNaRaty, adres, adresWWW);
-        this.czyDzienRabatowy = czyDzienRabatowy;
+        this.czyMaUporzadkowaneSekcje = czyMaUporzadkowaneSekcje;
     }
 
     public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
@@ -23,11 +25,13 @@ public class Vox extends SklepMeblowy {
     }
 
 
-    public void setCzyDzienRabatowy(String dzienTygodnia) {
-        this.czyDzienRabatowy = Objects.equals(dzienTygodnia, DniTygodnia.CZWARTEK) || Objects.equals(dzienTygodnia, DniTygodnia.WTOREK);
+    public void setCzyMaUporzadkowaneSekcje(boolean czyMaUporzadkowaneSekcje) {
+
+        this.czyMaUporzadkowaneSekcje = czyMaUporzadkowaneSekcje;
     }
 
-    public boolean getCzyDzienRabatowy() {
-        return this.czyDzienRabatowy;
+    public boolean getCzyMaUporzadkowaneSekcje() {
+
+        return this.czyMaUporzadkowaneSekcje;
     }
 }

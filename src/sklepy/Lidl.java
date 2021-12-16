@@ -7,8 +7,6 @@ public class Lidl extends Supermarket {
 
     private static final long serialVersionUID = 25L;
 
-    private boolean czyMaKasySamoobslugowe;
-
     public Lidl(String adres, String adresWWW, boolean czyMaKasySamoobslugowe) {
         super(adres, adresWWW, czyMaKasySamoobslugowe);
     }
@@ -21,14 +19,6 @@ public class Lidl extends Supermarket {
         else
             return godzina >= 6 && godzina <= 22;
 
-    }
-
-    public boolean isCzyMaKasySamoobslugowe() {
-        return czyMaKasySamoobslugowe;
-    }
-
-    public void setCzyMaKasySamoobslugowe(boolean czyMaKasySamoobslugowe) {
-        this.czyMaKasySamoobslugowe = czyMaKasySamoobslugowe;
     }
 
 }

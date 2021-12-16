@@ -1,7 +1,7 @@
 package sklepy;
 
 import pracownicy.Pracownik;
-import serializacja.HistoriaTransakcji;
+import serializacja.Historia;
 import serializacja.Transakcja;
 import strategie.strategiapromocji.StrategiaPromocji;
 
@@ -21,12 +21,12 @@ public abstract class Sklep implements Serializable {
     private final Map<Produkt, Integer> magazyn;
 
     protected StrategiaPromocji strategiaPromocji;
-    protected HistoriaTransakcji historiaTransakcji;
+    protected Historia<Transakcja> historiaTransakcji;
 
     public Sklep(String adres, String adresWWW) {
         this.adres = adres;
         this.adresWWW = adresWWW;
-        historiaTransakcji = new HistoriaTransakcji(idSklepu());
+        historiaTransakcji = new Historia<>("historiatransakcji/", idSklepu());
         pracownicy = new ArrayList<>();
         magazyn = new HashMap<>();
     }
@@ -59,12 +59,14 @@ public abstract class Sklep implements Serializable {
     }
 
     public Transakcja autoryzujTransakcje(Produkt produkt, int ilosc, double cena) {
-        if (ilosc == 0) return null;     // Transakcja została rozpoczęta, ale nie mieliśmy produktów na stanie
+        if (ilosc == 0) {
+            return null;
+        }
         Transakcja t = new Transakcja(produkt, ilosc, cena);
          /*losowo generuje dni
         Random r = new Random();
         t.setData(LocalDate.of(2021, 12,1 + r.nextInt(11)));*/
-        historiaTransakcji.dodajTransakcje(t);
+        historiaTransakcji.dodaj(t);
         return t;
     }
 
@@ -115,7 +117,7 @@ public abstract class Sklep implements Serializable {
         return magazyn;
     }
 
-    public HistoriaTransakcji getHistoriaTransakcji() {
+    public Historia<Transakcja> getHistoriaTransakcji() {
         return historiaTransakcji;
     }
 

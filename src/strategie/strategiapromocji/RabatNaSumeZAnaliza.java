@@ -23,7 +23,7 @@ public class RabatNaSumeZAnaliza implements StrategiaPromocji, Analityk<Double> 
     @Override
     public Double analizujDane() {
 
-        List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
+        List<Transakcja> dane = sklep.getHistoriaTransakcji().getWszystko();
         double suma = 0;
         for (Transakcja t : dane){
             suma += t.getSumaAktualna();
