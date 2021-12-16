@@ -16,6 +16,9 @@ public class Rabat2za1BezAnalizy implements StrategiaPromocji {
     }
 
     @Override
+    //Naliczamy rabat na co drugi produkt,
+    //jezeli suma cen produktow jest wieksza niz 
+    //minimalna cena wczesniej ustalona.
     public double naliczRabat(Produkt produkt, int ilosc) {
         double sumaBezRabatu = produkt.getCena() * ilosc;
 
