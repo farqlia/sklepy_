@@ -1,7 +1,5 @@
 package sklepy;
 
-import java.util.Objects;
-
 public class Castorama extends SklepBudowniczy {
 
     private static final long serialVersionUID = 22L;
@@ -15,9 +13,9 @@ public class Castorama extends SklepBudowniczy {
     }
 
     @Override
-    public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
+    public boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina) {
         // Niedziela 10-18, reszta 6-21
-        if (Objects.equals(dzienTygodnia, DniTygodnia.NIEDZIELA)) {
+        if (dzienTygodnia == DniTygodnia.NIEDZIELA) {
             return godzina >= 10 && godzina <= 18;
         } else {
             return godzina >= 6 && godzina <= 21;

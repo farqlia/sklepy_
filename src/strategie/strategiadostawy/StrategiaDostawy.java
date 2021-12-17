@@ -1,10 +1,11 @@
 package strategie.strategiadostawy;
 
-import java.util.ArrayList;
-
 import serializacja.Zamowienie;
 import sklepy.Sklep;
 
+import java.util.ArrayList;
+
 public interface StrategiaDostawy {
-    void dostawa(Sklep sklep, ArrayList<Zamowienie> zamowienia);
+    // Niech zwraca true gdy dostarczono produkty i false gdy trzeba poczekać
+    boolean dostawa(Sklep sklep, ArrayList<Zamowienie> zamowienia);
 }

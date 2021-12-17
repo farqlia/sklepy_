@@ -1,12 +1,15 @@
 package sklepy;
 
 import pracownicy.Pracownik;
-import serializacja.HistoriaTransakcji;
+import serializacja.Historia;
 import serializacja.Transakcja;
 import strategie.strategiapromocji.StrategiaPromocji;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class Sklep implements Serializable {
 
@@ -21,17 +24,17 @@ public abstract class Sklep implements Serializable {
     private final Map<Produkt, Integer> magazyn;
 
     protected StrategiaPromocji strategiaPromocji;
-    protected HistoriaTransakcji historiaTransakcji;
+    protected Historia<Transakcja> historiaTransakcji;
 
     public Sklep(String adres, String adresWWW) {
         this.adres = adres;
         this.adresWWW = adresWWW;
-        historiaTransakcji = new HistoriaTransakcji(idSklepu());
+        historiaTransakcji = new Historia<>("historiatransakcji/", idSklepu());
         pracownicy = new ArrayList<>();
         magazyn = new HashMap<>();
     }
 
-    public abstract boolean czyJestOtwarty(String dzienTygodnia, int godzina);
+    public abstract boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina);
 
     // Zmieniony typ!
     // W tej zmianie musimy jednak zrezygnować z wywoływania tej metody
@@ -64,7 +67,7 @@ public abstract class Sklep implements Serializable {
          /*losowo generuje dni
         Random r = new Random();
         t.setData(LocalDate.of(2021, 12,1 + r.nextInt(11)));*/
-        historiaTransakcji.dodajTransakcje(t);
+        historiaTransakcji.serializuj(t);
         return t;
     }
 
@@ -115,7 +118,7 @@ public abstract class Sklep implements Serializable {
         return magazyn;
     }
 
-    public HistoriaTransakcji getHistoriaTransakcji() {
+    public Historia<Transakcja> getHistoriaTransakcji() {
         return historiaTransakcji;
     }
 

@@ -1,16 +1,12 @@
 package strategie.strategia2za1;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import sklepy.Produkt;
 import sklepy.Sklep;
 import strategie.strategiaanalizy.Analityk;
 import strategie.strategiapromocji.StrategiaPromocji;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Rabat2za1Analiza implements StrategiaPromocji, Analityk<List<Produkt>> {
 

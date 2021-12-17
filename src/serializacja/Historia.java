@@ -1,40 +1,18 @@
 package serializacja;
 
-import java.io.Serializable;
-import java.io.File;
-import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.List;
+import java.io.*;
 import java.util.ArrayList;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.io.FileNotFoundException;
-import java.io.EOFException;
+import java.util.List;
 
-public abstract class Historia implements Serializable {
+public class Historia<E> extends Serializator<E> {
 
     private static final long serialVersionUID = 97L;
 
-    protected String sciezkaPliku;
-    protected String rodzajSciezki = ".ser";
-    protected String mainPath = "historia/";
-
-    public Historia(String unikalnaNazwaSklepu) {
-        this.sciezkaPliku = mainPath + unikalnaNazwaSklepu + rodzajSciezki;
-        stworzPlik();
+    public Historia(String sciezkaFolderu, String nazwaPliku) {
+        super(sciezkaFolderu, nazwaPliku);
     }
 
-    public void stworzPlik() {
-        try {
-            File file = new File(sciezkaPliku);
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void dodaj(Object objekt) {
+    public void serializuj(E obiekt) {
         // Gdy dodajemy na koniec pliku (append), to wymaga to innego podejścia,
         // jako że strumień wczytujący te dane nie zadziała (zablokuje się)
         FileOutputStream fOS = null;
@@ -51,7 +29,7 @@ public abstract class Historia implements Serializable {
                 oOS = new MyObjectOutputStream(fOS);
             }
 
-            oOS.writeObject(objekt);
+            oOS.writeObject(obiekt);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -72,9 +50,12 @@ public abstract class Historia implements Serializable {
         }
     }
 
-    public List<Object> getWszystko(Object objekt) {
+    // Można wyłączyć ostrzeżenie, bo zawsze odczytujemy z tego samego
+    // pliku, do którego wczytaliśmy dane, więc rzutowanie jest bezpieczne
+    @SuppressWarnings("unchecked")
+    public List<E> deserializuj() {
 
-        List<Object> transakcje = new ArrayList<>();
+        List<E> obiekty = new ArrayList<>();
         FileInputStream fIS = null;
         ObjectInputStream oIS = null;
         try {
@@ -82,19 +63,16 @@ public abstract class Historia implements Serializable {
             oIS = new ObjectInputStream(fIS);
 
             while (fIS.available() != 0) {
-                Object t = oIS.readObject();
-                transakcje.add(t);
+                E t = (E) oIS.readObject();
+                obiekty.add(t);
             }
 
-
-            // End of file czyli nie mamy co wczytywać (w razie, gdy strumień jest pusty)
-        } catch (EOFException e) {
-            return transakcje;
-        } catch (FileNotFoundException e) {
-            return new ArrayList<>();
+        }
+        catch (EOFException e){
+            System.out.println("Pusty plik");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
+        }  finally {
             if (fIS != null) {
                 try {
                     fIS.close();
@@ -110,7 +88,7 @@ public abstract class Historia implements Serializable {
                 }
             }
         }
-        return transakcje;
+        return obiekty;
 
     }
 

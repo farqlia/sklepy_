@@ -1,6 +1,5 @@
 package sklepy;
 
-import java.util.Objects;
 
 abstract public class SklepMeblowy extends Sklep {
 
@@ -31,8 +30,8 @@ abstract public class SklepMeblowy extends Sklep {
     //METODY:
 
     @Override
-    public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
-        if (Objects.equals(dzienTygodnia, "Niedziela")) {
+    public boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina) {
+        if (dzienTygodnia == DniTygodnia.NIEDZIELA) {
             return false;
         }
         return godzina >= 9 && godzina <= 21;

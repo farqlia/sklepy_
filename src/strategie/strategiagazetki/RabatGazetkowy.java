@@ -1,9 +1,9 @@
 package strategie.strategiagazetki;
 
+import sklepy.Supermarket;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-
-import sklepy.Supermarket;
 
 public class RabatGazetkowy implements StrategiaGazetki {
 

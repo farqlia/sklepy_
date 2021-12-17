@@ -3,9 +3,11 @@ package test;
 import pracownicy.Pracownik;
 import pracownicy.PracownikEtatowy;
 import pracownicy.PracownikGodzinowy;
-import serializacja.SerializatorSklepow;
+import serializacja.SerializatorZwykly;
 import sklepy.*;
 import strategie.strategia2za1.Rabat2za1Analiza;
+import strategie.strategiagazetki.RabatGazetkowyWielosztukiAnaliza;
+import strategie.strategiagazetki.StrategiaGazetki;
 import strategie.strategianadmiarowa.RabatOdNadmiarowychTowarow;
 import strategie.strategianadzial.RabatNaDzial;
 import strategie.strategiapromocji.RabatNaDzienTygodnia;
@@ -14,100 +16,60 @@ import strategie.strategiapromocji.StrategiaPromocji;
 
 import java.io.File;
 import java.math.BigDecimal;
-
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class MainTest {
     static Random r = new Random();
     static int magicNum = 10;
-    static String dzial = "Kuchnia";
-    static Produkt produkt = new Produkt("Kuchenka", 1000.00);
 
     public static void main(String[] args) {
-        Sklep[] sklepy;
+        List<Sklep> sklepy;
 
-        File serializowaneSklepy = new File("sklepy.ser");
-        SerializatorSklepow serializator = new SerializatorSklepow();
-        if (serializowaneSklepy.exists()) {
+        File serializowaneSklepy = new File("serializowanesklepy/sklepy.ser");
+        SerializatorZwykly<Sklep> serializator = new SerializatorZwykly<>("serializowanesklepy/", "sklepy");
+        // Plik może istnieć, ale jeśli jest pusty, to wyrzuci EOFException
+        if (serializowaneSklepy.length() != 0L) {
             // sklepy są zserializowane, trzeba je zdeserializować
             System.out.println("Wykryto zserializowane sklepy, deserializowanie...");
-            sklepy = serializator.deserializujSklepy();
+            sklepy = serializator.deserializuj();
             System.out.println("Zdeserializowane sklepy:");
-            for (Sklep sklep : sklepy) {
+            for(Sklep sklep : sklepy) {
                 System.out.println(sklep.idSklepu());
             }
             System.out.println();
         } else {
-            // nie za zserializowanych sklepów, trzeba wygenerować je od zera
+            // nie ma zserializowanych sklepów, trzeba wygenerować je od zera
             System.out.println("Nie wykryto zserializowanych sklepów, zostaną wygenerowane nowe");
-            sklepy = wygenerujSklepy();
+            sklepy = Arrays.asList(wygenerujSklepy());
         }
 
-        Lidl lidl = (Lidl) sklepy[4];
+        testujStrategiePromocji(sklepy);
 
-        List<Produkt> produkty = getListeRandomowychProduktow(magicNum);
+        testujStrategieDlaSklepuBudowniczego((SklepBudowniczy) sklepy.get(1));
 
-        produkty.forEach(x -> lidl.aktualizujIloscProduktow(x, r.nextInt(2 * magicNum)));
+        testujFirmeDostawcza();
 
-        System.out.println(lidl.sprzedajProdukt(produkty.get(1), 2));
-
-        StrategiaPromocji strategia1 = new RabatNaDzienTygodnia(DayOfWeek.SUNDAY, 0.05);
-
-        lidl.zmienStrategie(strategia1);
-
-        System.out.println(lidl.sprzedajProdukt(produkty.get(1), 2));
-
-        StrategiaPromocji strategia2 = new RabatNaSumeZAnaliza(lidl, 0.1);
-
-        lidl.zmienStrategie(strategia2);
-
-        System.out.println(lidl.sprzedajProdukt(produkty.get(2), 2));
-
-        lidl
-                .getHistoriaTransakcji()
-                .getWszystkieTransakcje()
-                .forEach(System.out::println);
-
-        System.out.println("\n");
-
-        StrategiaPromocji strategia3 = new Rabat2za1Analiza(lidl, 4);
-
-        lidl.zmienStrategie(strategia3);
-
-        System.out.println(lidl.sprzedajProdukt(produkty.get(3), 4));
-
-        SklepBudowniczy castorama = ((SklepBudowniczy) (sklepy[1]));
-        castorama.dodajDzial(dzial);
-        castorama.dodajProduktDoDzialu(produkt, dzial);
-        castorama.aktualizujIloscProduktow(produkt, 1002);
-
-        StrategiaPromocji strategia4 = new RabatNaDzial(dzial, 0.05, castorama);
-
-        castorama.zmienStrategie(strategia4);
-
-        System.out.println(castorama.sprzedajProdukt(produkt, 4));
-
-        StrategiaPromocji strategia5 = new RabatOdNadmiarowychTowarow(castorama);
-
-        castorama.zmienStrategie(strategia5);
-
-        System.out.println(castorama.sprzedajProdukt(produkt, 4));
-
+        testujStrategieGazetki();
 
         // Serializujemy sklepy, żeby zapisać zmiany do następnego uruchomienia programu
         System.out.println("Serializowanie sklepów...");
-        serializator.serializujSklepy(sklepy);
+        serializator.serializuj(sklepy);
 
     }
 
     private static List<Produkt> getListeRandomowychProduktow(int ilosc) {
 
-        List<String> nazwyProduktow = Arrays.asList(
-                "Mleko", "Kawa", "Sok", "Papierosy", "Woda"
-        );
+        List<String> nazwyProduktow = new ArrayList<>();
+
+        for (int i = 0; i < ilosc; i++){
+            nazwyProduktow.add("Produkt" + i);
+        }
 
         List<Produkt> produkty = new ArrayList<>();
         for (int i = 0; i < ilosc; i++) {
@@ -119,6 +81,113 @@ public class MainTest {
                             bD.doubleValue()));
         }
         return produkty;
+    }
+
+    // Jak poznamy testy jednostkowe to napiszemy jakieś porządniejsze testy :)
+    private static void testujFirmeDostawcza(){
+
+        System.out.println("Firma Dostawcza");
+        Sklep sklep = new Lidl("ul. Akademicka 6, Wrocław", "lidl.pl", true);
+
+        FirmaDostawcza firmaDostawcza = new FirmaDostawcza("Fedex", 2, DayOfWeek.FRIDAY, "Polska");
+
+        Produkt produkt = new Produkt("TestProdukt", 2.00);
+
+        if (sklep.sprzedajProdukt(produkt, 2) == null){
+            firmaDostawcza.dostarczProdukty(sklep, produkt, 2);
+        }
+        sklep.wyswietlOferteSklepu();
+
+        firmaDostawcza.getHistoriaZamowien().deserializuj().forEach(System.out::println);
+
+    }
+
+    private static void testujStrategieGazetki(){
+
+        Supermarket supermarket = new Biedronka("ul. Wittiga 12, Wrocław", "biedronka.pl", true);
+
+        Produkt produkt = new Produkt("TestProdukt", 2.00);
+
+        supermarket.aktualizujIloscProduktow(produkt, 20);
+
+        // Średnia z (1 + 2 + 3 + 4 + 5) / 5 = 3
+        for (int i = 0; i < 5; i++){
+            System.out.println(supermarket.sprzedajProdukt(produkt, i));
+        }
+
+        supermarket.dodajDoGazetki(produkt);
+
+        StrategiaGazetki strategiaGazetki = new RabatGazetkowyWielosztukiAnaliza(supermarket);
+
+        supermarket.otworzGazetke(strategiaGazetki);
+
+        System.out.println(supermarket.sprzedajProdukt(produkt, 4));
+
+        System.out.println(supermarket.sprzedajProdukt(produkt, 1));
+
+    }
+
+    private static void testujStrategieDlaSklepuBudowniczego(SklepBudowniczy sklepBudowniczy){
+
+        String dzial = "Kuchnia";
+        Produkt produkt = new Produkt("Kuchenka", 1000.00);
+        System.out.println("Testowanie: " + RabatNaDzial.class.getSimpleName());
+        sklepBudowniczy.dodajDzial(dzial);
+        sklepBudowniczy.dodajProduktDoDzialu(produkt, dzial);
+        sklepBudowniczy.aktualizujIloscProduktow(produkt, 1002);
+
+        StrategiaPromocji strategia = new RabatNaDzial(dzial, 0.05, sklepBudowniczy);
+
+        sklepBudowniczy.zmienStrategie(strategia);
+
+        System.out.println(sklepBudowniczy.sprzedajProdukt(produkt, 4));
+    }
+
+    private static void testujStrategiePromocji(List<Sklep> sklepy){
+
+        int iloscProduktow = 5;
+        for (Sklep sklep: sklepy){
+
+            System.out.println("Adres Sprawdzanego Sklepu: " + sklep.getAdres());
+
+            List<Produkt> produkty = getListeRandomowychProduktow(magicNum);
+
+            produkty.forEach(x -> sklep.aktualizujIloscProduktow(x, r.nextInt(2 * magicNum)));
+
+            System.out.println(sklep.sprzedajProdukt(produkty.get(r.nextInt(magicNum)), 2));
+
+            StrategiaPromocji strategia1 = new RabatNaDzienTygodnia(DayOfWeek.SUNDAY, 0.05);
+
+            sklep.zmienStrategie(strategia1);
+
+            System.out.println(sklep.sprzedajProdukt(produkty.get(r.nextInt(magicNum)), iloscProduktow++));
+
+            StrategiaPromocji strategia2 = new RabatNaSumeZAnaliza(sklep, 0.1);
+
+            sklep.zmienStrategie(strategia2);
+
+            System.out.println(sklep.sprzedajProdukt(produkty.get(r.nextInt(magicNum)), iloscProduktow++));
+
+            StrategiaPromocji strategia3 = new Rabat2za1Analiza(sklep, 4);
+
+            sklep.zmienStrategie(strategia3);
+
+            System.out.println(sklep.sprzedajProdukt(produkty.get(r.nextInt(magicNum)), iloscProduktow++));
+
+            StrategiaPromocji strategia4 = new RabatOdNadmiarowychTowarow(sklep);
+
+            sklep.zmienStrategie(strategia4);
+
+            System.out.println(sklep.sprzedajProdukt(produkty.get(r.nextInt(magicNum)), iloscProduktow++));
+
+            sklep
+                    .getHistoriaTransakcji()
+                    .deserializuj()
+                    .forEach(System.out::println);
+
+            System.out.println("\n");
+        }
+
     }
 
     private static Sklep[] wygenerujSklepy() {

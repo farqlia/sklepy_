@@ -23,7 +23,7 @@ public class RabatNaDzienTygodniaZAnaliza implements StrategiaPromocji, Analityk
     @Override
     public DayOfWeek analizujDane() {
 
-        List<Transakcja> transakcje = sklep.getHistoriaTransakcji().getWszystkieTransakcje();
+        List<Transakcja> transakcje = sklep.getHistoriaTransakcji().deserializuj();
 
         // W sytuacji, gdy nie mamy żadnych danych, to nie da się ustalić tej promocji
         // Lepiej jednak wygenerować jakieś dane wcześniej

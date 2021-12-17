@@ -1,6 +1,5 @@
 package sklepy;
 
-import java.util.Objects;
 
 public class Vox extends SklepMeblowy {
 
@@ -15,8 +14,8 @@ public class Vox extends SklepMeblowy {
         this.czyMaUporzadkowaneSekcje = czyMaUporzadkowaneSekcje;
     }
 
-    public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
-        if (Objects.equals(dzienTygodnia, DniTygodnia.NIEDZIELA)) {
+    public boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina) {
+        if (dzienTygodnia == DniTygodnia.NIEDZIELA) {
             return godzina >= 10 && godzina <= 16;
         } else {
             return godzina >= 10 && godzina <= 20;

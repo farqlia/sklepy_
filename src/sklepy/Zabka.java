@@ -1,6 +1,8 @@
 package sklepy;
 
-import java.util.Objects;
+import serializacja.Transakcja;
+import strategie.strategiapromocji.RabatKartaKlienta;
+import strategie.strategiapromocji.StrategiaPromocji;
 
 public class Zabka extends Sklep {
 
@@ -8,6 +10,7 @@ public class Zabka extends Sklep {
 
     boolean sprzedazProduktowNaCieplo;
     boolean czyJestKasaSamoobslugowa;
+    private final StrategiaPromocji strategiaPromocjiZAplikacja;
 
     // KONSTRUKTOR:
 
@@ -15,6 +18,7 @@ public class Zabka extends Sklep {
         super(adres, adresWWW);
         this.sprzedazProduktowNaCieplo = czyJestMozliwoscSprzedazyProduktowNaCieplo;
         this.czyJestKasaSamoobslugowa = czyJestKasaSamoobslugowa;
+        strategiaPromocjiZAplikacja = new RabatKartaKlienta(.1, null);
     }
 
     // GETTERY:
@@ -41,21 +45,33 @@ public class Zabka extends Sklep {
     //METODY:
 
     @Override
-    public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
+    public boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina) {
         return godzina >= 6 && godzina <= 23;
     }
 
-    public double sprzedajProduktZAplikacja(Produkt produkt, int ilosc) {
+    public boolean czyProduktDoSprzedaniaNaCieplo(Produkt produkt){
+        return  ((produkt.getNazwa().equalsIgnoreCase("hotdog")
+                || produkt.getNazwa().equalsIgnoreCase("panini")
+                || produkt.getNazwa().equalsIgnoreCase("kawa")));
+    }
 
-        if ((Objects.equals(produkt.getNazwa(), "hotdog") || Objects.equals(produkt.getNazwa(), "panini") || Objects.equals(produkt.getNazwa(), "kawa")) && !sprzedazProduktowNaCieplo) {
+    public Transakcja sprzedajProdukt(Produkt produkt, int ilosc) {
 
-            System.out.print("Mozliwosc sprzedazy produktow na cieplo nie jest aktualnie mozliwa.\n");
-            return 0;
-        } else {
-            //przy sprzedaży produktów z aplikacją, zostaje naliczony rabat
-            sprzedajProdukt(produkt, ilosc);
-            System.out.print("Punkty w aplikacji zostaly naliczone.\n");
-            return strategiaPromocji.naliczRabat(produkt, ilosc);
+        if (czyProduktDoSprzedaniaNaCieplo(produkt)){
+            if (!sprzedazProduktowNaCieplo){
+                return null;
+            }
         }
+        return super.sprzedajProdukt(produkt, ilosc);
+    }
+
+    public Transakcja sprzedajProduktZAplikacja(Produkt produkt, int ilosc) {
+
+        strategiaPromocji = strategiaPromocjiZAplikacja;
+        Transakcja t = sprzedajProdukt(produkt, ilosc);
+        System.out.print("Punkty w aplikacji zostaly naliczone.\n");
+        strategiaPromocji = null;
+        return t;
+
     }
 }
