@@ -1,6 +1,5 @@
 package sklepy;
 
-import java.util.Objects;
 
 public class Ikea extends SklepMeblowy {
 
@@ -21,8 +20,8 @@ public class Ikea extends SklepMeblowy {
         }
     }
 
-    public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
-        if (Objects.equals(dzienTygodnia, DniTygodnia.NIEDZIELA)) {
+    public boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina) {
+        if (dzienTygodnia == DniTygodnia.NIEDZIELA) {
             return godzina >= 9 && godzina <= 21;
         } else {
             return godzina >= 9 && godzina <= 22;
