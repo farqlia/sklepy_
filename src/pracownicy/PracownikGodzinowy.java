@@ -1,6 +1,7 @@
 package pracownicy;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class PracownikGodzinowy extends Pracownik {
     public PracownikGodzinowy(String imie, String nazwisko, LocalDate dataZatrudnienia, double wynagrodzenieZaGodzine) {
@@ -28,5 +29,18 @@ public class PracownikGodzinowy extends Pracownik {
                 ", dataZatrudnienia=" + getDataZatrudnienia() +
                 ", wynagrodzenieZaGodzine=" + wynagrodzenieZaGodzine +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PracownikGodzinowy that = (PracownikGodzinowy) o;
+        return Double.compare(that.wynagrodzenieZaGodzine, wynagrodzenieZaGodzine) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(wynagrodzenieZaGodzine, getImie(), getNazwisko(), getDataZatrudnienia());
     }
 }

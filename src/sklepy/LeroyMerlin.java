@@ -1,6 +1,5 @@
 package sklepy;
 
-import java.util.Objects;
 
 public class LeroyMerlin extends SklepBudowniczy {
 
@@ -15,10 +14,10 @@ public class LeroyMerlin extends SklepBudowniczy {
     }
 
     @Override
-    public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
+    public boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina) {
 
         // Niedziela 10-20, reszta 7-21
-        if (Objects.equals(dzienTygodnia, DniTygodnia.NIEDZIELA)) {
+        if (dzienTygodnia == DniTygodnia.NIEDZIELA) {
             return godzina >= 10 && godzina <= 20;
         } else {
             return godzina >= 7 && godzina <= 21;

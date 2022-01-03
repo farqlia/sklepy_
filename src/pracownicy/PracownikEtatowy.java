@@ -1,6 +1,7 @@
 package pracownicy;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class PracownikEtatowy extends Pracownik {
     private double pensja;
@@ -34,4 +35,16 @@ public class PracownikEtatowy extends Pracownik {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PracownikEtatowy that = (PracownikEtatowy) o;
+        return Double.compare(that.pensja, pensja) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pensja, getImie(), getNazwisko(), getDataZatrudnienia());
+    }
 }
