@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import sklepy.Produkt;
-import sklepy.Sklep;
 
 public class Zamowienie implements Serializable {
 

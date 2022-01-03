@@ -19,7 +19,7 @@ public class Historia<E> implements Serializable {
     private static final long serialVersionUID = 97L;
 
     private String sciezkaPliku;
-    private final String glownaSciezka = "src/historia/";
+    private final String glownaSciezka = "historia/historiatransakcji/";
     private String rodzajSciezki = ".ser";
 
 

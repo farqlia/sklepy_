@@ -30,7 +30,7 @@ public class MainTest {
         List<Sklep> sklepy;
 
 
-        File serializowaneSklepy = new File("src/historia/historiasklepow/sklepy.ser");
+        File serializowaneSklepy = new File("historia/historiasklepow/sklepy.ser");
         Serializator<Sklep> serializator = new Serializator<>(serializowaneSklepy.getAbsolutePath());
         if (serializowaneSklepy.exists()) {
             // sklepy są zserializowane, trzeba je zdeserializować

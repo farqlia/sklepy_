@@ -27,7 +27,7 @@ public class FirmaDostawcza implements Serializable {
         this.nazwaFirmy = nazwaFirmy;
         this.czasDostawy = czasDostawy;
         this.adresSiedziby = adresSiedziby;
-        this.historiaZamowien = new Historia<>("historiazamowien/", nazwaFirmy);
+        this.historiaZamowien = new Historia<>("historia/historiazamowien/", nazwaFirmy);
         this.listaKlientow = new HashMap<>();
         this.strategiaDostawy = new DostawaRegularna(dzienDostaw);
     }

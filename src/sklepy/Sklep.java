@@ -4,11 +4,17 @@ import pracownicy.Pracownik;
 import serializacja.Historia;
 import serializacja.Transakcja;
 import strategie.strategiapromocji.StrategiaPromocji;
+import wzorzecobserwator.Observable;
+import wzorzecobserwator.Observer;
+import wzorzecobserwator.ProduktEvent;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public abstract class Sklep implements Serializable {
+public abstract class Sklep implements Observable, Serializable {
 
     private static final long serialVersionUID = 21L;
 
@@ -23,22 +29,24 @@ public abstract class Sklep implements Serializable {
     protected StrategiaPromocji strategiaPromocji;
     protected Historia<Transakcja> historiaTransakcji;
 
+    private List<Observer> obserwatorzy;
+
     public Sklep(String adres, String adresWWW) {
         this.adres = adres;
         this.adresWWW = adresWWW;
-        historiaTransakcji = new Historia<>("historiatransakcji/", idSklepu());
+        historiaTransakcji = new Historia<>("historia/historiasklepow/", idSklepu());
         pracownicy = new ArrayList<>();
         magazyn = new HashMap<>();
+        obserwatorzy = new ArrayList<>();
     }
 
     public abstract boolean czyJestOtwarty(String dzienTygodnia, int godzina);
 
-    // Zmieniony typ!
     // W tej zmianie musimy jednak zrezygnować z wywoływania tej metody
     // w innych metodach sprzedających, by ta sama transakcja nie była zapisana dwa razy
     // Powodem zmiany było to, że inaczej nie jesteśmy w stanie zapisać tej transakcji
     // Ale w sumie też ma sens to zwracać, bo reprezentuje taki jakby rachunek/paragon
-    // Aby stworzyć obiekt Transakcji, wywołujemy na końcu metodę 'autoryzujTransakcje', wtedy sie ona zapisze 
+    // Aby stworzyć obiekt Transakcji, wywołujemy na końcu metodę 'autoryzujTransakcje', wtedy sie ona zapisze
     // w historii
     public Transakcja sprzedajProdukt(Produkt produkt, int ilosc) {
         int aktualnaIlosc = sprawdzDostepnoscProduktu(produkt);
@@ -63,9 +71,6 @@ public abstract class Sklep implements Serializable {
             return null;
         }
         Transakcja t = new Transakcja(produkt, ilosc, cena);
-         /*losowo generuje dni
-        Random r = new Random();
-        t.setData(LocalDate.of(2021, 12,1 + r.nextInt(11)));*/
         historiaTransakcji.dodaj(t);
         return t;
     }
@@ -97,6 +102,10 @@ public abstract class Sklep implements Serializable {
             aktualnaIlosc = magazyn.get(produkt);
         }
         magazyn.put(produkt, aktualnaIlosc + ilosc);
+        // Powiadamiamy obserwatorów (kontrolerów) o tym, że ilość produktów
+        // na magazynie się zmieniła, przekazując ten produkt i jego nową ilość:
+        // dzięki temu widok może uaktualnić wyświetlaną ilość
+        notifyObservers(new ProduktEvent(produkt, magazyn.get(produkt)));
     }
 
     // Ta metoda służy sprawdzeniu, czy sklep dysponuje jakąś ilością produktów.
@@ -108,6 +117,22 @@ public abstract class Sklep implements Serializable {
 
     public void zrekrutuj(Pracownik pracownik) {
         pracownicy.add(pracownik);
+    }
+
+    // ------ NEW ----------
+
+    public void notifyObservers(ProduktEvent e){
+        for (Observer o : obserwatorzy){
+            o.update(e);
+        }
+    }
+
+    public void registerObserver(Observer o){
+        obserwatorzy.add(o);
+    }
+
+    public void removeObserver(Observer o){
+        obserwatorzy.remove(o);
     }
 
 

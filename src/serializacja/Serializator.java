@@ -1,7 +1,5 @@
 package serializacja;
 
-import sklepy.FirmaDostawcza;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +34,7 @@ public class Serializator<E> {
         }
     }
 
-    @SuppressWarnings("unchecked")        //
+    @SuppressWarnings("unchecked")
     public List<E> deserializuj(){
         List<E> list = new ArrayList<>();
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(nazwaPliku))) {
