@@ -34,7 +34,7 @@ public abstract class Sklep implements Observable, Serializable {
     public Sklep(String adres, String adresWWW) {
         this.adres = adres;
         this.adresWWW = adresWWW;
-        historiaTransakcji = new Historia<>("historia/historiasklepow/", idSklepu());
+        historiaTransakcji = new Historia<>("historia/historiatransakcji/", idSklepu());
         pracownicy = new ArrayList<>();
         magazyn = new HashMap<>();
         obserwatorzy = new ArrayList<>();

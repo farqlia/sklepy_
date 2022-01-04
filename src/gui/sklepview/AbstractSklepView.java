@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // Implementuje interfejs Observable, czyli będzie informować
 // obserwatorów w momencie, gdy użytkownik dokona zakupu jednego z produktów
@@ -62,11 +61,12 @@ public abstract class AbstractSklepView extends JFrame implements Observable, Ob
     }
 
     public void aktualizujHistorieTransakcji(List<Transakcja> transakcje){
-        if (dialog == null){
-            dialog = new HistoriaTransakcjiPanel();
-        }
-        dialog.setText(transakcje.stream().map(x -> x.toString() + System.lineSeparator())
-                .collect(Collectors.joining()));
+        SwingUtilities.invokeLater(() -> {
+            if (dialog == null) {
+                dialog = new HistoriaTransakcjiPanel();
+            }
+            dialog.sendData(transakcje);
+        });
     }
 
     @Override

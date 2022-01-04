@@ -1,12 +1,18 @@
 package gui.sklepview;
 
+import serializacja.Transakcja;
+
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 
 public class HistoriaTransakcjiPanel extends JPanel {
 
     JDialog dialog;
-    JTextArea displayArea;
+    JTable table;
+
+    AbstractTableModel model = new TableModel();
 
     public HistoriaTransakcjiPanel(){
 
@@ -16,9 +22,9 @@ public class HistoriaTransakcjiPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        displayArea = new JTextArea(30, 50);
+        table = new JTable(model);
 
-        JScrollPane scrollPane = new JScrollPane(displayArea,
+        JScrollPane scrollPane = new JScrollPane(table,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -32,8 +38,11 @@ public class HistoriaTransakcjiPanel extends JPanel {
 
     }
 
-    public void setText(String text){
-        displayArea.setText(text);
+    public void sendData(java.util.List<Transakcja> transakcje) {
+        for (int i = model.getRowCount(); i < transakcje.size(); i++) {
+            Transakcja t = transakcje.get(i);
+            model.setValueAt(t, i, 0);
+        };
     }
 
     public void showDialog(Component parent){
@@ -52,6 +61,53 @@ public class HistoriaTransakcjiPanel extends JPanel {
 
         dialog.setVisible(true);
 
+    }
+
+    private static class TableModel extends AbstractTableModel{
+
+        private final String[] columnNames = {"Data", "Produkt", "Ilość", "Cena"};
+        int DEFAULT_CAPACITY = 20;
+        int numOfCols = 4;
+        int currentLength = 0;
+        Object[][] data = new Object[DEFAULT_CAPACITY][numOfCols];
+
+        @Override
+        public Class<?> getColumnClass(int column){
+            return data[0][column].getClass();
+        }
+        @Override
+        public int getRowCount(){
+            return currentLength;
+        }
+        @Override
+        public int getColumnCount(){
+            return numOfCols;
+        }
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex){
+            return data[rowIndex][columnIndex];
+        }
+        @Override
+        public void setValueAt(Object value, int row, int col){
+            ensureCapacity();
+            Transakcja t = ((Transakcja)(value));
+            data[row] = new Object[]{t.getData(), t.getProdukt().getNazwa(), t.getIlosc(), t.getSumaAktualna()};
+            currentLength++;
+            fireTableChanged(new TableModelEvent(this));
+;        }
+
+        @Override
+        public String getColumnName(int columnIndex){
+            return columnNames[columnIndex];
+        }
+
+        private void ensureCapacity(){
+            if (currentLength == DEFAULT_CAPACITY){
+                Object[][] biggerArr = new Object[2 * DEFAULT_CAPACITY][numOfCols];
+                System.arraycopy(data, 0, biggerArr, 0, currentLength);
+                data = biggerArr;
+            }
+        }
     }
 
 }
