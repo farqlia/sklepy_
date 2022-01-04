@@ -110,26 +110,29 @@ public class KreatorProduktow implements KreatorInterfejs {
             // zmienna sciezkaGrafiki, ktora posiada odniesienie do wybranego pliku
 
             int iloscProduktow = Integer.parseInt(ilosc.getText());
-            sklep.getStanMagazynu().put(produkt, iloscProduktow);
+            sklep.aktualizujIloscProduktow(produkt, iloscProduktow);
 
 
             nazwa.setText("");
             cena.setText("");
+            ilosc.setText("");
             nazwa.requestFocus();
         }
     }
 
     @Override
     public void zrobGUI(Sklep sklep) {
-        this.sklep = sklep;
-        konfiguruj();
+         this.sklep = sklep;
+         konfiguruj();
     }
 
     public static void main(String[] args) {
         Zabka sklep = new Zabka(true, "adres", "adresWWW", true);
 
         KreatorInterfejs inter = new KreatorProduktow();
-        inter.zrobGUI(sklep);
+        SwingUtilities.invokeLater(() -> {
+                inter.zrobGUI(sklep);
+        });
     }
 
 }
