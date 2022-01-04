@@ -2,15 +2,18 @@ package gui.sklepview;
 
 import gui.ImageResizer;
 import gui.produktview.AbstractProduktComponent;
+import serializacja.Transakcja;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class TestSklepView extends AbstractSklepView{
+public class BiedronkaView extends AbstractSklepView{
 
-    JPanel produktyPanel;
+    private JPanel produktyPanel;
 
-    public TestSklepView(){
+    public BiedronkaView(){
 
+        super("Biedronka");
         setSize(800, 800);
 
         JPanel mainPanel = new JPanel();
@@ -27,9 +30,18 @@ public class TestSklepView extends AbstractSklepView{
         // Dodajemy słuchacza: teraz, gdy klikniemy ten przycisk to wyświetlą nam
         // się wszystkie transakcje
         historiaTransakcjiButton.addActionListener(new HistoriaTransakcjiHandler());
+
+        icon = new ImageIcon("images/shopicons/basket3.png");
+        // Tworzymy 'JButton', dodajemy ikonę
+        icon = new ImageIcon(ImageResizer.getScaledInstance(icon.getImage(), 32, 32));
+
+        JButton koszykButton = new JButton(icon);
+        koszykButton.addActionListener(new KoszykHandler());
+
         JToolBar bar = new JToolBar();
         bar.add(Box.createGlue());
         bar.add(historiaTransakcjiButton);
+        bar.add(koszykButton);
         JPanel upperPanel = new JPanel();
         upperPanel.setBorder(BorderFactory.createEtchedBorder());
         upperPanel.add(bar, BorderLayout.WEST);

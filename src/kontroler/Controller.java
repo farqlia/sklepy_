@@ -40,8 +40,7 @@ public class Controller {
             if (model.sprawdzDostepnoscProduktu(e.getProdukt()) >= e.getIlosc()){
                 Transakcja t = model.sprzedajProdukt(e.getProdukt(), e.getIlosc());
                 // Na konsoli wyświetlą się wszystkie transakcje, więc można sprawdzić poprawność działania
-                model.getHistoriaTransakcji().getWszystko().forEach(System.out::println);
-                view.showMessageDialog(String.format("Zakupiono %s za cenę %2.2f", e.getProdukt(), t.getSumaAktualna()));
+                System.out.println("Nowa Transakcja: " + t);
                 view.aktualizujHistorieTransakcji(model.getHistoriaTransakcji().getWszystko());
             }
         }

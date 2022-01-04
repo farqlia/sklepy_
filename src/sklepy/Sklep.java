@@ -102,7 +102,7 @@ public abstract class Sklep implements Observable, Serializable {
             aktualnaIlosc = magazyn.get(produkt);
         }
         magazyn.put(produkt, aktualnaIlosc + ilosc);
-        // Powiadamiamy obserwatorów (kontrolerów) o tym, że ilość produktów
+        // Powiadamiamy obserwatorów (kontrolera) o tym, że ilość produktów
         // na magazynie się zmieniła, przekazując ten produkt i jego nową ilość:
         // dzięki temu widok może uaktualnić wyświetlaną ilość
         notifyObservers(new ProduktEvent(produkt, magazyn.get(produkt)));
