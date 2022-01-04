@@ -61,7 +61,7 @@ public class Zabka extends Sklep{
 
     //METODY:
     @Override
-    public boolean czyJestOtwarty(String dzienTygodnia, int godzina) {
+    public boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina) {
         return godzina >= 6 && godzina <= 23;
     }
 

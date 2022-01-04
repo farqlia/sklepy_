@@ -40,7 +40,7 @@ public abstract class Sklep implements Observable, Serializable {
         obserwatorzy = new ArrayList<>();
     }
 
-    public abstract boolean czyJestOtwarty(String dzienTygodnia, int godzina);
+    public abstract boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina);
 
     // W tej zmianie musimy jednak zrezygnować z wywoływania tej metody
     // w innych metodach sprzedających, by ta sama transakcja nie była zapisana dwa razy
