@@ -11,6 +11,7 @@ public class Produkt implements Serializable {
 
     private final String nazwa;
     private double cena;
+    private String fileName;
 
     public Produkt(String nazwa, double cena) {
         this.nazwa = nazwa;
@@ -18,6 +19,14 @@ public class Produkt implements Serializable {
     }
 
     // -------- GETTERS & SETTERS --------
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public String getNazwa() {
         return nazwa;

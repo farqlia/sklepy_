@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import sklepy.Produkt;
 import sklepy.Sklep;
-import sklepy.Zabka;
 
 public class KreatorProduktow implements KreatorInterfejs {
 
@@ -91,6 +90,7 @@ public class KreatorProduktow implements KreatorInterfejs {
         grafika.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
+    // Przyciski JFileChooser zapisują ścieżkę wybranego folderu i się "wyłączają"
     class WybierzIkone implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -100,14 +100,15 @@ public class KreatorProduktow implements KreatorInterfejs {
         }
     }
 
+    // Przycisk JButton tworzy produkt na podstawie wpisanych informacji i przekazuje mu śćieżkę ikony
     class StworzProduktListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String nazwaProduktu = nazwa.getText();
             int cenaProduktu = Integer.parseInt(cena.getText());
             Produkt produkt = new Produkt(nazwaProduktu, cenaProduktu);
-            // Jezeli chcemy aby produkt mial zdjecie wystarczy dac mu
-            // zmienna sciezkaGrafiki, ktora posiada odniesienie do wybranego pliku
+            
+            produkt.setFileName(sciezkaGrafiki);
 
             int iloscProduktow = Integer.parseInt(ilosc.getText());
             sklep.aktualizujIloscProduktow(produkt, iloscProduktow);
@@ -124,15 +125,6 @@ public class KreatorProduktow implements KreatorInterfejs {
     public void zrobGUI(Sklep sklep) {
          this.sklep = sklep;
          konfiguruj();
-    }
-
-    public static void main(String[] args) {
-        Zabka sklep = new Zabka(true, "adres", "adresWWW", true);
-
-        KreatorInterfejs inter = new KreatorProduktow();
-        SwingUtilities.invokeLater(() -> {
-                inter.zrobGUI(sklep);
-        });
     }
 
 }
