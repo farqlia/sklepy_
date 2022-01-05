@@ -168,6 +168,7 @@ public class ShopCreatorView extends JFrame {
             add(new Formularz(kontroler));
             JButton przycisk = new JButton("Dalej");
             przycisk.addActionListener(e -> kontroler.zapiszSklep());
+            add(przycisk);
         }
     }
 
