@@ -41,7 +41,7 @@ public class ApplicationView extends JFrame {
         add(buttonBar, BorderLayout.CENTER);
 
         // Rozpoczyna wątek roboczy, który tworzy obiekty 'JButton'
-        loadimages.execute();
+        new CustomSwingWorker().execute();
 
     }
 
@@ -70,7 +70,8 @@ public class ApplicationView extends JFrame {
 
     // Obiekt który wykonuje czasochłonne zadania
     // Oparte na kodzie : https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/components/IconDemoProject/src/components/IconDemoApp.java
-    private SwingWorker<Void, OpenShopViewAction> loadimages = new SwingWorker<Void, OpenShopViewAction>() {
+    private class CustomSwingWorker extends SwingWorker<Void, OpenShopViewAction> {
+
         @Override
         protected Void doInBackground() {
 
