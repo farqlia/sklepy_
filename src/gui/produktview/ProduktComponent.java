@@ -1,8 +1,7 @@
 package gui.produktview;
 
 import sklepy.Produkt;
-import wzorzecobserwator.Observer;
-import wzorzecobserwator.ProduktEvent;
+import gui.sklepview.ProduktEvent;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -21,6 +20,7 @@ public class ProduktComponent extends AbstractProduktComponent {
     private JButton kupProduktButton;
 
     public ProduktComponent(String fileName, Produkt produkt, int ilosc) {
+
         this.produkt = produkt;
 
         setLayout(new BorderLayout());
@@ -68,38 +68,26 @@ public class ProduktComponent extends AbstractProduktComponent {
 
     }
 
+
     // Metoda wywoływana przez widok sklepu
     @Override
-    public void update(ProduktEvent e) {
-        // Upewniamy się, że zmiana dotyczy tego produktu
-        if (e.getProdukt().equals(produkt)){
-            // Zmieniamy dostępną ilość produktu
-            ((SpinnerNumberModel)wybranaIloscJSpinner.getModel()).setMaximum(e.getIlosc());
-
-        }
+    public void aktualizujIloscProduktow(int ilosc) {
+        // Zmieniamy dostępną ilość produktu
+        ((SpinnerNumberModel)wybranaIloscJSpinner.getModel()).setMaximum(ilosc);
     }
 
-    // Powiadamia słuchaczy o wybraniu danego produktu w danej ilości
-    // Uzytkownik nacisnął przycisk, a na to zdarzenie reaguje poniższa klasa,
-    // informując słuchaczy tego obiektu (w tym przypadku nasz koszyk zostanie poinformowany
-    // i doda nową pozycję)
     private class ListenForButton implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == kupProduktButton){
-                notifyObservers(null);
+                // Dodajemy do koszyka
+                koszyk.addPozycjeDoTabeli(new ProduktEvent(produkt, (int) wybranaIloscJSpinner.getValue()));
                 // Resetujemy komponent
                 wybranaIloscJSpinner.getModel().setValue(0);
             }
         }
     }
 
-    @Override
-    public void notifyObservers(ProduktEvent e) {
-        for (Observer ob : observators){
-            ob.update(new ProduktEvent(produkt, (Integer)wybranaIloscJSpinner.getValue()));
-        }
-    }
 
 }

@@ -1,4 +1,4 @@
-package wzorzecobserwator;
+package gui.sklepview;
 
 import sklepy.Produkt;
 

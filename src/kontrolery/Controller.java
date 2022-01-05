@@ -2,10 +2,12 @@ package kontrolery;
 
 import gui.produktview.ProduktComponent;
 import serializacja.Transakcja;
-import wzorzecobserwator.Observer;
 import gui.sklepview.AbstractSklepView;
 import sklepy.Sklep;
-import wzorzecobserwator.ProduktEvent;
+import gui.sklepview.ProduktEvent;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 // Pośrednik między modelem (Sklep) a widokiem (AbstractSklepView)
 // Klasy model i widok nie wiedzą o swoim istnieniu i nie nawiązują żadnych interakcji
@@ -18,43 +20,54 @@ public class Controller {
     public Controller(Sklep model, AbstractSklepView view){
         this.model = model;
         this.view = view;
-        model.registerObserver(new ListenForSklepChanges());
-        view.getKoszyk().registerObserver(new ListenForProduktSelling());
+
+        // TUTAJ TWORZYMY I DODAJEMY OBSERWATORÓW
+        view.getKoszyk().addListenerForKoszyk(new KupProduktListener());
+        view.getKreatorProduktow().addStworzObiektListener(new StworzProduktListener());
+
         view.aktualizujHistorieTransakcji(model.getHistoriaTransakcji().getWszystko());
-        view.getKreatorProduktow().registerObserver(new ListenForProduktCreated());
     }
 
-    // Słuchacz sklepu
-    private class ListenForSklepChanges implements Observer{
-        // Przekazuje zmiany z modelu do widoku
-        @Override
-        public void update(ProduktEvent e) {
-            view.update(e);
-        }
-
-    }
 
     // Słuchacz klasy KreatoraProduktow : aktualizuje model i widok
-    private class ListenForProduktCreated implements Observer{
+    private class StworzProduktListener implements ActionListener {
 
         @Override
-        public void update(ProduktEvent e) {
-            model.aktualizujIloscProduktow(e.getProdukt(), e.getIlosc());
-            view.addProduktComponent(new ProduktComponent(e.getSciezkaPliku(), e.getProdukt(), e.getIlosc()));
+        public void actionPerformed(ActionEvent evt) {
+
+            try {
+                // Pobieramy nowo utworzony produkt
+                 ProduktEvent e = view.getKreatorProduktow().getStworzonyObiekt();
+                // Dodajemy do magazynu sklepu
+                model.aktualizujIloscProduktow(e.getProdukt(), e.getIlosc());
+                // Dodajemy do widoku sklepu
+                view.addProduktComponent(e.getProdukt(),
+                        new ProduktComponent(e.getSciezkaPliku(), e.getProdukt(), e.getIlosc()));
+            }
+            catch (IllegalArgumentException exception){
+                view.showMessageDialog("Nie można było utworzyć produktu");
+            }
         }
     }
 
     // Klasa, która jest słuchaczem koszyka
-    private class ListenForProduktSelling implements Observer{
+    private class KupProduktListener implements ActionListener {
 
         @Override
-        public void update(ProduktEvent e) {
-            // Upewniamy się raz jeszcze, że dysponujemy daną ilością produktu
-            if (model.sprawdzDostepnoscProduktu(e.getProdukt()) >= e.getIlosc()){
-                Transakcja t = model.sprzedajProdukt(e.getProdukt(), e.getIlosc());
-                // Na konsoli wyświetlą się wszystkie transakcje, więc można sprawdzić poprawność działania
-                System.out.println("Nowa Transakcja: " + t);
-                view.aktualizujHistorieTransakcji(model.getHistoriaTransakcji().getWszystko());
+        public void actionPerformed(ActionEvent evt) {
+
+            // Iteruje przez każdy produkt koszyka, sprzedaje go poprzez model (sklep)
+            // i aktualizuje ilość produktu
+            for (ProduktEvent e: view.getKoszyk().getListeProduktowZKoszyka()){
+                if (model.sprawdzDostepnoscProduktu(e.getProdukt()) >= e.getIlosc()) {
+                    Transakcja t = model.sprzedajProdukt(e.getProdukt(), e.getIlosc());
+                    // Na konsoli wyświetlą się wszystkie transakcje, więc można sprawdzić poprawność działania
+                    System.out.println("Nowa Transakcja: " + t);
+                    view.aktualizujHistorieTransakcji(model.getHistoriaTransakcji().getWszystko());
+                    // Odpowiedni widzet produktu zaktualizuje swoją ilosc
+                    view.aktualizujIloscProduktow(e.getProdukt(), model.sprawdzDostepnoscProduktu(e.getProdukt()));
+                }
+
             }
         }
     }

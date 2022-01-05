@@ -6,22 +6,16 @@ import gui.oknaztabela.HistoriaTransakcjiDialog;
 import gui.oknaztabela.Koszyk;
 import gui.produktview.AbstractProduktComponent;
 import serializacja.Transakcja;
-import wzorzecobserwator.Observable;
-import wzorzecobserwator.Observer;
-import wzorzecobserwator.ProduktEvent;
+import sklepy.Produkt;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-// Implementuje interfejs Observable, czyli będzie informować
-// obserwatorów w momencie, gdy użytkownik dokona zakupu produktów
-public abstract class AbstractSklepView extends JFrame implements Observer {
-
-
-    // Komponenty obserwują widok, który będzie je informował o zmianach w modelu
-    private List<Observer> komponentyObserwujace;
+public abstract class AbstractSklepView extends JFrame {
 
     // Jak należy dodać to okno do swojej klasy: tworzymy obiekt klasy JButton (lub inny)
     // podpinamy pod niego słuchacza zdefiniowanego w tej klasie: 'HistoriaTransakcjiHandler'
@@ -31,18 +25,20 @@ public abstract class AbstractSklepView extends JFrame implements Observer {
     private Koszyk koszyk;
 
     // W konretnej podklasie tworzymy przycisk, który reaguje na akcję otwierając to okno
-    private KreatorInterfejs kreatorProduktow;
+    private KreatorInterfejs<ProduktEvent> kreatorProduktow;
+
+    Map<Produkt, AbstractProduktComponent> produktIJegoWidzet;
 
     // Logika umiejscawiania kompontentów w widoku: nie podpinamy żadnych słuchaczy tutaj!, to
-    // jest załatwione w metodzie 'addProduktComponent', żeby nie powtarzał się kod
+    // jest załatwione w metodzie 'placeProduktComponent', żeby nie powtarzał się kod
     abstract void placeProduktComponent(AbstractProduktComponent comp);
 
     public AbstractSklepView(String nazwaSklepu){
 
         setSize(800, 800);
         setTitle(nazwaSklepu);
-        komponentyObserwujace = new ArrayList<>();
 
+        produktIJegoWidzet = new HashMap<>();
         koszyk = new Koszyk();
 
         hTDialog = new HistoriaTransakcjiDialog();
@@ -55,15 +51,17 @@ public abstract class AbstractSklepView extends JFrame implements Observer {
 
     }
 
-    // Metoda, za pomocą której dodajemy komponenty do widoku: jej używamy,
-    // bo inaczej komponenty nie zostaną zarejestrowane jako słuchacze i nie będzie to działać
-    public void addProduktComponent(AbstractProduktComponent comp){
+    public void addProduktComponent(Produkt produkt, AbstractProduktComponent comp){
         placeProduktComponent(comp);
-        komponentyObserwujace.add(comp);
-        // Teraz koszyk obserwuje komponenty i dodaje je do tabeli, gdy
-        // zostaną wybrane
-        comp.registerObserver(koszyk);
+        comp.setKoszyk(koszyk);
+        produktIJegoWidzet.put(produkt, comp);
+    }
 
+    public void aktualizujIloscProduktow(Produkt produkt, int ilosc){
+        // Teraz pobieramy panel, który reprezentuje podany produkt i aktualizujemy jego ilość
+        if (produktIJegoWidzet.containsKey(produkt)){
+            produktIJegoWidzet.get(produkt).aktualizujIloscProduktow(ilosc);
+        }
     }
 
     public void showMessageDialog(String message){
@@ -74,16 +72,8 @@ public abstract class AbstractSklepView extends JFrame implements Observer {
 
     public void aktualizujHistorieTransakcji(List<Transakcja> transakcje){
         SwingUtilities.invokeLater(() -> {
-            hTDialog.addDataToTable(transakcje);
+            hTDialog.addPozycjeDoTabeli(transakcje);
         });
-    }
-
-    // Reaguje na zmiany w modelu (kontroler wywołuje tą metodę) i przekazuje je do swoich komponentow
-    @Override
-    public void update(ProduktEvent e) {
-        for (Observer comp : komponentyObserwujace){
-            comp.update(e);
-        }
     }
 
     // Wyświetla ramkę z historią transakcji
@@ -104,11 +94,11 @@ public abstract class AbstractSklepView extends JFrame implements Observer {
         }
     }
 
-    public KreatorInterfejs getKreatorProduktow(){
+    public KreatorInterfejs<ProduktEvent> getKreatorProduktow(){
         return kreatorProduktow;
     }
 
-    public Observable getKoszyk(){
+    public Koszyk getKoszyk(){
         return koszyk;
     }
 }

@@ -4,9 +4,6 @@ import pracownicy.Pracownik;
 import serializacja.Historia;
 import serializacja.Transakcja;
 import strategie.strategiapromocji.StrategiaPromocji;
-import wzorzecobserwator.Observable;
-import wzorzecobserwator.Observer;
-import wzorzecobserwator.ProduktEvent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Sklep extends java.util.Observable implements Observable, Serializable {
+public abstract class Sklep extends java.util.Observable implements Serializable {
 
     private static final long serialVersionUID = 21L;
 
@@ -29,8 +26,6 @@ public abstract class Sklep extends java.util.Observable implements Observable, 
     protected StrategiaPromocji strategiaPromocji;
     protected Historia<Transakcja> historiaTransakcji;
 
-    private List<Observer> obserwatorzy;
-
     public Sklep() {};
 
     public Sklep(String adres, String adresWWW) {
@@ -39,7 +34,6 @@ public abstract class Sklep extends java.util.Observable implements Observable, 
         historiaTransakcji = new Historia<>("historia/historiatransakcji/", idSklepu());
         pracownicy = new ArrayList<>();
         magazyn = new HashMap<>();
-        obserwatorzy = new ArrayList<>();
     }
 
     public abstract boolean czyJestOtwarty(DniTygodnia dzienTygodnia, int godzina);
@@ -104,10 +98,6 @@ public abstract class Sklep extends java.util.Observable implements Observable, 
             aktualnaIlosc = magazyn.get(produkt);
         }
         magazyn.put(produkt, aktualnaIlosc + ilosc);
-        // Powiadamiamy obserwatorów (kontrolera) o tym, że ilość produktów
-        // na magazynie się zmieniła, przekazując ten produkt i jego nową ilość:
-        // dzięki temu widok może uaktualnić wyświetlaną ilość
-        notifyObservers(new ProduktEvent(produkt, magazyn.get(produkt)));
     }
 
     // Ta metoda służy sprawdzeniu, czy sklep dysponuje jakąś ilością produktów.
@@ -120,25 +110,6 @@ public abstract class Sklep extends java.util.Observable implements Observable, 
     public void zrekrutuj(Pracownik pracownik) {
         pracownicy.add(pracownik);
     }
-
-    // ------ NEW ----------
-
-    public void notifyObservers(ProduktEvent e){
-        for (Observer o : obserwatorzy){
-            o.update(e);
-        }
-    }
-
-    @Override
-    public void registerObserver(Observer o){
-        obserwatorzy.add(o);
-    }
-
-    @Override
-    public void removeObserver(Observer o){
-        obserwatorzy.remove(o);
-    }
-
 
     // ------------------- GETTERS & SETTERS -----------------------------
 

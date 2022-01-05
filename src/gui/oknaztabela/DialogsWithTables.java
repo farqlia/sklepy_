@@ -15,7 +15,7 @@ public abstract class DialogsWithTables<T> extends JPanel {
     // Do tego mogą podklasy dodawać przyciski, które rozszerzą funkcjonalność tabeli
     private JToolBar toolBar;
 
-    public abstract void addDataToTable(T object);
+    public abstract void addPozycjeDoTabeli(T object);
 
     public DialogsWithTables(String[] columnNames){
 

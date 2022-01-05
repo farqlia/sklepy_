@@ -47,10 +47,10 @@ public class ApplicationTest {
         // To dodałam tylko po to, żeby zobaczyć jak się doda kolejny przycisk na panelu
         AbstractSklepView view2 = new BiedronkaView();
 
-        view.addProduktComponent(produktComp);
-        view.addProduktComponent(produktComp2);
-        view.addProduktComponent(produktComp3);
-        view.addProduktComponent(produktComp4);
+        view.addProduktComponent(p, produktComp);
+        view.addProduktComponent(p2, produktComp2);
+        view.addProduktComponent(p3, produktComp3);
+        view.addProduktComponent(p4, produktComp4);
 
         Controller controller = new Controller(testSklep, view);
 

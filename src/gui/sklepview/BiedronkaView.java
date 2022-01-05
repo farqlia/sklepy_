@@ -2,7 +2,6 @@ package gui.sklepview;
 
 import gui.ImageResizer;
 import gui.produktview.AbstractProduktComponent;
-import serializacja.Transakcja;
 
 import javax.swing.*;
 import java.awt.*;

@@ -13,7 +13,7 @@ public class HistoriaTransakcjiDialog extends DialogsWithTables<List<Transakcja>
     }
 
     @Override
-    public void addDataToTable(java.util.List<Transakcja> transakcje) {
+    public void addPozycjeDoTabeli(java.util.List<Transakcja> transakcje) {
         for (int i = tableModel.getRowCount(); i < transakcje.size(); i++) {
             Transakcja t = transakcje.get(i);
             Object[] newRow = new Object[]{t.getData(), t.getProdukt().getNazwa(), t.getIlosc(), t.getSumaAktualna()};

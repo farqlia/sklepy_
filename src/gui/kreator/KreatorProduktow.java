@@ -5,16 +5,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 import sklepy.Produkt;
-import sklepy.Sklep;
-import sklepy.Zabka;
-import wzorzecobserwator.Observable;
-import wzorzecobserwator.Observer;
-import wzorzecobserwator.ProduktEvent;
+import gui.sklepview.ProduktEvent;
 
-public class KreatorProduktow implements KreatorInterfejs {
+public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
 
     private final static int WIDTH = 600;
     private final static int HEIGHT = 600;
@@ -33,11 +28,7 @@ public class KreatorProduktow implements KreatorInterfejs {
 
     private String sciezkaGrafiki;
 
-    java.util.List<Observer> observers;
-
     public KreatorProduktow() {
-
-        observers = new ArrayList<>();
 
         frame = new JFrame("Kreator Produktów");
         przycisk = new JButton("Dodaj produkt");
@@ -67,7 +58,6 @@ public class KreatorProduktow implements KreatorInterfejs {
 
         frame.getContentPane().add(BorderLayout.CENTER, panel);
 
-        przycisk.addActionListener(new StworzProduktListener());
         grafika.addActionListener(new WybierzIkone());
         
         frame.getContentPane().add(BorderLayout.SOUTH, przycisk);
@@ -104,21 +94,31 @@ public class KreatorProduktow implements KreatorInterfejs {
         konfiguruj();
     }
 
+    // Dodajemy słuchacza (kontrolera) bezpośrednio do przycisku który wywołuje wydarzenie
     @Override
-    public void notifyObservers(ProduktEvent e) {
-        for (Observer o : observers){
-            o.update(e);
-        }
+    public void addStworzObiektListener(ActionListener a){
+        przycisk.addActionListener(a);
+    }
+
+    private void wyczyscPola(){
+        nazwa.setText("");
+        cena.setText("");
+        ilosc.setText("");
+        nazwa.requestFocus();
     }
 
     @Override
-    public void removeObserver(Observer o) {
-        observers.remove(o);
-    }
+    public ProduktEvent getStworzonyObiekt() throws IllegalArgumentException{
 
-    @Override
-    public void registerObserver(Observer o) {
-        observers.add(o);
+        String nazwaProduktu = nazwa.getText();
+        double cenaProduktu = Double.parseDouble(cena.getText());
+        Produkt produkt = new Produkt(nazwaProduktu, cenaProduktu);
+        // Jezeli chcemy aby produkt mial zdjecie wystarczy dac mu
+        // zmienna sciezkaGrafiki, ktora posiada odniesienie do wybranego pliku
+        int iloscProduktow = Integer.parseInt(ilosc.getText());
+
+        wyczyscPola();
+        return new ProduktEvent(produkt, iloscProduktow, sciezkaGrafiki);
     }
 
     class WybierzIkone implements ActionListener {
@@ -130,26 +130,8 @@ public class KreatorProduktow implements KreatorInterfejs {
         }
     }
 
-    class StworzProduktListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
-            String nazwaProduktu = nazwa.getText();
-            double cenaProduktu = Double.parseDouble(cena.getText());
-            Produkt produkt = new Produkt(nazwaProduktu, cenaProduktu);
-            // Jezeli chcemy aby produkt mial zdjecie wystarczy dac mu
-            // zmienna sciezkaGrafiki, ktora posiada odniesienie do wybranego pliku
 
-            int iloscProduktow = Integer.parseInt(ilosc.getText());
-
-            nazwa.setText("");
-            cena.setText("");
-            ilosc.setText("");
-            nazwa.requestFocus();
-
-            notifyObservers(new ProduktEvent(produkt, iloscProduktow, sciezkaGrafiki));
-        }
-    }
 
     /*
     public static void main(String[] args) {
