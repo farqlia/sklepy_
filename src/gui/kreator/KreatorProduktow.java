@@ -5,9 +5,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import sklepy.Produkt;
 import sklepy.Sklep;
 import sklepy.Zabka;
+import wzorzecobserwator.Observable;
+import wzorzecobserwator.Observer;
+import wzorzecobserwator.ProduktEvent;
 
 public class KreatorProduktow implements KreatorInterfejs {
 
@@ -28,9 +33,12 @@ public class KreatorProduktow implements KreatorInterfejs {
 
     private String sciezkaGrafiki;
 
-    private Sklep sklep;
+    java.util.List<Observer> observers;
 
-    private KreatorProduktow() {
+    public KreatorProduktow() {
+
+        observers = new ArrayList<>();
+
         frame = new JFrame("Kreator Produktów");
         przycisk = new JButton("Dodaj produkt");
         panel = new JPanel();
@@ -50,7 +58,7 @@ public class KreatorProduktow implements KreatorInterfejs {
     }
 
     private void konfiguruj() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(WIDTH,HEIGHT);
         frame.setVisible(true);
         frame.setResizable(true);
@@ -91,6 +99,28 @@ public class KreatorProduktow implements KreatorInterfejs {
         grafika.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
+    @Override
+    public void zrobGUI() {
+        konfiguruj();
+    }
+
+    @Override
+    public void notifyObservers(ProduktEvent e) {
+        for (Observer o : observers){
+            o.update(e);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        observers.add(o);
+    }
+
     class WybierzIkone implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -103,29 +133,25 @@ public class KreatorProduktow implements KreatorInterfejs {
     class StworzProduktListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+
             String nazwaProduktu = nazwa.getText();
-            int cenaProduktu = Integer.parseInt(cena.getText());
+            double cenaProduktu = Double.parseDouble(cena.getText());
             Produkt produkt = new Produkt(nazwaProduktu, cenaProduktu);
             // Jezeli chcemy aby produkt mial zdjecie wystarczy dac mu
             // zmienna sciezkaGrafiki, ktora posiada odniesienie do wybranego pliku
 
             int iloscProduktow = Integer.parseInt(ilosc.getText());
-            sklep.aktualizujIloscProduktow(produkt, iloscProduktow);
-
 
             nazwa.setText("");
             cena.setText("");
             ilosc.setText("");
             nazwa.requestFocus();
+
+            notifyObservers(new ProduktEvent(produkt, iloscProduktow, sciezkaGrafiki));
         }
     }
 
-    @Override
-    public void zrobGUI(Sklep sklep) {
-         this.sklep = sklep;
-         konfiguruj();
-    }
-
+    /*
     public static void main(String[] args) {
         Zabka sklep = new Zabka(true, "adres", "adresWWW", true);
 
@@ -134,5 +160,7 @@ public class KreatorProduktow implements KreatorInterfejs {
                 inter.zrobGUI(sklep);
         });
     }
+
+     */
 
 }

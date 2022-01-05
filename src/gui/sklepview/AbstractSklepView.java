@@ -1,6 +1,7 @@
 package gui.sklepview;
 
-import gui.oknaztabela.DialogsWithTables;
+import gui.kreator.KreatorInterfejs;
+import gui.kreator.KreatorProduktow;
 import gui.oknaztabela.HistoriaTransakcjiDialog;
 import gui.oknaztabela.Koszyk;
 import gui.produktview.AbstractProduktComponent;
@@ -31,6 +32,9 @@ public abstract class AbstractSklepView extends JFrame implements Observable, Ob
     // Tak samo dodajemy koszyk, jak wyżej opisane
     private Koszyk koszyk;
 
+    // W konretnej podklasie tworzymy przycisk, który reaguje na akcję otwierając to okno
+    private KreatorInterfejs kreatorProduktow;
+
     // Logika umiejscawiania kompontentów w widoku: nie podpinamy żadnych słuchaczy tutaj!, to
     // jest załatwione w metodzie 'addProduktComponent', żeby nie powtarzał się kod
     abstract void placeProduktComponent(AbstractProduktComponent comp);
@@ -43,10 +47,9 @@ public abstract class AbstractSklepView extends JFrame implements Observable, Ob
         komponentyObserwujace = new ArrayList<>();
 
         koszyk = new Koszyk();
-        // Rejestrujemy słuchacza do koszyka, który będzie reagował na wydarzenie, jakim jest kupno produktów
-        koszyk.registerObserver(new KupProduktyHandler());
 
         hTDialog = new HistoriaTransakcjiDialog();
+        kreatorProduktow = new KreatorProduktow();
 
         // Nie zamyka okna, ale go chowa, dzięki czemu główne
         // okno pozostaje aktywne
@@ -103,18 +106,6 @@ public abstract class AbstractSklepView extends JFrame implements Observable, Ob
         }
     }
 
-    // Obserwujący koszyka, informacje o zakupionych produktach przekazuje dalej do kontrolera
-    // Nie chcę bezpośrednio wiązać kontrolera z koszykiem, bo koszyk nie jest żadną abstrakcją i w ten
-    // sposób nie możemy zmienić później np. klasy koszyka na inną bez zmian w kontrolerze
-    // Innymi słowy, koszyk to szczegół implementacji, więc musi zostać w tej klasie ukryty
-    private class KupProduktyHandler implements Observer{
-        @Override
-        public void update(ProduktEvent e) {
-            notifyObservers(e);
-        }
-    }
-
-
     // Wyświetla ramkę z historią transakcji
     protected class HistoriaTransakcjiHandler implements ActionListener{
 
@@ -133,5 +124,11 @@ public abstract class AbstractSklepView extends JFrame implements Observable, Ob
         }
     }
 
+    public KreatorInterfejs getKreatorProduktow(){
+        return kreatorProduktow;
+    }
 
+    public Observable getKoszyk(){
+        return koszyk;
+    }
 }
