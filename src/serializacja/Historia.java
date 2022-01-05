@@ -19,13 +19,13 @@ public class Historia<E> implements Serializable {
     private static final long serialVersionUID = 97L;
 
     private String sciezkaPliku;
-    private final String glownaSciezka = "historia/historiatransakcji/";
     private String rodzajSciezki = ".ser";
 
 
     public Historia(String sciezkaFolderu, String nazwaPliku) {
-        this.sciezkaPliku = glownaSciezka + sciezkaFolderu + nazwaPliku + rodzajSciezki;
-        stworzFolder(glownaSciezka + sciezkaFolderu);
+        this.sciezkaPliku = sciezkaFolderu + nazwaPliku + rodzajSciezki;
+        System.out.println(sciezkaPliku);
+        stworzFolder(sciezkaFolderu);
         stworzPlik();
     }
 

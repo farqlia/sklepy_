@@ -34,7 +34,7 @@ public abstract class Sklep extends java.util.Observable implements Observable, 
     public Sklep(String adres, String adresWWW) {
         this.adres = adres;
         this.adresWWW = adresWWW;
-        historiaTransakcji = new Historia<>("historia/historiasklepow/", idSklepu());
+        historiaTransakcji = new Historia<>("historia/historiatransakcji/", idSklepu());
         pracownicy = new ArrayList<>();
         magazyn = new HashMap<>();
         obserwatorzy = new ArrayList<>();
@@ -102,7 +102,7 @@ public abstract class Sklep extends java.util.Observable implements Observable, 
             aktualnaIlosc = magazyn.get(produkt);
         }
         magazyn.put(produkt, aktualnaIlosc + ilosc);
-        // Powiadamiamy obserwatorów (kontrolerów) o tym, że ilość produktów
+        // Powiadamiamy obserwatorów (kontrolera) o tym, że ilość produktów
         // na magazynie się zmieniła, przekazując ten produkt i jego nową ilość:
         // dzięki temu widok może uaktualnić wyświetlaną ilość
         notifyObservers(new ProduktEvent(produkt, magazyn.get(produkt)));

@@ -18,13 +18,15 @@ public class ApplicationView extends JFrame {
 
     private final String pathToIcons = "images/shopicons/";
 
-    JToolBar buttonBar = new JToolBar();
-    Map<AbstractSklepView, String> sklepyINazwyIkon;
+    private JToolBar buttonBar = new JToolBar();
+    private Map<AbstractSklepView, String> sklepyINazwyIkon;
 
     public ApplicationView(Map<AbstractSklepView, String> sklepyINazwyIkon){
 
         setSize(800, 800);
+        setLocationRelativeTo(null);
         this.sklepyINazwyIkon = sklepyINazwyIkon;
+        setLayout(new BorderLayout());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Dodaje niewidoczne komponenty, które zajmują przestrzeń: będziemy

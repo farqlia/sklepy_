@@ -18,7 +18,7 @@ public abstract class AbstractProduktComponent extends JComponent
 
     protected java.util.List<Observer> observators;
 
-    public AbstractProduktComponent(Produkt produkt, int ilosc){
+    public AbstractProduktComponent(){
         observators = new ArrayList<>();
     }
 
