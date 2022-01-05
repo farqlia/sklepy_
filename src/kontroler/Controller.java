@@ -1,5 +1,6 @@
 package kontroler;
 
+import gui.produktview.ProduktComponent;
 import serializacja.Transakcja;
 import wzorzecobserwator.Observer;
 import gui.sklepview.AbstractSklepView;
@@ -18,12 +19,13 @@ public class Controller {
         this.model = model;
         this.view = view;
         model.registerObserver(new ListenForSklepChanges());
-        view.registerObserver(new ListenForProduktSelling());
+        view.getKoszyk().registerObserver(new ListenForProduktSelling());
         view.aktualizujHistorieTransakcji(model.getHistoriaTransakcji().getWszystko());
+        view.getKreatorProduktow().registerObserver(new ListenForProduktCreated());
     }
 
+    // Słuchacz sklepu
     private class ListenForSklepChanges implements Observer{
-
         // Przekazuje zmiany z modelu do widoku
         @Override
         public void update(ProduktEvent e) {
@@ -32,6 +34,17 @@ public class Controller {
 
     }
 
+    // Słuchacz klasy KreatoraProduktow : aktualizuje model i widok
+    private class ListenForProduktCreated implements Observer{
+
+        @Override
+        public void update(ProduktEvent e) {
+            model.aktualizujIloscProduktow(e.getProdukt(), e.getIlosc());
+            view.addProduktComponent(new ProduktComponent(e.getSciezkaPliku(), e.getProdukt(), e.getIlosc()));
+        }
+    }
+
+    // Klasa, która jest słuchaczem koszyka
     private class ListenForProduktSelling implements Observer{
 
         @Override

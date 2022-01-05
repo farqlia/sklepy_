@@ -1,7 +1,9 @@
 package gui.kreator;
 
-import sklepy.Sklep;
+import wzorzecobserwator.Observable;
 
-public interface KreatorInterfejs {
-    void zrobGUI(Sklep sklep);
+public interface KreatorInterfejs extends Observable {
+
+    void zrobGUI();
+
 }
