@@ -1,4 +1,4 @@
-package kontroler;
+package kontrolery;
 
 import serializacja.Transakcja;
 import wzorzecobserwator.Observer;

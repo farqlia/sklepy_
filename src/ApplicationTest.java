@@ -1,10 +1,9 @@
-package kontroler;
-
 import gui.produktview.AbstractProduktComponent;
 import gui.produktview.ProduktComponent;
 import gui.sklepview.AbstractSklepView;
 import gui.sklepview.ApplicationView;
 import gui.sklepview.TestSklepView;
+import kontrolery.Controller;
 import sklepy.Biedronka;
 import sklepy.Produkt;
 import sklepy.Sklep;

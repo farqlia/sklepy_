@@ -1,8 +1,14 @@
 package gui.sklepview;
 
+import gui.ShopCreatorModel;
+import gui.ShopCreatorView.ShopCreatorView;
+import kontrolery.ShopCreatorController;
+import sklepy.Sklep;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
 import static gui.ImageResizer.getScaledInstance;
@@ -25,12 +31,30 @@ public class ApplicationView extends JFrame {
         // dodawać obiekty 'JButton' pomiędzy nimi i dzięki temu będą one wyśrodkowane
         buttonBar.add(Box.createGlue());
         buttonBar.add(Box.createGlue());
-
+        buttonBar.add(przyciskKreatoraSklepu());
         add(buttonBar, BorderLayout.CENTER);
 
         // Rozpoczyna wątek roboczy, który tworzy obiekty 'JButton'
         loadimages.execute();
 
+    }
+
+    private JButton przyciskKreatoraSklepu() {
+        final JButton przycisk = new JButton("Dodaj sklep");
+        przycisk.addActionListener(new CreateShopButtonListener());
+        return przycisk;
+    }
+
+    private static class CreateShopButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            final ShopCreatorView view = new ShopCreatorView();
+            final ShopCreatorModel model = new ShopCreatorModel();
+            final ShopCreatorController kontroler = new ShopCreatorController(model, view);
+            view.setKontroler(kontroler);
+            view.setVisible(true);
+        }
     }
 
     // Obiekt który wykonuje czasochłonne zadania
