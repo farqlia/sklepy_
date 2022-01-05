@@ -100,7 +100,7 @@ public class KreatorProduktow implements KreatorInterfejs {
         }
     }
 
-    // Przycisk JButton tworzy produkt na podstawie wpisanych informacji i przekazuje mu śćieżkę ikony
+    // Przycisk JButton tworzy produkt na podstawie wpisanych informacji i przekazuje mu ścieżkę ikony
     class StworzProduktListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
