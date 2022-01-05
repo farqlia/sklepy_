@@ -3,20 +3,13 @@ package kontrolery;
 import gui.ShopCreatorModel;
 import gui.ShopCreatorView.ShopCreatorView;
 import sklepy.*;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Observer;
-import java.util.Observable;
 
-public class ShopCreatorController implements Observer {
+public class ShopCreatorController {
     public ShopCreatorController(ShopCreatorModel model, ShopCreatorView view, ArrayList<Sklep> sklepy) {
         this.model = model;
         this.view = view;
         this.sklepy = sklepy;
-        if (model != null) {
-            model.addObserver(this);
-        }
     }
 
     ArrayList<Sklep> sklepy;
@@ -52,11 +45,6 @@ public class ShopCreatorController implements Observer {
 
     private ShopCreatorView view;
 
-    @Override
-    public void update(Observable o, Object arg) {
-        System.out.println("AAAAA");
-    }
-
     public Sklepy getWybranySklep() {
         return model.wybranaMarka;
     }
@@ -70,9 +58,7 @@ public class ShopCreatorController implements Observer {
     }
 
     public void setModel(ShopCreatorModel model) {
-        model.deleteObserver(this);
         this.model = model;
-        model.addObserver(this);
     }
 
     public ShopCreatorView getView() {

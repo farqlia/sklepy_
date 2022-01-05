@@ -7,6 +7,7 @@ import kontrolery.ShopCreatorController;
 import sklepy.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +19,7 @@ public class ShopCreatorView extends JFrame {
         super("Kreator sklepu");
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setSize(400, 400);
+        setSize(450, 400);
     }
 
     ShopCreatorController kontroler;
@@ -44,6 +45,7 @@ public class ShopCreatorView extends JFrame {
             setLayout(new BorderLayout(10, 10));
             JLabel tytul = new JLabel("Wybierz markę sklepu");
             tytul.setHorizontalAlignment(JLabel.CENTER);
+            setBorder(new EmptyBorder(20, 20, 20, 20));
             tytul.setVerticalAlignment(JLabel.BOTTOM);
             add(BorderLayout.NORTH, tytul);
             add(BorderLayout.CENTER, listaMarek(kontroler));
@@ -56,7 +58,8 @@ public class ShopCreatorView extends JFrame {
             final JComboBox<String> lista = new JComboBox<>(nazwySklepow);
             lista.setSelectedIndex(0);
             lista.addActionListener(new MenuMarkiListener(kontroler));
-            lista.setMaximumSize(new Dimension(300, 50));
+            lista.setPreferredSize(new Dimension(30, 30));
+            //lista.setBorder(new EmptyBorder(30, 40, 30, 40));
             return lista;
         }
 
@@ -163,12 +166,15 @@ public class ShopCreatorView extends JFrame {
 
     private static class PanelSzczegolow extends JPanel {
         PanelSzczegolow(ShopCreatorController kontroler) {
-            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            add(new JLabel("Uzupełnij szczegóły"));
-            add(new Formularz(kontroler));
+            setLayout(new BorderLayout(10, 10));
+            setBorder(new EmptyBorder(20, 20, 20, 20));
+            JLabel tekst = new JLabel("Uzupełnij szczegóły");
+            tekst.setHorizontalAlignment(JLabel.CENTER);
+            add(tekst, BorderLayout.NORTH);
+            add(new Formularz(kontroler), BorderLayout.CENTER);
             JButton przycisk = new JButton("Dalej");
             przycisk.addActionListener(e -> kontroler.zapiszSklep());
-            add(przycisk);
+            add(przycisk, BorderLayout.SOUTH);
         }
     }
 
