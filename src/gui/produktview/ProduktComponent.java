@@ -20,7 +20,7 @@ public class ProduktComponent extends AbstractProduktComponent {
     private final JSpinner wybranaIloscJSpinner;
     private JButton kupProduktButton;
 
-    public ProduktComponent(String fileName, Produkt produkt, int ilosc) {
+    public ProduktComponent(Produkt produkt, int ilosc) {
         this.produkt = produkt;
 
         setLayout(new BorderLayout());
@@ -30,7 +30,7 @@ public class ProduktComponent extends AbstractProduktComponent {
         upperPanel.setLayout(new BorderLayout());
         upperPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
-        ImageIcon icon = new ImageIcon(pathToIcons + fileName);
+        ImageIcon icon = new ImageIcon(pathToIcons + produkt.getFileName());
         icon = new ImageIcon(icon.getImage().getScaledInstance(120, 120, 0));
 
         JLabel titleLabel = new JLabel(produkt.getNazwa());

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import sklepy.Produkt;
 import sklepy.Sklep;
-import sklepy.Zabka;
+
 import wzorzecobserwator.Observable;
 import wzorzecobserwator.Observer;
 import wzorzecobserwator.ProduktEvent;
@@ -98,7 +98,7 @@ public class KreatorProduktow implements KreatorInterfejs {
         panel.add(grafika);
         grafika.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
-
+  
     @Override
     public void zrobGUI() {
         konfiguruj();
@@ -121,6 +121,7 @@ public class KreatorProduktow implements KreatorInterfejs {
         observers.add(o);
     }
 
+    // Przyciski JFileChooser zapisują ścieżkę wybranego folderu i się "wyłączają"
     class WybierzIkone implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -130,6 +131,7 @@ public class KreatorProduktow implements KreatorInterfejs {
         }
     }
 
+    // Przycisk JButton tworzy produkt na podstawie wpisanych informacji i przekazuje mu ścieżkę ikony
     class StworzProduktListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -137,8 +139,8 @@ public class KreatorProduktow implements KreatorInterfejs {
             String nazwaProduktu = nazwa.getText();
             double cenaProduktu = Double.parseDouble(cena.getText());
             Produkt produkt = new Produkt(nazwaProduktu, cenaProduktu);
-            // Jezeli chcemy aby produkt mial zdjecie wystarczy dac mu
-            // zmienna sciezkaGrafiki, ktora posiada odniesienie do wybranego pliku
+            
+            produkt.setFileName(sciezkaGrafiki);
 
             int iloscProduktow = Integer.parseInt(ilosc.getText());
 
@@ -150,17 +152,4 @@ public class KreatorProduktow implements KreatorInterfejs {
             notifyObservers(new ProduktEvent(produkt, iloscProduktow, sciezkaGrafiki));
         }
     }
-
-    /*
-    public static void main(String[] args) {
-        Zabka sklep = new Zabka(true, "adres", "adresWWW", true);
-
-        KreatorInterfejs inter = new KreatorProduktow();
-        SwingUtilities.invokeLater(() -> {
-                inter.zrobGUI(sklep);
-        });
-    }
-
-     */
-
 }
