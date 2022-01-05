@@ -85,6 +85,9 @@ public class ShopCreatorController implements Observer {
 
     public void zapiszSklep() {
         sklepy.add(model.sklep);
+        view.setVisible(false);
+        view.setEtapTworzeniaSklepu(ShopCreatorView.EtapTworzeniaSklepu.wyborMarki);
+        model = new ShopCreatorModel();
     }
 }
 
