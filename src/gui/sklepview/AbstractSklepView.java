@@ -17,11 +17,9 @@ import java.util.List;
 
 // Implementuje interfejs Observable, czyli będzie informować
 // obserwatorów w momencie, gdy użytkownik dokona zakupu produktów
-public abstract class AbstractSklepView extends JFrame implements Observable, Observer {
+public abstract class AbstractSklepView extends JFrame implements Observer {
 
-    // Obserwatorzy którzy będą powiadamiani o chęci zakupu produktów przez użytkownika
-    // (w tym przypadku kontroler)
-    private List<Observer> obserwatorzy;
+
     // Komponenty obserwują widok, który będzie je informował o zmianach w modelu
     private List<Observer> komponentyObserwujace;
 
@@ -43,7 +41,6 @@ public abstract class AbstractSklepView extends JFrame implements Observable, Ob
 
         setSize(800, 800);
         setTitle(nazwaSklepu);
-        obserwatorzy = new ArrayList<>();
         komponentyObserwujace = new ArrayList<>();
 
         koszyk = new Koszyk();
@@ -79,23 +76,6 @@ public abstract class AbstractSklepView extends JFrame implements Observable, Ob
         SwingUtilities.invokeLater(() -> {
             hTDialog.addDataToTable(transakcje);
         });
-    }
-
-    @Override
-    public void notifyObservers(ProduktEvent e) {
-        for (Observer o : obserwatorzy){
-            o.update(e);
-        }
-    }
-
-    @Override
-    public void registerObserver(Observer o) {
-        obserwatorzy.add(o);
-    }
-
-    @Override
-    public void removeObserver(Observer o) {
-        obserwatorzy.remove(o);
     }
 
     // Reaguje na zmiany w modelu (kontroler wywołuje tą metodę) i przekazuje je do swoich komponentow
