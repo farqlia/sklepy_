@@ -38,10 +38,18 @@ public class BiedronkaView extends AbstractSklepView{
         JButton koszykButton = new JButton(icon);
         koszykButton.addActionListener(new KoszykHandler());
 
+        icon = new ImageIcon("images/shopicons/new-icon.png");
+        // Tworzymy 'JButton', dodajemy ikonę
+        icon = new ImageIcon(ImageResizer.getScaledInstance(icon.getImage(), 32, 32));
+
+        JButton kreatorProduktowButton = new JButton(icon);
+        kreatorProduktowButton.addActionListener(e -> getKreatorProduktow().zrobGUI());
+
         JToolBar bar = new JToolBar();
         bar.add(Box.createGlue());
         bar.add(historiaTransakcjiButton);
         bar.add(koszykButton);
+        bar.add(kreatorProduktowButton);
         JPanel upperPanel = new JPanel();
         upperPanel.setBorder(BorderFactory.createEtchedBorder());
         upperPanel.add(bar, BorderLayout.WEST);
