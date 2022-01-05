@@ -13,7 +13,7 @@ public abstract class Supermarket extends Sklep {
     private boolean czyMaKasySamoobslugowe;
 
     // Zbiór produktów poddawanych pewnym promocjom
-    private final ArrayList<Produkt> gazetka;
+    private ArrayList<Produkt> gazetka;
 
     // HashMap przechowująca oryginalne ceny przedmiotów
     // W przypadku usunięcia gazetki, ceny przedmiotów przyjmują orygnialne wartości

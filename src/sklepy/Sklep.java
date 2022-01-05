@@ -20,16 +20,18 @@ public abstract class Sklep extends java.util.Observable implements Observable, 
 
     private String adres;
     private String adresWWW;
-    private final List<Pracownik> pracownicy;
+    private List<Pracownik> pracownicy;
 
     // To jest struktura która będzie każdemu produktowi
     // przyporządkowywać jego ilość w sklepie
-    private final Map<Produkt, Integer> magazyn;
+    private Map<Produkt, Integer> magazyn;
 
     protected StrategiaPromocji strategiaPromocji;
     protected Historia<Transakcja> historiaTransakcji;
 
-    private final List<Observer> obserwatorzy;
+    private List<Observer> obserwatorzy;
+
+    public Sklep() {};
 
     public Sklep(String adres, String adresWWW) {
         this.adres = adres;
