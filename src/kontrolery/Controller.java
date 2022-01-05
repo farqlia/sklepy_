@@ -1,4 +1,4 @@
-package kontroler;
+package kontrolery;
 
 import gui.produktview.ProduktComponent;
 import serializacja.Transakcja;

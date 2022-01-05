@@ -14,22 +14,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Sklep implements Observable, Serializable {
+public abstract class Sklep extends java.util.Observable implements Observable, Serializable {
 
     private static final long serialVersionUID = 21L;
 
     private String adres;
     private String adresWWW;
-    private final List<Pracownik> pracownicy;
+    private List<Pracownik> pracownicy;
 
     // To jest struktura która będzie każdemu produktowi
     // przyporządkowywać jego ilość w sklepie
-    private final Map<Produkt, Integer> magazyn;
+    private Map<Produkt, Integer> magazyn;
 
     protected StrategiaPromocji strategiaPromocji;
     protected Historia<Transakcja> historiaTransakcji;
 
     private List<Observer> obserwatorzy;
+
+    public Sklep() {};
 
     public Sklep(String adres, String adresWWW) {
         this.adres = adres;
@@ -127,10 +129,12 @@ public abstract class Sklep implements Observable, Serializable {
         }
     }
 
+    @Override
     public void registerObserver(Observer o){
         obserwatorzy.add(o);
     }
 
+    @Override
     public void removeObserver(Observer o){
         obserwatorzy.remove(o);
     }
