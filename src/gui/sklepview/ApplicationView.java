@@ -36,9 +36,8 @@ public class ApplicationView extends JFrame {
         // Dodaje niewidoczne komponenty, które zajmują przestrzeń: będziemy
         // dodawać obiekty 'JButton' pomiędzy nimi i dzięki temu będą one wyśrodkowane
         buttonBar.add(Box.createGlue());
-        buttonBar.add(Box.createGlue());
-        buttonBar.add(przyciskKreatoraSklepu());
         add(buttonBar, BorderLayout.CENTER);
+        add(przyciskKreatoraSklepu(), BorderLayout.SOUTH);
 
         // Rozpoczyna wątek roboczy, który tworzy obiekty 'JButton'
         new CustomSwingWorker().execute();
