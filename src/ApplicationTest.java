@@ -2,7 +2,6 @@ import gui.produktview.AbstractProduktComponent;
 import gui.produktview.ProduktComponent;
 import gui.sklepview.AbstractSklepView;
 import gui.sklepview.ApplicationView;
-import gui.sklepview.TestSklepView;
 import kontrolery.Controller;
 import gui.sklepview.BiedronkaView;
 import sklepy.Biedronka;
