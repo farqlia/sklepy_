@@ -51,7 +51,7 @@ public class ApplicationView extends JFrame {
         return przycisk;
     }
 
-    private static class CreateShopButtonListener implements ActionListener {
+    private class CreateShopButtonListener implements ActionListener {
         CreateShopButtonListener(ArrayList<Sklep> sklepy) {
             this.sklepy = sklepy;
         }
@@ -65,6 +65,9 @@ public class ApplicationView extends JFrame {
             final ShopCreatorController kontroler = new ShopCreatorController(model, view, sklepy);
             view.setKontroler(kontroler);
             view.setVisible(true);
+            
+            sklepyINazwyIkon.clear();
+            new CustomSwingWorker().execute();
         }
     }
 
@@ -74,6 +77,8 @@ public class ApplicationView extends JFrame {
 
         @Override
         protected Void doInBackground() {
+           
+            addNewShopButtons();
 
             for (Map.Entry<AbstractSklepView, String> entry : sklepyINazwyIkon.entrySet()) {
                 ImageIcon icon = new ImageIcon(pathToIcons + entry.getValue());
@@ -94,6 +99,14 @@ public class ApplicationView extends JFrame {
         }
 
     };
+    
+    public void addNewShopButtons() {
+        for(Sklep i : sklepy) {
+            if(!sklepyINazwyIkon.containsKey(i)){
+                sklepyINazwyIkon.put(new BiedronkaView(), "bieda.png");
+            }
+        }
+    }
 
     private static class OpenShopViewAction extends AbstractAction {
 
