@@ -24,6 +24,7 @@ public class Controller {
         // TUTAJ TWORZYMY I DODAJEMY OBSERWATORÓW
         view.getKoszyk().addListenerForKoszyk(new KupProduktListener());
         view.getKreatorProduktow().addStworzObiektListener(new StworzProduktListener());
+        view.getKreatorProduktow().addZaktualizujObiektListener(new AktualizujProduktListener());
 
         view.aktualizujHistorieTransakcji(model.getHistoriaTransakcji().getWszystko());
     }
@@ -46,6 +47,20 @@ public class Controller {
             }
             catch (IllegalArgumentException exception){
                 view.showMessageDialog("Nie można było utworzyć produktu");
+            }
+        }
+    }
+
+    private class AktualizujProduktListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            try {
+                ProduktEvent e = view.getKreatorProduktow().getZaktualizowanyObiekt();
+
+                model.aktualizujIloscProduktow(e.getProdukt(), e.getIlosc());
+                view.aktualizujIloscProduktow(e.getProdukt(), e.getIlosc());
+            } catch (IllegalArgumentException exception) {
+                view.showMessageDialog("Nie można było zaktualizować produktu");
             }
         }
     }
