@@ -43,7 +43,6 @@ public abstract class AbstractSklepView extends JFrame {
 
         hTDialog = new HistoriaTransakcjiDialog();
         kreatorProduktow = new KreatorProduktow();
-        kreatorProduktow.pobierzProdukty(produktIJegoWidzet);
 
         // Nie zamyka okna, ale go chowa, dzięki czemu główne
         // okno pozostaje aktywne
@@ -56,7 +55,7 @@ public abstract class AbstractSklepView extends JFrame {
         placeProduktComponent(comp);
         comp.setKoszyk(koszyk);
         produktIJegoWidzet.put(produkt, comp);
-        kreatorProduktow.pobierzProdukty(produktIJegoWidzet);
+        kreatorProduktow.pobierzProdukty(new ProduktEvent(produkt, 0));
     }
 
     public void aktualizujIloscProduktow(Produkt produkt, int ilosc){

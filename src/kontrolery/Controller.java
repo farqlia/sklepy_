@@ -21,7 +21,6 @@ public class Controller {
         this.model = model;
         this.view = view;
 
-        // TUTAJ TWORZYMY I DODAJEMY OBSERWATORÓW
         view.getKoszyk().addListenerForKoszyk(new KupProduktListener());
         view.getKreatorProduktow().addStworzObiektListener(new StworzProduktListener());
         view.getKreatorProduktow().addZaktualizujObiektListener(new AktualizujProduktListener());
@@ -58,7 +57,7 @@ public class Controller {
                 ProduktEvent e = view.getKreatorProduktow().getZaktualizowanyObiekt();
 
                 model.aktualizujIloscProduktow(e.getProdukt(), e.getIlosc());
-                view.aktualizujIloscProduktow(e.getProdukt(), e.getIlosc());
+                view.aktualizujIloscProduktow(e.getProdukt(), model.sprawdzDostepnoscProduktu(e.getProdukt()));
             } catch (IllegalArgumentException exception) {
                 view.showMessageDialog("Nie można było zaktualizować produktu");
             }

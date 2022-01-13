@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import gui.LayoutManager;
 import gui.produktview.AbstractProduktComponent;
 import sklepy.Produkt;
 import gui.sklepview.ProduktEvent;
@@ -28,10 +29,8 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
 
     private final JLabel opisWyborProduktu;
     private final JComboBox<Produkt> wyborProduktu;
-    private Produkt aktualizowanyProdukt;
     private final JLabel opisIlosc2;
     private final JTextField ilosc2;
-    private ArrayList<Produkt> listaProduktow;
 
     private final JLabel opisNazwa;
     private final JTextField nazwa;
@@ -43,6 +42,10 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
     private final JFileChooser grafika;
 
     private String sciezkaGrafiki;
+
+    private final JSpinner wybranaIloscJSpinner;
+
+    boolean czyStworzone = false;
 
     public KreatorProduktow() {
 
@@ -71,6 +74,9 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
         opisGrafika = new JLabel("Wybierz grafikę");
         grafika = new JFileChooser(System.getProperty("user.dir") + "/images/icons");
         grafika.setFileFilter(new FileNameExtensionFilter("JPG, GIF, PNG", "jpg", "gif", "png"));
+
+        wybranaIloscJSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+
     }
 
     private void konfigurujTworzenie() {
@@ -107,6 +113,8 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
     }
 
     private void konfigurujAktualizowanie() {
+
+        /*
         panelAktualizowanie.setLayout(new BoxLayout(panelAktualizowanie, BoxLayout.Y_AXIS));
 
         panelAktualizowanie.add(Box.createVerticalGlue());
@@ -116,20 +124,17 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
         panelAktualizowanie.add(ilosc2);
         ilosc.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelAktualizowanie.add(wyborProduktu);
-        konfigurujComboBox();
-    }
 
-    private void konfigurujComboBox() {
-        for (Produkt s : listaProduktow) {
-            wyborProduktu.addItem(s);
-        }
+         */
 
-        wyborProduktu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                aktualizowanyProdukt = (Produkt) ((JComboBox<Produkt>)e.getSource()).getSelectedItem();
-            }
-        });
+        JPanel panel = new JPanel(new GridBagLayout());
+
+        LayoutManager.addComp(panel, opisIlosc2, 0, 0, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE);
+        LayoutManager.addComp(panel, wybranaIloscJSpinner, 0, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE);
+        LayoutManager.addComp(panel, wyborProduktu, 0, 3, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE);
+        panelAktualizowanie.setLayout(new GridBagLayout());
+        LayoutManager.addComp(panelAktualizowanie, panel, 0, 0, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE);
+
     }
 
     private void stworzZakladki() {
@@ -137,27 +142,34 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
         zakladki.addTab("Aktualizowanie", null, panelAktualizowanie);
     }
 
+    // Ta metoda jest wywoływana w klasie widoku sklepu w metodzie addProduktComponent(),
+    // więc ten combobox dodaje tylko raz ten produkt
     @Override
-    public void pobierzProdukty(Map<Produkt, AbstractProduktComponent> mapaProduktow) {
-        ArrayList<Produkt> listaProduktow = new ArrayList<>();
-        mapaProduktow.forEach((k,v) -> listaProduktow.add(k));
-        this.listaProduktow = listaProduktow;
+    public void pobierzProdukty(ProduktEvent e) {
+        wyborProduktu.addItem(e.getProdukt());
     }
 
     @Override
     public void zrobGUI() {
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setSize(WIDTH,HEIGHT);
-        frame.setVisible(true);
-        frame.setResizable(true);
-        frame.getContentPane().add(zakladki);
-        frame.getContentPane().add(BorderLayout.SOUTH, panelPrzyciski);
-        panelPrzyciski.add(BorderLayout.SOUTH, przycisk);
-        panelPrzyciski.add(BorderLayout.SOUTH, przycisk2);
+        // Dodałam tą zmienną, bo nie trzeba za każdym razem tworzyć tego okna, ale
+        // zmieniać widoczność, a poza tym to do combobox'a dodawały się znowu produkty
+        if (!czyStworzone){
+            frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            frame.setSize(WIDTH, HEIGHT);
 
-        konfigurujTworzenie();
-        konfigurujAktualizowanie();
-        stworzZakladki();
+            frame.setResizable(true);
+            frame.getContentPane().add(zakladki);
+            frame.getContentPane().add(BorderLayout.SOUTH, panelPrzyciski);
+            panelPrzyciski.add(BorderLayout.SOUTH, przycisk);
+            panelPrzyciski.add(BorderLayout.SOUTH, przycisk2);
+
+            konfigurujTworzenie();
+            konfigurujAktualizowanie();
+            stworzZakladki();
+            czyStworzone = true;
+
+        }
+        frame.setVisible(true);
     }
 
     @Override
@@ -167,8 +179,9 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
 
     @Override
     public ProduktEvent getZaktualizowanyObiekt() throws IllegalArgumentException {
-        Produkt produkt = aktualizowanyProdukt;
-        int iloscProduktow = Integer.parseInt(ilosc2.getText());
+        Produkt produkt = (Produkt) wyborProduktu.getSelectedItem();
+        //int iloscProduktow = Integer.parseInt(ilosc2.getText());
+        int iloscProduktow = (Integer) (wybranaIloscJSpinner.getValue());
 
         wyczyscPola();
 
@@ -187,6 +200,7 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
         ilosc.setText("");
         ilosc2.setText("");
         nazwa.requestFocus();
+        wybranaIloscJSpinner.getModel().setValue(0);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface KreatorInterfejs<E> {
 
-    void pobierzProdukty(Map<Produkt, AbstractProduktComponent> mapaProduktow);
+    void pobierzProdukty(E e);
 
     void zrobGUI();
 

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Sklep extends java.util.Observable implements Serializable {
+public abstract class Sklep implements Serializable {
 
     private static final long serialVersionUID = 21L;
 
