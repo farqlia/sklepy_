@@ -5,7 +5,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import gui.produktview.AbstractProduktComponent;
 import sklepy.Produkt;
 import gui.sklepview.ProduktEvent;
 
@@ -16,7 +20,19 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
 
     private final JFrame frame;
     private final JButton przycisk;
-    private final JPanel panel;
+    private final JButton przycisk2;
+    private final JPanel panelTworzenie;
+    private final JPanel panelAktualizowanie;
+    private final JPanel panelPrzyciski;
+    private final JTabbedPane zakladki;
+
+    private final JLabel opisWyborProduktu;
+    private final JComboBox<Produkt> wyborProduktu;
+    private Produkt aktualizowanyProdukt;
+    private final JLabel opisIlosc2;
+    private final JTextField ilosc2;
+    private ArrayList<Produkt> listaProduktow;
+
     private final JLabel opisNazwa;
     private final JTextField nazwa;
     private final JLabel opisCena;
@@ -32,8 +48,17 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
 
         frame = new JFrame("Kreator Produktów");
         przycisk = new JButton("Dodaj produkt");
-        panel = new JPanel();
-        
+        przycisk2 = new JButton("Aktualizuj produkt");
+        panelTworzenie = new JPanel();
+        panelAktualizowanie = new JPanel();
+        panelPrzyciski = new JPanel();
+        zakladki = new JTabbedPane();
+
+        opisWyborProduktu = new JLabel("Produkt do zaktualizowania");
+        wyborProduktu = new JComboBox<>();
+        opisIlosc2 = new JLabel("Ilość");
+        ilosc2 = new JTextField(5);
+
         opisNazwa = new JLabel("Nazwa produktu");
         nazwa = new JTextField(20);
 
@@ -48,50 +73,106 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
         grafika.setFileFilter(new FileNameExtensionFilter("JPG, GIF, PNG", "jpg", "gif", "png"));
     }
 
-    private void konfiguruj() {
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setSize(WIDTH,HEIGHT);
-        frame.setVisible(true);
-        frame.setResizable(true);
+    private void konfigurujTworzenie() {
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        frame.getContentPane().add(BorderLayout.CENTER, panel);
+        panelTworzenie.setLayout(new BoxLayout(panelTworzenie, BoxLayout.Y_AXIS));
 
         grafika.addActionListener(new WybierzIkone());
-        
-        frame.getContentPane().add(BorderLayout.SOUTH, przycisk);
 
-        panel.add(Box.createVerticalGlue());
+        panelTworzenie.add(Box.createVerticalGlue());
 
-        panel.add(opisNazwa);
+        panelTworzenie.add(opisNazwa);
         opisNazwa.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(nazwa);
+        panelTworzenie.add(nazwa);
         nazwa.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(opisCena);
+        panelTworzenie.add(opisCena);
         opisCena.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(cena);
+        panelTworzenie.add(cena);
         cena.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(opisIlosc);
+        panelTworzenie.add(opisIlosc);
         opisIlosc.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(ilosc);
+        panelTworzenie.add(ilosc);
         ilosc.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(opisGrafika);
+        panelTworzenie.add(opisGrafika);
         opisGrafika.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(grafika);
+        panelTworzenie.add(grafika);
         grafika.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    private void konfigurujAktualizowanie() {
+        panelAktualizowanie.setLayout(new BoxLayout(panelAktualizowanie, BoxLayout.Y_AXIS));
+
+        panelAktualizowanie.add(Box.createVerticalGlue());
+
+        panelAktualizowanie.add(opisIlosc2);
+        opisIlosc2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelAktualizowanie.add(ilosc2);
+        ilosc.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelAktualizowanie.add(wyborProduktu);
+        konfigurujComboBox();
+    }
+
+    private void konfigurujComboBox() {
+        for (Produkt s : listaProduktow) {
+            wyborProduktu.addItem(s);
+        }
+
+        wyborProduktu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aktualizowanyProdukt = (Produkt) ((JComboBox<Produkt>)e.getSource()).getSelectedItem();
+            }
+        });
+    }
+
+    private void stworzZakladki() {
+        zakladki.addTab("Tworzenie", null, panelTworzenie);
+        zakladki.addTab("Aktualizowanie", null, panelAktualizowanie);
+    }
+
+    @Override
+    public void pobierzProdukty(Map<Produkt, AbstractProduktComponent> mapaProduktow) {
+        ArrayList<Produkt> listaProduktow = new ArrayList<>();
+        mapaProduktow.forEach((k,v) -> listaProduktow.add(k));
+        this.listaProduktow = listaProduktow;
     }
 
     @Override
     public void zrobGUI() {
-        konfiguruj();
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setSize(WIDTH,HEIGHT);
+        frame.setVisible(true);
+        frame.setResizable(true);
+        frame.getContentPane().add(zakladki);
+        frame.getContentPane().add(BorderLayout.SOUTH, panelPrzyciski);
+        panelPrzyciski.add(BorderLayout.SOUTH, przycisk);
+        panelPrzyciski.add(BorderLayout.SOUTH, przycisk2);
+
+        konfigurujTworzenie();
+        konfigurujAktualizowanie();
+        stworzZakladki();
+    }
+
+    @Override
+    public void addZaktualizujObiektListener(ActionListener listener) {
+        przycisk2.addActionListener(listener);
+    }
+
+    @Override
+    public ProduktEvent getZaktualizowanyObiekt() throws IllegalArgumentException {
+        Produkt produkt = aktualizowanyProdukt;
+        int iloscProduktow = Integer.parseInt(ilosc2.getText());
+
+        wyczyscPola();
+
+        return new ProduktEvent(produkt, iloscProduktow);
     }
 
     // Dodajemy słuchacza (kontrolera) bezpośrednio do przycisku który wywołuje wydarzenie
@@ -104,6 +185,7 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
         nazwa.setText("");
         cena.setText("");
         ilosc.setText("");
+        ilosc2.setText("");
         nazwa.requestFocus();
     }
 
@@ -113,8 +195,6 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
         String nazwaProduktu = nazwa.getText();
         double cenaProduktu = Double.parseDouble(cena.getText());
         Produkt produkt = new Produkt(nazwaProduktu, cenaProduktu);
-        // Jezeli chcemy aby produkt mial zdjecie wystarczy dac mu
-        // zmienna sciezkaGrafiki, ktora posiada odniesienie do wybranego pliku
         int iloscProduktow = Integer.parseInt(ilosc.getText());
 
         wyczyscPola();
@@ -129,20 +209,4 @@ public class KreatorProduktow implements KreatorInterfejs<ProduktEvent> {
             frame.repaint();
         }
     }
-
-
-
-
-    /*
-    public static void main(String[] args) {
-        Zabka sklep = new Zabka(true, "adres", "adresWWW", true);
-
-        KreatorInterfejs inter = new KreatorProduktow();
-        SwingUtilities.invokeLater(() -> {
-                inter.zrobGUI(sklep);
-        });
-    }
-
-     */
-
 }
