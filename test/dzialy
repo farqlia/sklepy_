@@ -45,6 +45,18 @@ class dodawanieDoDzialuTest {
 	}
 	
 	@Test
+	void testDodawanieDzial3() {
+		
+		String result = dzial;
+		
+		s.dodajDzial(dzial);
+		s.dodajDzial(dzial);
+		s.dodajProduktDoDzialu(produkt, dzial);
+		
+		assertEquals(result,s.getDzialProduktu(produkt));
+	}
+	
+	@Test
 	void testUsuwanieDzialow1() {
 		
 		List<String> result = new ArrayList<String>();
