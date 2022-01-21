@@ -20,7 +20,7 @@ public class Rabat2za1BezAnalizy implements StrategiaPromocji {
     public double naliczRabat(Produkt produkt, int ilosc) {
         double sumaBezRabatu = produkt.getCena() * ilosc;
 
-        if (minSuma >= sumaBezRabatu) {
+        if (minSuma <= sumaBezRabatu) {
             if (ilosc % 2 == 0) return sumaBezRabatu * 0.5;
             return (produkt.getCena() * (ilosc - 1) * 0.5) + produkt.getCena();
         }
