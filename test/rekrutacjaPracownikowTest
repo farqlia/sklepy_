@@ -1,0 +1,84 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import pracownicy.Pracownik;
+import pracownicy.PracownikEtatowy;
+import sklepy.Castorama;
+import sklepy.Sklep;
+
+class rekrutacjaPracownikowTest {
+
+	private Sklep s = new Castorama("Polska","Polska",true);
+	
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
+
+	@Test
+	void test() {
+		
+		int result = 1;
+		
+		s.zrekrutuj(new PracownikEtatowy("J","k",LocalDate.now(),3000));
+		
+		assertEquals(result,s.getAktualnaIloscPracownikow());
+	}
+	
+	@Test
+	void test2() {
+		
+		int result = 0;
+	
+		assertEquals(result,s.getAktualnaIloscPracownikow());
+	}
+	
+	@Test
+	void test3() {
+		
+		int result = 0;
+	
+		Pracownik p = new PracownikEtatowy("J","k",LocalDate.now(),3000);
+		
+		s.zrekrutuj(p);
+		s.zwolnij(p);
+		
+		assertEquals(result,s.getAktualnaIloscPracownikow());
+	}
+	
+	@Test
+	void test4() {
+		
+		int result = 1;
+	
+		Pracownik p = new PracownikEtatowy("J","k",LocalDate.now(),3000);
+		Pracownik p2 = new PracownikEtatowy("K","j",LocalDate.now(),2500);
+		
+		s.zrekrutuj(p);
+		s.zrekrutuj(p2);
+		
+		s.zwolnij(p);
+		
+		assertEquals(result,s.getAktualnaIloscPracownikow());
+	}
+	
+	@Test
+	void test5() {
+		
+		int result = 2;
+	
+		Pracownik p = new PracownikEtatowy("J","k",LocalDate.now(),3000);
+		Pracownik p2 = new PracownikEtatowy("K","j",LocalDate.now(),2500);
+		
+		s.zrekrutuj(p);
+		s.zrekrutuj(p2);
+	
+		assertEquals(result,s.getAktualnaIloscPracownikow());
+	}
+
+}
