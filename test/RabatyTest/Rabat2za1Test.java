@@ -8,7 +8,7 @@ import strategie.strategiapromocji.StrategiaPromocji;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Rabat2za1BezAnalizyTest {
+public class Rabat2za1Test {
 
     private Sklep sklep;
     private Produkt produkt;
