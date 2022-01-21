@@ -1,0 +1,170 @@
+package test;
+
+
+import static org.junit.jupiter.api.Assertions.*;
+import java.time.DayOfWeek;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import sklepy.Biedronka;
+import sklepy.DniTygodnia;
+import sklepy.Supermarket;
+
+class BiedronkaOtwartaTest {
+
+	//6-23 pon-sobota 
+	//8-20 niedziela
+	
+	
+	private Supermarket supermarket = new Biedronka("ul. Wittiga 12, Wroclaw", "biedronka.pl", true);
+	
+
+	@Test
+	void testPoniedzialek() {
+		
+		boolean result = true;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PONIEDZIALEK, 6));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PONIEDZIALEK, 23));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PONIEDZIALEK, 14));
+		
+		result = false;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PONIEDZIALEK, 5));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PONIEDZIALEK, 0));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PONIEDZIALEK, 24));
+		
+	}
+	
+	@Test
+	void testWtorek() {
+		
+		boolean result = true;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.WTOREK, 6));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.WTOREK, 23));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.WTOREK, 14));
+		
+		result = false;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.WTOREK, 5));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.WTOREK, 0));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.WTOREK, 24));
+		
+	}
+	
+	@Test
+	void testSroda() {
+		
+		boolean result = true;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SRODA, 6));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SRODA, 23));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SRODA, 14));
+		
+		result = false;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SRODA, 5));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SRODA, 0));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SRODA, 24));
+		
+	}
+	
+	@Test
+	void testCzwartek() {
+		
+		boolean result = true;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.CZWARTEK, 6));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.CZWARTEK, 23));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.CZWARTEK, 14));
+		
+		result = false;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.CZWARTEK, 5));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.CZWARTEK, 0));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.CZWARTEK, 24));
+		
+	}
+	
+	@Test
+	void testPiatek() {
+		
+		boolean result = true;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PIATEK, 6));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PIATEK, 23));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PIATEK, 14));
+		
+		result = false;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PIATEK, 5));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PIATEK, 0));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.PIATEK, 24));
+		
+	}
+	
+	@Test
+	void testSobota() {
+		
+		boolean result = true;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SOBOTA, 6));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SOBOTA, 23));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SOBOTA, 14));
+		
+		result = false;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SOBOTA, 5));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SOBOTA, 0));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.SOBOTA, 24));
+		
+	}
+	
+	@Test
+	void testNiedziela() {
+		
+		boolean result = true;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.NIEDZIELA, 8));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.NIEDZIELA, 20));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.NIEDZIELA, 14));
+		
+		result = false;
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.NIEDZIELA, 7));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.NIEDZIELA, 0));
+		
+		assertEquals(result,supermarket.czyJestOtwarty(DniTygodnia.NIEDZIELA, 21));
+		
+	}
+
+}
