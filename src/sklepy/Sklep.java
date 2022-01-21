@@ -115,6 +115,10 @@ public abstract class Sklep implements Serializable {
     public void zrekrutuj(Pracownik pracownik) {
         pracownicy.add(pracownik);
     }
+    
+     public void zwolnij(Pracownik pracownik) {
+    	pracownicy.remove(pracownik);
+    }
 
     // ------------------- GETTERS & SETTERS -----------------------------
 
