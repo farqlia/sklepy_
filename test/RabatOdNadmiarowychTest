@@ -16,13 +16,13 @@ import strategie.strategiapromocji.*;
 
 class TestRabatOdNadmiarowych {
 
-	protected StrategiaPromocji strategia;
+	private StrategiaPromocji strategia;
 	
-	protected Sklep sklep = new Lidl("ul. Akademicka 6, Wroclaw", "lidl.pl", true);
+	private Sklep sklep = new Lidl("ul. Akademicka 6, Wroclaw", "lidl.pl", true);
 	
-	protected Produkt produkt = new Produkt("Test",2.20);
+	private Produkt produkt = new Produkt("Test",2.20);
 	
-	protected FirmaDostawcza firma = new FirmaDostawcza("Test", 0, DayOfWeek.FRIDAY, "Testtttt");//nalezy regulowac dzien
+	private FirmaDostawcza firma = new FirmaDostawcza("Test", 0, DayOfWeek.FRIDAY, "Testtttt");//nalezy regulowac dzien
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
