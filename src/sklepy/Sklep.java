@@ -97,7 +97,12 @@ public abstract class Sklep implements Serializable {
         if (magazyn.containsKey(produkt)) {
             aktualnaIlosc = magazyn.get(produkt);
         }
-        magazyn.put(produkt, aktualnaIlosc + ilosc);
+        if (ilosc < 0) {
+            if (ilosc + magazyn.get(produkt) < 0)
+                magazyn.put(produkt, 0);
+        } else {
+            magazyn.put(produkt, aktualnaIlosc + ilosc);
+        }
     }
 
     // Ta metoda służy sprawdzeniu, czy sklep dysponuje jakąś ilością produktów.
