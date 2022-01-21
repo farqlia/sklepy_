@@ -12,11 +12,11 @@ public class Ikea extends SklepMeblowy {
         this.czyPosiadaRestauracje = czyPosiadaRestauracje;
     }
 
-    public void kupHotDoga() {
+    public String kupHotDoga() {
         if (this.czyPosiadaRestauracje) {
-            System.out.println("Klient zakupił hot-doga");
+            return "Klient zakupił hot-doga";
         } else {
-            System.out.println("Sklep nie posiada restauracji");
+            return "Sklep nie posiada restauracji";
         }
     }
 

@@ -1,0 +1,76 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.DayOfWeek;
+import java.time.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import sklepy.FirmaDostawcza;
+import sklepy.Lidl;
+import sklepy.Produkt;
+import sklepy.Sklep;
+import strategie.strategianadmiarowa.RabatOdNadmiarowychTowarow;
+import strategie.strategiapromocji.*;
+
+class TestRabatOdNadmiarowych {
+
+	private StrategiaPromocji strategia;
+	
+	private Sklep sklep = new Lidl("ul. Akademicka 6, Wroclaw", "lidl.pl", true);
+	
+	private Produkt produkt = new Produkt("Test",2.20);
+	
+	private FirmaDostawcza firma = new FirmaDostawcza("Test", 0, DayOfWeek.FRIDAY, "Testtttt");//nalezy regulowac dzien
+	
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
+
+	@Test
+	void test() {
+		
+		int iloscNaMagazynie = 1000;
+		
+		//2sztuki
+		double result = 2*2.20;
+		
+		firma.dostarczProdukty(sklep, produkt, iloscNaMagazynie);
+
+		strategia = new RabatOdNadmiarowychTowarow(sklep);
+		
+		assertEquals(result, strategia.naliczRabat(produkt, 2));
+	}
+	
+	@Test
+	void test2() {
+		
+		int iloscNaMagazynie = 1100;
+		
+		//2sztuki
+		double result = 2*2.20*0.8;
+		
+		firma.dostarczProdukty(sklep, produkt, iloscNaMagazynie);
+
+		strategia = new RabatOdNadmiarowychTowarow(sklep);
+		
+		assertEquals(result, strategia.naliczRabat(produkt, 2));
+	}
+	
+	@Test
+	void test3() {
+		
+		int iloscNaMagazynie = 200;
+		
+		//2sztuki
+		double result = 2*2.20;
+		
+		firma.dostarczProdukty(sklep, produkt, iloscNaMagazynie);
+
+		strategia = new RabatOdNadmiarowychTowarow(sklep);
+		
+		assertEquals(result, strategia.naliczRabat(produkt, 2));
+	}
+
+}

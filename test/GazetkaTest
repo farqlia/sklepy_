@@ -1,0 +1,88 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import sklepy.Biedronka;
+import sklepy.Produkt;
+import sklepy.Supermarket;
+
+class dodawanieGazetkaTest {
+
+	 private Supermarket supermarket = new Biedronka("ul. Wittiga 12, WrocĹ‚aw", "biedronka.pl", true);
+	 private Produkt p = new Produkt("Test",2);
+	
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
+
+	@Test
+	void testGazetka1() {
+		
+		List<Produkt> result = new ArrayList<Produkt>();
+		
+		result.add(p);
+		
+		supermarket.dodajDoGazetki(p);
+		
+		assertEquals(result,supermarket.getGazetka());
+		
+	}
+	
+	@Test
+	void testGazetka2() {
+		
+		List<Produkt> result = new ArrayList<Produkt>();
+		
+		result.add(p);
+		
+		supermarket.dodajDoGazetki(p);
+		supermarket.dodajDoGazetki(p);
+		
+		assertEquals(result,supermarket.getGazetka());
+	}
+	
+	@Test
+	void testGazetka3() {
+		
+		List<Produkt> result = new ArrayList<Produkt>();
+		
+		assertEquals(result,supermarket.getGazetka());
+	}
+	
+	@Test
+	void testGazetka4() {
+		
+		List<Produkt> result = new ArrayList<Produkt>();
+		
+		supermarket.dodajDoGazetki(p);
+		supermarket.usunZGazetki(p);
+		
+		assertEquals(result,supermarket.getGazetka());
+	}
+	
+	@Test
+	void testGazetka5() {
+		
+		List<Produkt> result = new ArrayList<Produkt>();
+		
+		Produkt p2 = new Produkt("Test2",3);
+		
+		result.add(p2);
+		
+		supermarket.dodajDoGazetki(p);
+		supermarket.dodajDoGazetki(p2);
+		
+		supermarket.usunZGazetki(p);
+		
+		assertEquals(result,supermarket.getGazetka());
+	}
+	
+	
+
+}

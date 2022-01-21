@@ -1,0 +1,109 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import sklepy.Castorama;
+import sklepy.Produkt;
+import sklepy.SklepBudowniczy;
+
+class dodawanieDoDzialuTest {
+
+	
+	private SklepBudowniczy s = new Castorama("Polska","Polska.www",true);
+	private String dzial = "Kuchnia";
+    private Produkt produkt = new Produkt("Kuchenka", 1000.00);
+    
+    
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
+
+	@Test
+	void testDodawanieDzialow1() {
+		
+		List<String> result = new ArrayList<String>();
+		
+		result.add(dzial);
+		
+		s.dodajDzial(dzial);
+		
+		assertEquals(result,s.getDzialy());
+	}
+	
+	@Test
+	void testDodawanieDzialow2() {
+		
+		List<String> result = new ArrayList<String>();
+		
+		assertEquals(result,s.getDzialy());
+	}
+	
+	@Test
+	void testDodawanieDzial3() {
+		
+		String result = dzial;
+		
+		s.dodajDzial(dzial);
+		s.dodajDzial(dzial);
+		s.dodajProduktDoDzialu(produkt, dzial);
+		
+		assertEquals(result,s.getDzialProduktu(produkt));
+	}
+	
+	@Test
+	void testUsuwanieDzialow1() {
+		
+		List<String> result = new ArrayList<String>();
+		
+		result.add("1234");
+		
+		s.dodajDzial(dzial);
+		s.dodajDzial("1234");
+		
+		s.usunDzial(dzial);
+		
+		assertEquals(result,s.getDzialy());
+	}
+	
+	
+	
+	@Test
+	void testDodawanieDzial1() {
+		
+		String result = dzial;
+		
+		s.dodajDzial(dzial);
+		s.dodajProduktDoDzialu(produkt, dzial);
+		
+		assertEquals(result,s.getDzialProduktu(produkt));
+	}
+	
+	@Test
+	void testDodawanieDzial2() {
+		
+		String result = "1234";
+		
+		s.dodajDzial("1234");
+		s.dodajProduktDoDzialu(produkt, "1234");
+		
+		assertEquals(result,s.getDzialProduktu(produkt));
+	}
+	
+	@Test
+	void testDzialow() {
+		
+		String result = null;
+		
+		s.dodajDzial("1234");
+		
+		s.dodajProduktDoDzialu(produkt, "00000");
+		
+		assertEquals(result,s.getDzialProduktu(produkt));
+	}
+}
