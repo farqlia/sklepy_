@@ -100,6 +100,9 @@ public abstract class Sklep implements Serializable {
         if (ilosc < 0) {
             if (ilosc + magazyn.get(produkt) < 0)
                 magazyn.put(produkt, 0);
+            else {
+                magazyn.put(produkt, aktualnaIlosc + ilosc);
+            }
         } else {
             magazyn.put(produkt, aktualnaIlosc + ilosc);
         }
