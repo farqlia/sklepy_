@@ -1,0 +1,42 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import sklepy.Castorama;
+import sklepy.Ikea;
+import sklepy.SklepBudowniczy;
+import sklepy.SklepMeblowy;
+
+class IkeaTest {
+
+	private Ikea i = new Ikea("Polska","Polska",true,true);
+			
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+	}
+
+	@Test
+	void testHotDog() {
+		
+		i.setCzyPosiadaRestauracje(true);
+		
+		String result = "Klient zakupil hot-doga";
+		
+		assertEquals(result,i.kupHotDoga());
+	}
+	
+	@Test
+	void testHotDog2() {
+		
+		i.setCzyPosiadaRestauracje(false);
+		
+		String result = "Sklep nie posiada restauracji";
+	
+		assertEquals(result,i.kupHotDoga());
+	}
+
+
+}
